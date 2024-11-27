@@ -1,0 +1,31 @@
+name: Harrier Setup
+on:
+  workflow_dispatch:
+jobs:
+  setup-harrier-runner:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Configure AWS Credentials for Harrier setup
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          audience: sts.amazonaws.com
+          aws-region: us-east-1
+          role-to-assume: arn:aws:iam::536697269866:role/setup-harrier
+      - name: Harrier Self-Hosted Runner Setup
+        uses: 2408-capstone-team5/harrier-runner-public@main
+        with:
+          gh-owner-name: ${{ github.repository_owner }}
+          aws-region: us-east-1
+          aws-account-id: "536697269866"
+          instance-type: t2.micro
+          cache-ttl-hours: "72"
+          cidr-block-subnet: 10.0.0.0/24
