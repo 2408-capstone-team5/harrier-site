@@ -1,9 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { ChevronRight, ChevronLeft } from "lucide-react";
 
-// Left Side Menu Component for Case Study Sections
 const CaseStudySectionsMenu = () => {
   const [activeSectionIndex, setActiveSectionIndex] = useState(0);
 
@@ -40,7 +38,6 @@ const CaseStudySectionsMenu = () => {
   );
 };
 
-// Right Side "On This Page" Navigation Component
 const OnThisPageNavigation = ({
   headings,
 }: {
@@ -72,10 +69,8 @@ const OnThisPageNavigation = ({
     </div>
   );
 };
-// Main Case Study Page Layout
-export const CaseStudyPage = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
+export const CaseStudyPage = () => {
   const pageHeadings = [
     { id: "overview-summary", title: "Summary" },
     { id: "overview-context", title: "Context" },
@@ -86,18 +81,8 @@ export const CaseStudyPage = () => {
     <>
       <h1 className="text-3xl text-center font-bold mb-8">Case Study</h1>
       <div className="flex h-100">
-        {/* Collapsible Left Sidebar Toggle */}
-        <Button
-          variant="outline"
-          size="icon"
-          className="fixed left-0 top-1/2 z-50"
-          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-        >
-          {isSidebarOpen ? <ChevronLeft /> : <ChevronRight />}
-        </Button>
-
         {/* Left Side Menu */}
-        {isSidebarOpen && <CaseStudySectionsMenu />}
+        <CaseStudySectionsMenu />
 
         {/* Main Content Area */}
         <div className="flex-grow overflow-auto p-8">

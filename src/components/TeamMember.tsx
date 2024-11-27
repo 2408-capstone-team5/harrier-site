@@ -1,20 +1,19 @@
-import React from "react";
 import {
   Card,
   CardTitle,
   CardContent,
   CardFooter,
-  //   CardDescription,
+  // CardDescription,
   // CardHeader,
 } from "@/components/ui/card";
-import { Member } from "@/pages/TeamPage";
+import { Member } from "@/components/pages/TeamPage";
 import { FaAviato, FaLinkedin, FaGithub } from "react-icons/fa";
 
 interface TeamMemberProps {
   member: Member;
 }
 
-const TeamMember: React.FC<TeamMemberProps> = ({ member }) => {
+const TeamMember = ({ member }: TeamMemberProps) => {
   return (
     <Card className="p-4 h-64">
       <CardContent>

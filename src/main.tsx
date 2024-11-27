@@ -3,11 +3,11 @@ import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import Layout from "./components/Layout";
-import HomePage from "./pages/HomePage";
-import TeamPage from "./pages/TeamPage";
-import CaseStudyPage from "./pages/CaseStudyPage";
-import GetStartedPage from "./pages/GetStartedPage.tsx";
-import NotFoundPage from "./pages/NotFoundPage";
+import HomePage from "./components/pages/HomePage.tsx";
+import TeamPage from "./components/pages/TeamPage.tsx";
+import CaseStudyPage from "./components/pages/CaseStudyPage.tsx";
+import GetStartedPage from "./components/pages/GetStartedPage.tsx";
+import NotFoundPage from "./components/pages/NotFoundPage.tsx";
 
 import "./index.css";
 

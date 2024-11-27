@@ -5,30 +5,34 @@ export type Member = {
   role: string;
   photoUrl: string;
   location: string;
+  emailAddress?: string;
+  githubProfile?: string;
+  linkedinProfile?: string;
+  personalSiteUrl?: string;
 };
 
 const TeamPage = () => {
   const team: Member[] = [
     {
-      name: "Wook",
+      name: "Wook Kim",
       role: "Software Engineer",
       photoUrl: "https://avatars.githubusercontent.com/u/68617800?v=4",
       location: "Los Angeles, CA.",
     },
     {
-      name: "Jesse",
+      name: "Jesse Kercheval",
       role: "Software Engineer",
       photoUrl: "https://avatars.githubusercontent.com/u/56614846?v=4",
       location: "Los Angeles, CA.",
     },
     {
-      name: "Shane",
+      name: "Shane Ziegler",
       role: "Software Engineer",
       photoUrl: "https://avatars.githubusercontent.com/u/56492231?v=4",
       location: "Minneapolis, MN.",
     },
     {
-      name: "Joel",
+      name: "Joel Barton",
       role: "Software Engineer",
       photoUrl: "https://avatars.githubusercontent.com/u/86934356?v=4",
       location: "Seattle, WA.",
