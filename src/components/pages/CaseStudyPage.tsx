@@ -1,42 +1,50 @@
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { useState, useEffect, useRef } from "react";
+// import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  //   BreadcrumbLink,
+  //   BreadcrumbList,
+  //   BreadcrumbPage,
+  //   BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 
-const CaseStudySectionsMenu = () => {
-  const [activeSectionIndex, setActiveSectionIndex] = useState(0);
+// const CaseStudySectionsMenu = () => {
+//   const [activeSectionIndex, setActiveSectionIndex] = useState(0);
 
-  const sections = [
-    { title: "these", slug: "these" },
-    { title: "are", slug: "are" },
-    { title: "the", slug: "the" },
-    { title: "different", slug: "different" },
-    { title: "case", slug: "case" },
-    { title: "study", slug: "study" },
-    { title: "sections", slug: "sections" },
-    { title: "we", slug: "we" },
-    { title: "are", slug: "are" },
-    { title: "writing", slug: "writing" },
-  ];
+//   const sections = [
+//     { title: "these", slug: "these" },
+//     { title: "are", slug: "are" },
+//     { title: "the", slug: "the" },
+//     { title: "different", slug: "different" },
+//     { title: "case", slug: "case" },
+//     { title: "study", slug: "study" },
+//     { title: "sections", slug: "sections" },
+//     { title: "we", slug: "we" },
+//     { title: "are", slug: "are" },
+//     { title: "writing", slug: "writing" },
+//   ];
 
-  return (
-    <div className="w-64 border-r p-4 bg-white">
-      <ScrollArea className="h-[calc(100vh-100px)]">
-        <div className="space-y-2">
-          {sections.map((section, index) => (
-            <Button
-              key={section.slug}
-              variant={activeSectionIndex === index ? "outline" : "default"}
-              className="w-full justify-start"
-              onClick={() => setActiveSectionIndex(index)}
-            >
-              {section.title}
-            </Button>
-          ))}
-        </div>
-      </ScrollArea>
-    </div>
-  );
-};
+//   return (
+//     <div className="w-64 border-r p-4 bg-white">
+//       <ScrollArea className="h-[calc(100vh-100px)]">
+//         <div className="space-y-2">
+//           {sections.map((section, index) => (
+//             <Button
+//               key={section.slug}
+//               variant={activeSectionIndex === index ? "outline" : "default"}
+//               className="w-full justify-start"
+//               onClick={() => setActiveSectionIndex(index)}
+//             >
+//               {section.title}
+//             </Button>
+//           ))}
+//         </div>
+//       </ScrollArea>
+//     </div>
+//   );
+// };
 
 const OnThisPageNavigation = ({
   headings,
@@ -71,20 +79,72 @@ const OnThisPageNavigation = ({
 };
 
 export const CaseStudyPage = () => {
+  const [breadcrumbs, setBreadcrumbs] = useState<string[]>([]);
+  const sectionRefs = useRef<(HTMLElement | null)[]>([]);
+
   const pageHeadings = [
     { id: "overview-summary", title: "Summary" },
     { id: "overview-context", title: "Context" },
     { id: "challenge-details", title: "Challenge Details" },
   ];
 
+  // Function to update breadcrumbs based on the current section
+  const updateBreadcrumbs = (section: string) => {
+    setBreadcrumbs((prevBreadcrumbs) => {
+      const newBreadcrumbs = [...prevBreadcrumbs];
+      const lastBreadcrumb = newBreadcrumbs[newBreadcrumbs.length - 1];
+      if (lastBreadcrumb !== section) {
+        newBreadcrumbs.push(section);
+      }
+      return newBreadcrumbs;
+    });
+  };
+
+  // Intersection Observer callback
+  const handleIntersect = (entries: IntersectionObserverEntry[]) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const sectionId = entry.target.getAttribute("id");
+        if (sectionId) {
+          updateBreadcrumbs(sectionId);
+        }
+      }
+    });
+  };
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(handleIntersect, {
+      root: null,
+      rootMargin: "0px",
+      threshold: 0.1,
+    });
+
+    sectionRefs.current.forEach((section) => {
+      if (section) {
+        observer.observe(section);
+      }
+    });
+
+    return () => {
+      sectionRefs.current.forEach((section) => {
+        if (section) {
+          observer.unobserve(section);
+        }
+      });
+    };
+  }, []);
+
   return (
     <>
+      <Breadcrumb>
+        {breadcrumbs.map((breadcrumb, index) => (
+          <BreadcrumbItem key={index}>{breadcrumb}</BreadcrumbItem>
+        ))}
+      </Breadcrumb>
       <h1 className="text-3xl text-center font-bold mb-8">Case Study</h1>
       <div className="flex h-100">
-        {/* Left Side Menu */}
-        <CaseStudySectionsMenu />
+        {/* <CaseStudySectionsMenu /> */}
 
-        {/* Main Content Area */}
         <div className="flex-grow overflow-auto p-8">
           <section
             id="overview-summary"
