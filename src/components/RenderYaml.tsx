@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { solarizedlight } from "react-syntax-highlighter/dist/cjs/styles/prism";
+import { dracula } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import { Copy, ClipboardCheck } from "lucide-react";
 
 import yaml from "js-yaml";
@@ -90,6 +90,7 @@ export default function RenderYaml({ formDataJSON }: { formDataJSON: string }) {
     <div className="mt-6 relative">
       <Button
         onClick={copyToClipboard}
+        variant="outline"
         className="absolute top-9 right-0 mt-2 mr-2"
       >
         {copied ? "Copied!" : "Copy"} {copied ? <ClipboardCheck /> : <Copy />}
@@ -97,7 +98,7 @@ export default function RenderYaml({ formDataJSON }: { formDataJSON: string }) {
       <h2 className="text-xl font-semibold">Generated YAML:</h2>
       <SyntaxHighlighter
         language="yaml"
-        style={solarizedlight}
+        style={dracula}
         showLineNumbers={true}
         wrapLongLines={true}
         className="p-4 bg-gray-100 rounded-md"

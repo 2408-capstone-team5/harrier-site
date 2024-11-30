@@ -3,14 +3,14 @@ import { useEffect, useState } from "react";
 export type Section = { name: string; id: number; urlFormatted: string };
 
 export default function CaseStudyPage() {
-  const titles: Section[] = [
+  const sections: Section[] = [
     { name: "Introduction", id: 1, urlFormatted: "introduction" },
     {
       name: "Problem Domain",
       id: 2,
       urlFormatted: "problem-domain",
     },
-    { name: "Harrier Use Case", id: 3, urlFormatted: "harrier-use-case" },
+    { name: "Use Case", id: 3, urlFormatted: "use-case" },
     {
       name: "Implementation",
       id: 4,
@@ -84,14 +84,13 @@ export default function CaseStudyPage() {
     <div>
       <main id="case-study-container" className="flex flex-row mx-4">
         <div id="article-content" className="flex-[85] m-4">
-          {titles.map((title, idx) => (
+          {sections.map((title, idx) => (
             <>
               <Section key={title.id} section={title} />
-              <br/>
-              {idx === titles.length - 1 ? null : (
+              <br />
+              {idx === sections.length - 1 ? null : (
                 <div className="h-0.5 bg-sky-400 rounded-full mx-auto w-1/6 nice-line"></div>
               )}
-              
             </>
           ))}
         </div>
@@ -101,23 +100,23 @@ export default function CaseStudyPage() {
               id="navigate-this-page"
               className="sticky top-0 h-screen overflow-y-auto flex flex-col justify-center pl-4"
             >
-              <div className="absolute left-0 top-1/4 bottom-1/4 w-0.5 bg-yellow-400 rounded-full nice-line"></div>
+              <div className="absolute left-0 top-1/4 bottom-1/4 w-0.5 bg-primary rounded-full nice-line"></div>
               <ul className="p-0 font-mono">
-                {titles.map((title) => (
-                  <li key={title.id} className="my-3">
+                {sections.map((section) => (
+                  <li key={section.id} className="my-3">
                     <a
-                      href={`#${title.urlFormatted}`}
+                      href={`#${section.urlFormatted}`}
                       onClick={(event) =>
-                        handleClick(event, `${title.urlFormatted}`)
+                        handleClick(event, `${section.urlFormatted}`)
                       }
-                      className={`flex items-center ${activeSection === title.urlFormatted ? "font-extrabold text-center text-yellow-400" : ""} truncate`}
+                      className={`flex items-center ${activeSection === section.urlFormatted ? "font-extrabold text-center text-primary" : ""} truncate`}
                     >
-                      {/* {activeSection === title.urlFormatted && (
+                      {/* {activeSection === section.urlFormatted && (
                         <span className="mr-1">
                           <Eye />
                         </span>
                       )} */}
-                      {title.name}
+                      {section.name}
                     </a>
                   </li>
                 ))}

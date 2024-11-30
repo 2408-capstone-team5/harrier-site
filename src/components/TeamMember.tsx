@@ -27,8 +27,12 @@ const TeamMember = ({ member }: TeamMemberProps) => {
         {member.name}
       </CardTitle>
       <CardFooter>
-        <FaLinkedin />
-        <FaGithub />
+        <a href={member.linkedinProfile} target="_blank" rel="noopener noreferrer">
+          <FaLinkedin />
+        </a>
+        <a href={member.githubProfile} target="_blank" rel="noopener noreferrer">
+          <FaGithub />
+        </a>
         <FaAviato />
       </CardFooter>
     </Card>

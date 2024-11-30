@@ -10,6 +10,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { ArrowLeft } from "lucide-react";
 import { useState } from "react";
 import { Input } from "./ui/input";
 
@@ -84,51 +85,44 @@ export default function SetupForm({ setFormDataJSON }: SetupFormProps) {
     <div className="p-6 flex justify-center">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 w-full max-w-md">
-          {steps.map(
-            (step, index) =>
-              index === currentStep && (
-                <FormField
-                  key={step.name}
-                  control={form.control}
-                  name={
-                    step.name as
-                      | "awsRegion"
-                      | "awsAccountId"
-                      | "instanceType"
-                      | "cacheTtlHours"
-                      | "cidrBlockVpc"
-                      | "cidrBlockSubnet"
-                  }
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col items-center">
-                      <FormLabel className="text-center">{step.label}</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="text"
-                          placeholder={step.placeholder}
-                          {...field}
-                          className="w-36 border rounded-"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              )
-          )}
-          <div className="flex justify-center space-x-2">
-            {currentStep > 0 && (
-              <Button
-                type="button"
-                onClick={() => setCurrentStep(currentStep - 1)}
-              >
-                Back
-              </Button>
-            )}
-            <Button type="submit">
-              {currentStep < steps.length - 1 ? "Next" : "Submit"}
-            </Button>
-          </div>
+          {steps.map((step, index) => (
+            <FormField
+              key={step.name}
+              control={form.control}
+              name={step.name as keyof z.infer<typeof formSchema>}
+              render={({ field }) => (
+                <FormItem className="flex flex-col items-center">
+                  <FormLabel className="text-center">{step.label}</FormLabel>
+                  <div className="flex items-center space-x-2">
+                    <FormMessage className="mr-2" />
+                    <FormControl>
+                      <Input
+                        type="text"
+                        placeholder={step.placeholder}
+                        {...field}
+                        className="w-36 border"
+                      />
+                    </FormControl>
+                    {currentStep > 0 && currentStep - 1 === index && (
+                      <Button
+                        type="button"
+                        variant="destructive"
+                        size="sm"
+                        onClick={() => setCurrentStep(currentStep - 1)}
+                      >
+                        <ArrowLeft />
+                      </Button>
+                    )}
+                    {currentStep === index && (
+                      <Button type="submit" variant="ghost">
+                        {currentStep < steps.length - 1 ? "Next" : "Submit"}
+                      </Button>
+                    )}
+                  </div>
+                </FormItem>
+              )}
+            />
+          ))}
         </form>
       </Form>
     </div>

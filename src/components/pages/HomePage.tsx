@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 const HomePage = () => {
   return (
     <>
@@ -6,7 +7,11 @@ const HomePage = () => {
         Harrier is an open-source tool for setting up self-hosted GitHub Actions
         runners and persistent cache in your AWS cloud.
       </p>
-    </>
+      <br />
+      <Link to="/case-study" className="text-accent">
+        Read our Case Study
+      </Link>
+    </> 
   );
 };
 
