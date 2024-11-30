@@ -39,9 +39,9 @@ export const NavBar = () => {
 
   return (
     <header
-      className={`sticky top-0 z-50 w-full border-b border-primary transition-transform duration-300 ${
+      className={`sticky top-0 z-50 w-full border-b-2 border-b-quinary transition-transform duration-300 ${
         isVisible && isViewportWide ? "translate-y-0" : "-translate-y-full"
-      }`}
+      } ease-[cubic-bezier(0.4, 0, 0.2, 1)]`}
     >
       <div className="flex items-center justify-between">
         <Link to="/" className="mr-4 hidden md:flex">

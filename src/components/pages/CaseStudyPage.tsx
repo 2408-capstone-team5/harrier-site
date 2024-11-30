@@ -83,7 +83,17 @@ export default function CaseStudyPage() {
         sectionRefs.current[id] = element;
       }
     };
-  
+
+  // const handleNavClick = (event: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+  //   event.preventDefault();
+  //   const section = sectionRefs.current[id];
+  //   if (section) {
+  //     section.scrollIntoView({ behavior: "smooth" });
+  //     setActiveSection(id);
+  //     window.history.replaceState(null, "", `#${id}`);
+  //   }
+  // };
+
   return (
     <div>
       <main id="case-study-container" className="flex flex-row mx-4">
@@ -98,7 +108,7 @@ export default function CaseStudyPage() {
               />
               <br />
               {idx === sections.length - 1 ? null : (
-                <div className="h-0.5 bg-primary rounded-full mx-auto w-1/6 nice-line"></div>
+                <div className="nice-line h-0.5 bg-quinary rounded-full mx-auto w-2/6"></div>
               )}
             </>
           ))}
@@ -109,14 +119,14 @@ export default function CaseStudyPage() {
               id="navigate-this-page"
               className="sticky top-0 h-screen overflow-y-auto flex flex-col justify-center pl-4"
             >
-              <div className="absolute left-0 top-1/4 bottom-1/4 w-0.5 bg-primary rounded-full nice-line"></div>
+              <div className="nice-line absolute left-0 top-1/4 bottom-1/4 w-0.5 bg-quinary rounded-full"></div>
               <ul className="p-0 font-mono">
                 {sections.map((section) => (
                   <li key={section.id} className="my-3">
                     <a
                       href={`#${section.urlFormatted}`}
                       // onClick={(event) =>
-                      //   handleClick(event, `${section.urlFormatted}`)
+                      //   handleNavClick(event, `${section.urlFormatted}`)
                       // }
                       className={`flex items-center ${activeSection === section.urlFormatted ? "font-extrabold text-center text-primary" : ""} truncate`}
                     >
