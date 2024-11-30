@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 // import { Eye } from "lucide-react";
-export type Section = { name: string; id: number; urlFormatted: string };
-
+import { Section } from "../Section";
 export default function CaseStudyPage() {
   const sections: Section[] = [
     { name: "Introduction", id: 1, urlFormatted: "introduction" },
@@ -21,80 +20,90 @@ export default function CaseStudyPage() {
   ];
 
   const [activeSection, setActiveSection] = useState<string>("introduction");
-  const [isNavVisible, setIsNavVisible] = useState<boolean>(true);
-  const [isScrolling, setIsScrolling] = useState<boolean>(false);
+  const [navVisible, setNavVisible] = useState<boolean>(true);
+  const sectionRefs = useRef<{ [key: string]: HTMLElement }>({});
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (isScrolling) return;
+    const observerOptions = {
+      root: null,
+      rootMargin: "0px",
+      threshold: [0, 0.5, 1],
+    };
 
-      const sections = document.querySelectorAll("article");
-      let currentSection = "introduction";
+    const observerCallback: IntersectionObserverCallback = (entries) => {
+      let maxIntersectionRatio = 0;
+      let mostVisibleSectionId = activeSection;
 
-      sections.forEach((section) => {
-        const rect = section.getBoundingClientRect();
-        if (
-          rect.top <= window.innerHeight / 2 &&
-          rect.bottom >= window.innerHeight / 2
-        ) {
-          currentSection = section.id;
+      entries.forEach((entry) => {
+        if (entry.intersectionRatio > maxIntersectionRatio) {
+          maxIntersectionRatio = entry.intersectionRatio;
+          mostVisibleSectionId = entry.target.id;
         }
       });
 
-      setActiveSection(currentSection);
-      window.history.replaceState(null, "", `#${currentSection}`);
+      if (mostVisibleSectionId !== activeSection) {
+        setActiveSection(mostVisibleSectionId);
+        window.history.replaceState(null, "", `#${mostVisibleSectionId}`);
+      }
     };
 
-    const handleResize = () => {
-      setIsNavVisible(window.innerWidth >= 800);
-    };
+    const observer = new IntersectionObserver(
+      observerCallback,
+      observerOptions,
+    );
 
-    window.addEventListener("scroll", handleScroll);
-    window.addEventListener("resize", handleResize);
-
-    handleResize(); // Initial check
+    Object.values(sectionRefs.current).forEach((section) => {
+      if (section) observer.observe(section);
+    });
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      observer.disconnect();
+    };
+  }, [activeSection]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 800) {
+        setNavVisible(false);
+      } else {
+        setNavVisible(true);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+
+    return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, [isScrolling]);
+  }, []);
 
-  const handleClick = (
-    event: React.MouseEvent<HTMLAnchorElement>,
-    sectionId: string,
-  ) => {
-    event.preventDefault();
-    setIsScrolling(true);
-    const section = document.getElementById(sectionId);
-    if (section) {
-      section.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-        inline: "nearest",
-      });
-      setTimeout(() => {
-        setIsScrolling(false);
-        window.history.replaceState(null, "", `#${sectionId}`);
-      }, 500); // Adjust timeout duration as needed
-    }
-  };
-
+  const registerSectionRef = (id: string) => (element: HTMLElement | null) => {
+      if (element) {
+        sectionRefs.current[id] = element;
+      }
+    };
+  
   return (
     <div>
       <main id="case-study-container" className="flex flex-row mx-4">
         <div id="article-content" className="flex-[85] m-4">
           {sections.map((title, idx) => (
             <>
-              <Section key={title.id} section={title} />
+              <br />
+              <Section
+                key={title.id}
+                section={title}
+                registerRef={registerSectionRef}
+              />
               <br />
               {idx === sections.length - 1 ? null : (
-                <div className="h-0.5 bg-sky-400 rounded-full mx-auto w-1/6 nice-line"></div>
+                <div className="h-0.5 bg-primary rounded-full mx-auto w-1/6 nice-line"></div>
               )}
             </>
           ))}
         </div>
-        {isNavVisible && (
+        {navVisible && (
           <div className="relative flex-[15]">
             <nav
               id="navigate-this-page"
@@ -106,9 +115,9 @@ export default function CaseStudyPage() {
                   <li key={section.id} className="my-3">
                     <a
                       href={`#${section.urlFormatted}`}
-                      onClick={(event) =>
-                        handleClick(event, `${section.urlFormatted}`)
-                      }
+                      // onClick={(event) =>
+                      //   handleClick(event, `${section.urlFormatted}`)
+                      // }
                       className={`flex items-center ${activeSection === section.urlFormatted ? "font-extrabold text-center text-primary" : ""} truncate`}
                     >
                       {/* {activeSection === section.urlFormatted && (
@@ -128,55 +137,3 @@ export default function CaseStudyPage() {
     </div>
   );
 }
-
-const Section = ({ section }: { section: Section }) => {
-  return (
-    <article id={`${section.urlFormatted}`} className="">
-      <h2 className="font-bold text-xl">{section.name}</h2>
-      <h3 className="font-bold text-l">Subheading {section.name}.1</h3>
-      <p className="">
-        lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-        velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-        occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-        mollit anim id est laborum.lorem ipsum dolor sit amet, consectetur
-        adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-        laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-        in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa
-        qui officia deserunt mollit anim id est laborum. lorem ipsum dolor sit
-        amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-        exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-        dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua.
-      </p>
-      <h3 className="font-bold text-l">Subheading {section.name}.2</h3>
-      <p className="">
-        enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-        aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit
-        in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-        officia deserunt mollit anim id est laborum. lorem ipsum dolor sit amet,
-        consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-        et dolore magna aliqua.
-      </p>
-      <h3 className="font-bold text-l">Subheading {section.name}.3</h3>
-      <p className="">
-        lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-        velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-        occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-        mollit anim id est laborum.
-      </p>
-    </article>
-  );
-};

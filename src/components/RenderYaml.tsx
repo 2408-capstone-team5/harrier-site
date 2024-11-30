@@ -90,10 +90,10 @@ export default function RenderYaml({ formDataJSON }: { formDataJSON: string }) {
     <div className="mt-6 relative">
       <Button
         onClick={copyToClipboard}
-        variant="outline"
-        className="absolute top-9 right-0 mt-2 mr-2"
+        variant="default"
+        className="absolute top-9 right-0 mt-3 mr-3"
       >
-        {copied ? "Copied!" : "Copy"} {copied ? <ClipboardCheck /> : <Copy />}
+        {copied ? <ClipboardCheck /> : <Copy />}
       </Button>
       <h2 className="text-xl font-semibold">Generated YAML:</h2>
       <SyntaxHighlighter
@@ -101,7 +101,7 @@ export default function RenderYaml({ formDataJSON }: { formDataJSON: string }) {
         style={dracula}
         showLineNumbers={true}
         wrapLongLines={true}
-        className="p-4 bg-gray-100 rounded-md"
+        className="p-4 rounded-lg"
       >
         {yamlOutput}
       </SyntaxHighlighter>

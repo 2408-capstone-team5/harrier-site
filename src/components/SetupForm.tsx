@@ -82,7 +82,7 @@ export default function SetupForm({ setFormDataJSON }: SetupFormProps) {
   ];
 
   return (
-    <div className="p-6 flex justify-center">
+    <div className="flex justify-center">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 w-full max-w-md">
           {steps.map((step, index) => (
@@ -106,7 +106,7 @@ export default function SetupForm({ setFormDataJSON }: SetupFormProps) {
                     {currentStep > 0 && currentStep - 1 === index && (
                       <Button
                         type="button"
-                        variant="destructive"
+                        variant="default"
                         size="sm"
                         onClick={() => setCurrentStep(currentStep - 1)}
                       >
@@ -114,7 +114,7 @@ export default function SetupForm({ setFormDataJSON }: SetupFormProps) {
                       </Button>
                     )}
                     {currentStep === index && (
-                      <Button type="submit" variant="ghost">
+                      <Button type="submit" variant="default">
                         {currentStep < steps.length - 1 ? "Next" : "Submit"}
                       </Button>
                     )}
