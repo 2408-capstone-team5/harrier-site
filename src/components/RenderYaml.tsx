@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { solarizedlight } from "react-syntax-highlighter/dist/cjs/styles/prism";
-import { FaCheck, FaRegCopy } from "react-icons/fa";
+import { Copy, ClipboardCheck } from "lucide-react";
 
 import yaml from "js-yaml";
 
@@ -73,8 +73,8 @@ export default function RenderYaml({ formDataJSON }: { formDataJSON: string }) {
         },
         {
           noRefs: true,
-        }
-      )
+        },
+      ),
     );
 
     return () => {};
@@ -92,7 +92,7 @@ export default function RenderYaml({ formDataJSON }: { formDataJSON: string }) {
         onClick={copyToClipboard}
         className="absolute top-9 right-0 mt-2 mr-2"
       >
-        {copied ? "Copied!" : "Copy"} {copied ? <FaCheck /> : <FaRegCopy />}
+        {copied ? "Copied!" : "Copy"} {copied ? <ClipboardCheck /> : <Copy />}
       </Button>
       <h2 className="text-xl font-semibold">Generated YAML:</h2>
       <SyntaxHighlighter

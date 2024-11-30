@@ -17,7 +17,7 @@ const formSchema = z.object({
   awsRegion: z.enum(["us-east-1", "us-east-2", "eu-west-1", "us-west-2"], {
     errorMap: () => ({
       message:
-        "AWS Region must be one of: us-east-1, us-east-2, eu-west-1, us-west-2",
+        "AWS Region must be one of the following: us-east-1, us-east-2, eu-west-1, us-west-2",
     }),
   }),
   awsAccountId: z.string().regex(/^\d{12}$/, {
@@ -81,9 +81,9 @@ export default function SetupForm({ setFormDataJSON }: SetupFormProps) {
   ];
 
   return (
-    <div className="p-6">
+    <div className="p-6 flex justify-center">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 w-full max-w-md">
           {steps.map(
             (step, index) =>
               index === currentStep && (
@@ -100,13 +100,14 @@ export default function SetupForm({ setFormDataJSON }: SetupFormProps) {
                       | "cidrBlockSubnet"
                   }
                   render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{step.label}</FormLabel>
+                    <FormItem className="flex flex-col items-center">
+                      <FormLabel className="text-center">{step.label}</FormLabel>
                       <FormControl>
                         <Input
                           type="text"
                           placeholder={step.placeholder}
                           {...field}
+                          className="w-36 border rounded-"
                         />
                       </FormControl>
                       <FormMessage />
@@ -115,7 +116,7 @@ export default function SetupForm({ setFormDataJSON }: SetupFormProps) {
                 />
               )
           )}
-          <div className="flex space-x-2">
+          <div className="flex justify-center space-x-2">
             {currentStep > 0 && (
               <Button
                 type="button"

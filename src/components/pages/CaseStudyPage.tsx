@@ -1,284 +1,183 @@
-import { useState, useEffect, useRef } from "react";
-// import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  //   BreadcrumbLink,
-  //   BreadcrumbList,
-  //   BreadcrumbPage,
-  //   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
+import { useEffect, useState } from "react";
+// import { Eye } from "lucide-react";
+export type Section = { name: string; id: number; urlFormatted: string };
 
-// const CaseStudySectionsMenu = () => {
-//   const [activeSectionIndex, setActiveSectionIndex] = useState(0);
-
-//   const sections = [
-//     { title: "these", slug: "these" },
-//     { title: "are", slug: "are" },
-//     { title: "the", slug: "the" },
-//     { title: "different", slug: "different" },
-//     { title: "case", slug: "case" },
-//     { title: "study", slug: "study" },
-//     { title: "sections", slug: "sections" },
-//     { title: "we", slug: "we" },
-//     { title: "are", slug: "are" },
-//     { title: "writing", slug: "writing" },
-//   ];
-
-//   return (
-//     <div className="w-64 border-r p-4 bg-white">
-//       <ScrollArea className="h-[calc(100vh-100px)]">
-//         <div className="space-y-2">
-//           {sections.map((section, index) => (
-//             <Button
-//               key={section.slug}
-//               variant={activeSectionIndex === index ? "outline" : "default"}
-//               className="w-full justify-start"
-//               onClick={() => setActiveSectionIndex(index)}
-//             >
-//               {section.title}
-//             </Button>
-//           ))}
-//         </div>
-//       </ScrollArea>
-//     </div>
-//   );
-// };
-
-const OnThisPageNavigation = ({
-  headings,
-}: {
-  headings: { id: string; title: string }[];
-}) => {
-  const [activeHeading, setActiveHeading] = useState(headings[0]?.id || "");
-
-  return (
-    <div className="w-1/6 p-4 border-l bg-white sticky top-12 h-screen overflow-y-auto">
-      <h3 className="text-lg font-semibold mb-4">On This Page</h3>
-      <ScrollArea className="h-[calc(100vh-100px)]">
-        <nav>
-          {headings.map((heading) => (
-            <a
-              key={heading.id}
-              href={`#${heading.id}`}
-              className={`block py-2 px-3 rounded ${
-                activeHeading === heading.id
-                  ? "bg-primary text-primary-foreground"
-                  : "hover:bg-accent"
-              }`}
-              onClick={() => setActiveHeading(heading.id)}
-            >
-              {heading.title}
-            </a>
-          ))}
-        </nav>
-      </ScrollArea>
-    </div>
-  );
-};
-
-export const CaseStudyPage = () => {
-  const [breadcrumbs, setBreadcrumbs] = useState<string[]>([]);
-  const sectionRefs = useRef<(HTMLElement | null)[]>([]);
-
-  const pageHeadings = [
-    { id: "overview-summary", title: "Summary" },
-    { id: "overview-context", title: "Context" },
-    { id: "challenge-details", title: "Challenge Details" },
+export default function CaseStudyPage() {
+  const titles: Section[] = [
+    { name: "Introduction", id: 1, urlFormatted: "introduction" },
+    {
+      name: "Problem Domain",
+      id: 2,
+      urlFormatted: "problem-domain",
+    },
+    { name: "Harrier Use Case", id: 3, urlFormatted: "harrier-use-case" },
+    {
+      name: "Implementation",
+      id: 4,
+      urlFormatted: "implementation",
+    },
+    { name: "Future Work", id: 5, urlFormatted: "future-work" },
+    { name: "References", id: 6, urlFormatted: "references" },
   ];
 
-  // Function to update breadcrumbs based on the current section
-  const updateBreadcrumbs = (section: string) => {
-    setBreadcrumbs((prevBreadcrumbs) => {
-      const newBreadcrumbs = [...prevBreadcrumbs];
-      const lastBreadcrumb = newBreadcrumbs[newBreadcrumbs.length - 1];
-      if (lastBreadcrumb !== section) {
-        newBreadcrumbs.push(section);
-      }
-      return newBreadcrumbs;
-    });
-  };
-
-  // Intersection Observer callback
-  const handleIntersect = (entries: IntersectionObserverEntry[]) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        const sectionId = entry.target.getAttribute("id");
-        if (sectionId) {
-          updateBreadcrumbs(sectionId);
-        }
-      }
-    });
-  };
+  const [activeSection, setActiveSection] = useState<string>("introduction");
+  const [isNavVisible, setIsNavVisible] = useState<boolean>(true);
+  const [isScrolling, setIsScrolling] = useState<boolean>(false);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(handleIntersect, {
-      root: null,
-      rootMargin: "0px",
-      threshold: 0.1,
-    });
+    const handleScroll = () => {
+      if (isScrolling) return;
 
-    sectionRefs.current.forEach((section) => {
-      if (section) {
-        observer.observe(section);
-      }
-    });
+      const sections = document.querySelectorAll("article");
+      let currentSection = "introduction";
 
-    return () => {
-      sectionRefs.current.forEach((section) => {
-        if (section) {
-          observer.unobserve(section);
+      sections.forEach((section) => {
+        const rect = section.getBoundingClientRect();
+        if (
+          rect.top <= window.innerHeight / 2 &&
+          rect.bottom >= window.innerHeight / 2
+        ) {
+          currentSection = section.id;
         }
       });
+
+      setActiveSection(currentSection);
+      window.history.replaceState(null, "", `#${currentSection}`);
     };
-  }, []);
+
+    const handleResize = () => {
+      setIsNavVisible(window.innerWidth >= 800);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("resize", handleResize);
+
+    handleResize(); // Initial check
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [isScrolling]);
+
+  const handleClick = (
+    event: React.MouseEvent<HTMLAnchorElement>,
+    sectionId: string,
+  ) => {
+    event.preventDefault();
+    setIsScrolling(true);
+    const section = document.getElementById(sectionId);
+    if (section) {
+      section.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+        inline: "nearest",
+      });
+      setTimeout(() => {
+        setIsScrolling(false);
+        window.history.replaceState(null, "", `#${sectionId}`);
+      }, 500); // Adjust timeout duration as needed
+    }
+  };
 
   return (
-    <>
-      <Breadcrumb>
-        {breadcrumbs.map((breadcrumb, index) => (
-          <BreadcrumbItem key={index}>{breadcrumb}</BreadcrumbItem>
-        ))}
-      </Breadcrumb>
-      <h1 className="text-3xl text-center font-bold mb-8">Case Study</h1>
-      <div className="flex h-100">
-        {/* <CaseStudySectionsMenu /> */}
-
-        <div className="flex-grow overflow-auto p-8">
-          <section
-            id="overview-summary"
-            className="max-w-3xl mx-auto p-6 bg-white shadow-md rounded-lg mb-8"
-          >
-            <h2 className="text-2xl font-bold mb-4">Overview Summary</h2>
-            <p className="text-lg leading-relaxed text-gray-700">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-              tincidunt, nunc nec ultricies bibendum, nunc velit. Lorem ipsum
-              dolor sit amet, consectetur adipiscing elit. Sed tincidunt, nunc
-              nec ultricies bibendum, nunc velit. Lorem ipsum dolor sit amet,
-              consectetur adipiscing elit. Sed tincidunt, nunc nec ultricies
-              bibendum, nunc velit. Lorem ipsum dolor sit amet, consectetur
-              adipiscing elit. Sed tincidunt, nunc nec ultricies bibendum, nunc
-              velit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Sed tincidunt, nunc nec ultricies bibendum, nunc velit. Lorem
-              ipsum dolor sit amet, consectetur adipiscing elit. Sed tincidunt,
-              nunc nec ultricies bibendum, nunc velit. Lorem ipsum dolor sit
-              amet, consectetur adipiscing elit. Sed tincidunt, nunc nec
-              ultricies bibendum, nunc velit. Lorem ipsum dolor sit amet,
-              consectetur adipiscing elit. Sed tincidunt, nunc nec ultricies
-              bibendum, nunc velit. Lorem ipsum dolor sit amet, consectetur
-              adipiscing elit. Sed tincidunt, nunc nec ultricies bibendum, nunc
-              velit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Sed tincidunt, nunc nec ultricies bibendum, nunc velit. Lorem
-              ipsum dolor sit amet, consectetur adipiscing elit. Sed tincidunt,
-              nunc nec ultricies bibendum, nunc velit. Lorem ipsum dolor sit
-              amet, consectetur adipiscing elit. Sed tincidunt, nunc nec
-              ultricies bibendum, nunc velit. Lorem ipsum dolor sit amet,
-              consectetur adipiscing elit. Sed tincidunt, nunc nec ultricies
-              bibendum, nunc velit. Lorem ipsum dolor sit amet, consectetur
-              adipiscing elit. Sed tincidunt, nunc nec ultricies bibendum, nunc
-              velit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Sed tincidunt, nunc nec ultricies bibendum, nunc velit. Lorem
-              ipsum dolor sit amet, consectetur adipiscing elit. Sed tincidunt,
-              nunc nec ultricies bibendum, nunc velit.
-            </p>
-          </section>
-          <section
-            id="overview-context"
-            className="max-w-3xl mx-auto p-6 bg-white shadow-md rounded-lg mb-8"
-          >
-            <h2 className="text-2xl font-bold mb-4">Overview Context</h2>
-            <p className="text-lg leading-relaxed text-gray-700">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-              tincidunt, nunc nec ultricies bibendum, nunc velit. Lorem ipsum
-              dolor sit amet, consectetur adipiscing elit. Sed tincidunt, nunc
-              nec ultricies bibendum, nunc velit. Lorem ipsum dolor sit amet,
-              consectetur adipiscing elit. Sed tincidunt, nunc nec ultricies
-              bibendum, nunc velit. Lorem ipsum dolor sit amet, consectetur
-              adipiscing elit. Sed tincidunt, nunc nec ultricies bibendum, nunc
-              velit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Sed tincidunt, nunc nec ultricies bibendum, nunc velit. Lorem
-              ipsum dolor sit amet, consectetur adipiscing elit. Sed tincidunt,
-              nunc nec ultricies bibendum, nunc velit. Lorem ipsum dolor sit
-              amet, consectetur adipiscing elit. Sed tincidunt, nunc nec
-              ultricies bibendum, nunc velit. Lorem ipsum dolor sit amet,
-              consectetur adipiscing elit. Sed tincidunt, nunc nec ultricies
-              bibendum, nunc velit. Lorem ipsum dolor sit amet, consectetur
-              adipiscing elit. Sed tincidunt, nunc nec ultricies bibendum, nunc
-              velit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Sed tincidunt, nunc nec ultricies bibendum, nunc velit. Lorem
-              ipsum dolor sit amet, consectetur adipiscing elit. Sed tincidunt,
-              nunc nec ultricies bibendum, nunc velit. Lorem ipsum dolor sit
-              amet, consectetur adipiscing elit. Sed tincidunt, nunc nec
-              ultricies bibendum, nunc velit. Lorem ipsum dolor sit amet,
-              consectetur adipiscing elit. Sed tincidunt, nunc nec ultricies
-              bibendum, nunc velit. Lorem ipsum dolor sit amet, consectetur
-              adipiscing elit. Sed tincidunt, nunc nec ultricies bibendum, nunc
-              velit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Sed tincidunt, nunc nec ultricies bibendum, nunc velit. Lorem
-              ipsum dolor sit amet, consectetur adipiscing elit. Sed tincidunt,
-              nunc nec ultricies bibendum, nunc velit. Lorem ipsum dolor sit
-              amet, consectetur adipiscing elit. Sed tincidunt, nunc nec
-              ultricies bibendum, nunc velit. Lorem ipsum dolor sit amet,
-              consectetur adipiscing elit. Sed tincidunt, nunc nec ultricies
-              bibendum, nunc velit. Lorem ipsum dolor sit amet, consectetur
-              adipiscing elit. Sed tincidunt, nunc nec ultricies bibendum, nunc
-              velit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Sed tincidunt, nunc nec ultricies bibendum, nunc velit. Lorem
-              ipsum dolor sit amet, consectetur adipiscing elit. Sed tincidunt,
-              nunc nec ultricies bibendum, nunc velit. Lorem ipsum dolor sit
-              amet, consectetur adipiscing elit. Sed tincidunt, nunc nec
-              ultricies bibendum, nunc velit. Lorem ipsum dolor sit amet,
-              consectetur adipiscing elit. Sed tincidunt, nunc nec ultricies
-              bibendum, nunc velit. Lorem ipsum dolor sit amet, consectetur
-              adipiscing elit. Sed tincidunt, nunc nec ultricies bibendum, nunc
-              velit.
-            </p>
-          </section>
-          <section
-            id="challenge-details"
-            className="max-w-3xl mx-auto p-6 bg-white shadow-md rounded-lg mb-8"
-          >
-            <h2 className="text-2xl font-bold mb-4">Challenge Details</h2>
-            <p className="text-lg leading-relaxed text-gray-700">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-              tincidunt, nunc nec ultricies bibendum, nunc velit. Lorem ipsum
-              dolor sit amet, consectetur adipiscing elit. Sed tincidunt, nunc
-              nec ultricies bibendum, nunc velit. Lorem ipsum dolor sit amet,
-              consectetur adipiscing elit. Sed tincidunt, nunc nec ultricies
-              bibendum, nunc velit. Lorem ipsum dolor sit amet, consectetur
-              adipiscing elit. Sed tincidunt, nunc nec ultricies bibendum, nunc
-              velit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Sed tincidunt, nunc nec ultricies bibendum, nunc velit. Lorem
-              ipsum dolor sit amet, consectetur adipiscing elit. Sed tincidunt,
-              nunc nec ultricies bibendum, nunc velit. Lorem ipsum dolor sit
-              amet, consectetur adipiscing elit. Sed tincidunt, nunc nec
-              ultricies bibendum, nunc velit. Lorem ipsum dolor sit amet,
-              consectetur adipiscing elit. Sed tincidunt, nunc nec ultricies
-              bibendum, nunc velit. Lorem ipsum dolor sit amet, consectetur
-              adipiscing elit. Sed tincidunt, nunc nec ultricies bibendum, nunc
-              velit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Sed tincidunt, nunc nec ultricies bibendum, nunc velit. Lorem
-              ipsum dolor sit amet, consectetur adipiscing elit. Sed tincidunt,
-              nunc nec ultricies bibendum, nunc velit. Lorem ipsum dolor sit
-              amet, consectetur adipiscing elit. Sed tincidunt, nunc nec
-              ultricies bibendum, nunc velit. Lorem ipsum dolor sit amet,
-              consectetur adipiscing elit. Sed tincidunt, nunc nec ultricies
-              bibendum, nunc velit. Lorem ipsum dolor sit amet, consectetur
-              adipiscing elit. Sed tincidunt, nunc nec ultricies bibendum, nunc
-              velit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Sed tincidunt, nunc nec ultricies bibendum, nunc velit. Lorem
-              ipsum dolor sit amet, consectetur adipiscing elit. Sed tincidunt,
-              nunc nec ultricies bibendum, nunc velit.
-            </p>
-          </section>
+    <div>
+      <main id="case-study-container" className="flex flex-row mx-4">
+        <div id="article-content" className="flex-[85] m-4">
+          {titles.map((title, idx) => (
+            <>
+              <Section key={title.id} section={title} />
+              <br/>
+              {idx === titles.length - 1 ? null : (
+                <div className="h-0.5 bg-sky-400 rounded-full mx-auto w-1/6 nice-line"></div>
+              )}
+              
+            </>
+          ))}
         </div>
+        {isNavVisible && (
+          <div className="relative flex-[15]">
+            <nav
+              id="navigate-this-page"
+              className="sticky top-0 h-screen overflow-y-auto flex flex-col justify-center pl-4"
+            >
+              <div className="absolute left-0 top-1/4 bottom-1/4 w-0.5 bg-yellow-400 rounded-full nice-line"></div>
+              <ul className="p-0 font-mono">
+                {titles.map((title) => (
+                  <li key={title.id} className="my-3">
+                    <a
+                      href={`#${title.urlFormatted}`}
+                      onClick={(event) =>
+                        handleClick(event, `${title.urlFormatted}`)
+                      }
+                      className={`flex items-center ${activeSection === title.urlFormatted ? "font-extrabold text-center text-yellow-400" : ""} truncate`}
+                    >
+                      {/* {activeSection === title.urlFormatted && (
+                        <span className="mr-1">
+                          <Eye />
+                        </span>
+                      )} */}
+                      {title.name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
+        )}
+      </main>
+    </div>
+  );
+}
 
-        {/* Right Side "On This Page" Navigation */}
-        <OnThisPageNavigation headings={pageHeadings} />
-      </div>
-    </>
+const Section = ({ section }: { section: Section }) => {
+  return (
+    <article id={`${section.urlFormatted}`} className="">
+      <h2 className="font-bold text-xl">{section.name}</h2>
+      <h3 className="font-bold text-l">Subheading {section.name}.1</h3>
+      <p className="">
+        lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+        velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+        occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+        mollit anim id est laborum.lorem ipsum dolor sit amet, consectetur
+        adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+        laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+        in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa
+        qui officia deserunt mollit anim id est laborum. lorem ipsum dolor sit
+        amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+        exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+        dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua.
+      </p>
+      <h3 className="font-bold text-l">Subheading {section.name}.2</h3>
+      <p className="">
+        enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+        aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit
+        in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+        officia deserunt mollit anim id est laborum. lorem ipsum dolor sit amet,
+        consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+        et dolore magna aliqua.
+      </p>
+      <h3 className="font-bold text-l">Subheading {section.name}.3</h3>
+      <p className="">
+        lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+        velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+        occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+        mollit anim id est laborum.
+      </p>
+    </article>
   );
 };
-
-export default CaseStudyPage;
