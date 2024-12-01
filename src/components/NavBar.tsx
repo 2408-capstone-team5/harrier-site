@@ -39,7 +39,7 @@ export const NavBar = () => {
 
   return (
     <header
-      className={`sticky top-0 z-50 w-full border-b-2 border-b-quinary transition-transform duration-300 ${
+      className={`sticky top-0 z-50 w-full border-b border-b-quinary transition-transform duration-266 ${
         isVisible && isViewportWide ? "translate-y-0" : "-translate-y-full"
       } ease-[cubic-bezier(0.4, 0, 0.2, 1)]`}
     >

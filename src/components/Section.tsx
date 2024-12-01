@@ -1,4 +1,4 @@
-export type Section = { name: string; id: number; urlFormatted: string };
+export type Section = { name: string; sectionId: string };
 
 type SectionProps = {
   section: Section;
@@ -8,9 +8,10 @@ type SectionProps = {
 export const Section = ({ section, registerRef }: SectionProps) => {
   return (
     <article
-      id={`${section.urlFormatted}`}
-      ref={registerRef(section.urlFormatted)}
-      className="p-4 shadow-white rounded-lg mb-6"
+      key={section.sectionId}
+      id={`${section.sectionId}`}
+      ref={registerRef(section.sectionId)}
+      className="p-4 rounded-lg mb-6"
     >
       <h2 className="font-bold text-2xl mb-4">{section.name}</h2>
       <h3 className="font-semibold text-xl mb-2">{section.name} A</h3>
