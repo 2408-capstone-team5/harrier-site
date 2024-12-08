@@ -1,125 +1,96 @@
-import { useEffect, useState, useRef } from "react";
-// import { Eye } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { SectionsStateContext, Section } from "@/providers/SectionsStateProvider";
 
-import { Section } from "../Section";
 export default function CaseStudyPage() {
-  const sections: Section[] = [
-    { name: "Introduction", sectionId: "introduction" },
-    {
-      name: "Problem Domain",
-    
-      sectionId: "problem-domain",
-    },
-    { name: "Use Case", sectionId: "use-case" },
-    {
-      name: "Implementation",
-      sectionId: "implementation",
-    },
-    { name: "Future Work", sectionId: "future-work" },
-    { name: "References", sectionId: "references" },
-  ];
-
-  const [activeSection, setActiveSection] = useState<string>("introduction");
-  const [navVisible, setNavVisible] = useState<boolean>(true);
-  const isScrollingRef = useRef(false);
-  const sectionRefs = useRef<{ [key: string]: HTMLElement }>({});
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 800) {
-        setNavVisible(false);
-      } else {
-        setNavVisible(true);
-      }
-    };
-
-    window.addEventListener("resize", handleResize);
-    handleResize();
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
-  useEffect(() => {
-    window.history.replaceState(null, "", `#${activeSection}`);
-  }, [activeSection]);
-
-  const registerSectionRef = (id: string) => (element: HTMLElement | null) => {
-    if (element) {
-      sectionRefs.current[id] = element;
-    }
-  };
-
-  const handleNavClick = (
-    event: React.MouseEvent<HTMLAnchorElement>,
-    sectionId: string,
-  ) => {
-    event.preventDefault();
-    const targetElement = document.getElementById(sectionId);
-
-    if (targetElement) {
-      isScrollingRef.current = true;
-      window.history.replaceState(null, "", `#${sectionId}`);
-      targetElement.scrollIntoView({ behavior: "smooth", block: "start" });
-
-      setTimeout(() => {
-        isScrollingRef.current = false;
-        setActiveSection(sectionId);
-      }, 500);
-    }
-  };
+  const { sections } : { sections: Section[] } = useContext(SectionsStateContext)
 
   return (
-    <div>
+    <div className="flex items-center justify-center min-h-screen">
       <main id="case-study-container" className="flex flex-row mx-4">
-        <div id="article-content" className="flex-[85] m-4">
-          {sections.map((title, idx) => (
-            <>
-              <br />
-              <Section
-                section={title}
-                registerRef={registerSectionRef}
-              />
-              {idx === sections.length - 1 ? (
-                <div className="h-24"></div>
-              ) : (
+        <div id="article-content" className="flex-[85]">
+          {sections.map((section, idx) => (
+            <div
+              key={section.sectionId}
+              id={section.sectionId}
+              className="mb-8"
+            >
+              <article
+                key={section.sectionId}
+                id={`${section.sectionId}`}
+                // ref={registerRef(section.sectionId)}
+                className="p-4 rounded-lg mb-6"
+              >
+                <h2 className="font-bold text-2xl mb-4">{section.name}</h2>
+                <h3 className="font-semibold text-xl mb-2">{section.name} A</h3>
+                <p className="mb-4">
+                  lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+                  veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                  commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+                  velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+                  occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+                  mollit anim id est laborum.lorem ipsum dolor sit amet, consectetur
+                  adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+                  magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+                  in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+                  pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa
+                  qui officia deserunt mollit anim id est laborum. lorem ipsum dolor sit
+                  amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                  labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                  exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                  Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                  proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                  lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                  tempor incididunt ut labore et dolore magna aliqua.
+                </p>
+                <h3 className="font-semibold text-xl mb-2">{section.name} B</h3>
+                <p className="mb-4">
+                  enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                  aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit
+                  in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                  Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+                  officia deserunt mollit anim id est laborum. lorem ipsum dolor sit amet,
+                  consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                  et dolore magna aliqua.
+                </p>
+                <h3 className="font-semibold text-xl mb-2">{section.name} C</h3>
+                <p className="mb-4">
+                  lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+                  veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                  commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+                  velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+                  occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+                  mollit anim id est laborum.
+                </p>
+              </article>
+              {idx < sections.length - 1 && (
                 <div className="nice-line h-0.5 bg-quinary rounded-full mx-auto w-2/6"></div>
               )}
-            </>
+            </div>
           ))}
         </div>
-        {navVisible && (
-          <div className="relative flex-[15]">
-            <nav
-              id="navigate-this-page"
-              className="sticky top-0 h-screen overflow-y-auto flex flex-col justify-center pl-4"
-            >
-              <div className="nice-line absolute left-0 top-1/4 bottom-1/4 w-0.5 bg-quinary rounded-full"></div>
-              <ul className="p-0 font-mono">
-                {sections.map((section) => (
-                  <li key={section.sectionId} className="my-3">
-                    <Link
-                      to={`#${section.sectionId}`}
-                      onClick={(event) =>
-                        handleNavClick(event, `${section.sectionId}`)
-                      }
-                      className={`flex items-center ${activeSection === section.sectionId ? "font-extrabold text-center text-primary" : ""} truncate`}
-                    >
-                      {/* {activeSection === section.urlFormatted && (
-                        <span className="mr-1">
-                          <Eye />
-                        </span>
-                      )} */}
-                      {section.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          </div>
-        )}
+        <nav
+          id="navigate-this-page"
+          className="sticky flex-[15] top-0 h-screen"
+        >
+          <div className="nice-line absolute left-0 top-1/4 bottom-1/4 w-0.5 bg-quinary rounded-full"></div>
+          <ul className="absolute left-2 top-1/4 bottom-1/4 p-0 font-mono">
+            {sections.map((section) => (
+              <li key={section.sectionId} className="my-3">
+                <Link
+                  to={`#${section.sectionId}`} 
+                  className={`flex items-center truncate`}
+                >
+                  {section.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </main>
     </div>
   );

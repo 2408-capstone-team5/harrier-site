@@ -9,10 +9,12 @@ import CaseStudyPage from "./components/pages/CaseStudyPage.tsx";
 import GetStartedPage from "./components/pages/GetStartedPage.tsx";
 import NotFoundPage from "./components/pages/NotFoundPage.tsx";
 
+import { SectionsStateProvider } from "@/providers/SectionsStateProvider.tsx";
 import "./index.css";
 
 createRoot(document.getElementById("app")!).render(
   <StrictMode>
+    <SectionsStateProvider>
     <RouterProvider
       router={createBrowserRouter([
         {
@@ -44,5 +46,6 @@ createRoot(document.getElementById("app")!).render(
         },
       ])}
     />
+    </ SectionsStateProvider>
   </StrictMode>
 );
