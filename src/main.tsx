@@ -8,7 +8,7 @@ import TeamPage from "./components/pages/TeamPage.tsx";
 import CaseStudyPage from "./components/pages/CaseStudyPage.tsx";
 import GetStartedPage from "./components/pages/GetStartedPage.tsx";
 import NotFoundPage from "./components/pages/NotFoundPage.tsx";
-
+import CaseStudySection from "./components/pages/CaseStudySection.tsx";
 import { SectionsStateProvider } from "@/providers/SectionsStateProvider.tsx";
 import "./index.css";
 
@@ -33,6 +33,12 @@ createRoot(document.getElementById("app")!).render(
             {
               path: "case-study",
               element: <CaseStudyPage />,
+              children: [
+                {
+                  path: ":sectionId",
+                  element: <CaseStudySection section={{name: 'hi', sectionId: "hi", subSections: []}} />,
+                }
+            ]
             },
             {
               path: "get-started",
