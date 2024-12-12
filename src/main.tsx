@@ -9,12 +9,12 @@ import CaseStudyPage from "./components/pages/CaseStudyPage.tsx";
 import GetStartedPage from "./components/pages/GetStartedPage.tsx";
 import NotFoundPage from "./components/pages/NotFoundPage.tsx";
 import CaseStudySection from "./components/pages/CaseStudySection.tsx";
-import { SectionsStateProvider } from "@/providers/SectionsStateProvider.tsx";
+import { CaseStudyContentProvider } from "@/providers/CaseStudyContentProvider.tsx";
 import "./index.css";
 
 createRoot(document.getElementById("app")!).render(
   <StrictMode>
-    <SectionsStateProvider>
+    <CaseStudyContentProvider>
     <RouterProvider
       router={createBrowserRouter([
         {
@@ -36,7 +36,7 @@ createRoot(document.getElementById("app")!).render(
               children: [
                 {
                   path: ":sectionId",
-                  element: <CaseStudySection section={{name: 'hi', sectionId: "hi", subSections: []}} />,
+                  element: <CaseStudySection  />,
                 }
             ]
             },
@@ -52,6 +52,6 @@ createRoot(document.getElementById("app")!).render(
         },
       ])}
     />
-    </ SectionsStateProvider>
+    </ CaseStudyContentProvider>
   </StrictMode>
 );
