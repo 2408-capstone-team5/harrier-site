@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import ReactMarkdown, { Components } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
@@ -8,10 +9,34 @@ interface MarkdownRendererProps {
 
 const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ markdown }) => {
   const components: Components = {
-    h2: ({ children }) => <h1 className="bg-teal-400 text-4xl font-bold mb-4">{children}</h1>,
-    h3: ({ children }) => <h2 className="text-3xl font-semibold mb-3">{children}</h2>,
-    ul: ({ children }) => <ul className="list-disc pl-5 mb-4">{children}</ul>,
-    p: ({ children }) => <p className="text-base leading-relaxed mb-4">{children}</p>,
+    h1: ({ children }) => <Link to={`#${children}`.replace(/\s+/g, '-').toLowerCase()} className="no-underline" ><h1>{children}</h1></Link>,
+    h2: ({ children }) => <Link to={`#${children}`.replace(/\s+/g, '-').toLowerCase()} className="no-underline" ><h2 className="text-xl text-secondary my-4">{children}</h2></Link>,
+    h3: ({ children }) => <Link to={`#${children}`.replace(/\s+/g, '-').toLowerCase()} className="no-underline" ><h3>{children}</h3></Link>,
+    h4: ({ children }) => <Link to={`#${children}`.replace(/\s+/g, '-').toLowerCase()} className="no-underline" ><h4>{children}</h4></Link>,
+    p: ({ children }) => <p className="custom-highlight">{children}</p>,
+    img: ({ ...props }: React.ImgHTMLAttributes<HTMLImageElement>) => <img {...props} />,
+    ul: ({ children }) => <ul>{children}</ul>,
+    ol: ({ children }) => <ol>{children}</ol>,
+    li: ({ children }) => <li>{children}</li>,
+    blockquote: ({ children }) => (
+      <blockquote>{children}</blockquote>
+    ),
+    pre: ({ children }) => (
+      <pre>{children}</pre>
+    ),
+    code: ({ children }) => (
+      <code>{children}</code>
+    ),
+    strong: ({ children }) => <strong>{children}</strong>,
+    em: ({ children }) => <em>{children}</em>,
+    hr: () => (
+      <hr className="w" />
+    ),
+    a: ({ children, href }) => (
+      <Link to={href || '#'} target="_blank" rel="noopener noreferrer" className="">
+        {children}
+      </Link>
+    ),
   };
 
   return (

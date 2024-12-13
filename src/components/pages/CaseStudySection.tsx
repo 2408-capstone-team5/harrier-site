@@ -1,12 +1,9 @@
-export default function CaseStudySection({
-  sectionContent,
-}: {
-  sectionContent: string;
-}) {
+import MarkdownRenderer from "@/components/MarkdownRenderer";
+
+export default function CaseStudySection({ markdown }: { markdown: string }) {
   return (
-    <article className="flex items-center justify-center h-full">
-      <h2 className="text-xl font-bold mb-4">an h2</h2>
-      <p>{sectionContent}</p>
-    </article>
+    <div id="case-study-content " className="mx-9">
+      <MarkdownRenderer markdown={markdown || "no content"} />
+    </div>
   );
 }

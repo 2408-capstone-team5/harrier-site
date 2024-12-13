@@ -24,9 +24,9 @@
 
 # 2 Design
 
-## 2.1 Achieving accelerated GHA Workflows
+## 2.1 Accelerated GHA Workflows
 
-## 2.2 Decision-Making Criteria (Considerations)
+## 2.2 Decision-Making Criteria 
 
 ## 2.3 Primary Design Decisions
 
@@ -34,7 +34,7 @@
 
 #### 2.3.1.1 GHA’s Self-hosted runner feature
 
-#### 2.3.1.2 User’s own cloud infrastructure
+#### 2.3.1.2 User’s Own Cloud Infrastructure
 
 #### 2.3.1.3 On-demand runners
 
@@ -54,7 +54,7 @@
 
 # 3 Implementation
 
-## 3.1 Building a Robust Cloud Infrastructure for Harrier
+## 3.1 Harrier Cloud Infrastructure 
 
 ### 3.1.1 The Right Cloud Platform for Harrier Users
 

@@ -49,8 +49,8 @@ const TeamPage = () => {
 
   return (
     <>
-      <h2 className="text-3xl text-center font-bold">Meet the Team</h2>
-      <div className="flex flex-wrap justify-center gap-8">
+      <h2 className="text-3xl text-center font-bold mb-6">Meet the Team</h2>
+      <div className="grid gap-8 sm:grid-cols-1 md:grid-cols-2 justify-items-center">
         {team.map((member) => (
           <TeamMember member={member} key={member.name} />
         ))}

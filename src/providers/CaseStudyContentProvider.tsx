@@ -1,30 +1,56 @@
 import { useEffect, useState, createContext, ReactNode } from "react";
 import MarkdownIt from "markdown-it";
 
-// Define the structure of the Table of Contents (TOC)
-export interface ContentHeading {
+// Interface for a Page
+interface Page {
   id: string;
-  name: string;
-  subsections: ContentHeading[];
+  content: string;
 }
 
-const parseTOCMarkdownToObject = (markdown: string): ContentHeading[] => {
+// Interface for a Header
+interface Header {
+  id: string;
+  name: string;
+  subsections: Header[];
+  urlEncoded: string;
+}
+
+// CaseStudy interface combining both pages and headers
+export interface CaseStudy {
+  pages: Page[];
+  headers: Header[];
+}
+
+// Context interface for the CaseStudy content
+interface CaseStudyContentContextProps {
+  CaseStudy: CaseStudy | null;
+}
+
+const CaseStudyContentContext =
+  createContext<CaseStudyContentContextProps | null>(null);
+
+// Function to generate the Table of Contents (TOC) and Pages
+const generateTOC = (markdown: string): Header => {
   const md = new MarkdownIt();
   const tokens = md.parse(markdown, {});
-  const toc: ContentHeading[] = [];
-  const stack: ContentHeading[] = [];
+  const headers: Header[] = [];
+  const stack: Header[] = [];
 
-  tokens.forEach((token) => {
+  tokens.forEach((token, index) => {
     if (token.type === "heading_open") {
       const level = parseInt(token.tag.slice(1), 10);
-      const headingContent = tokens[tokens.indexOf(token) + 1].content;
-      const name = headingContent.replace(/\d+\.?/g, "").trim(); // currently this just removes all numbers and periods from the string
-      const id = headingContent.toLowerCase().replace(/ /g, "-");
+      const headingContent = tokens[index + 1]?.content || "";
+      const name = headingContent.trim();
+      const id = name
+        .toLowerCase()
+        .replace(/ /g, "-")
+        .replace(/[^\w-]/g, "");
+      const urlEncoded = encodeURIComponent(id);
 
-      const section: ContentHeading = { id, name, subsections: [] };
+      const section: Header = { id, name, subsections: [], urlEncoded };
 
       if (level === 1) {
-        toc.push(section);
+        headers.push(section);
         stack.length = 1;
         stack[0] = section;
       } else if (level === 2) {
@@ -42,40 +68,49 @@ const parseTOCMarkdownToObject = (markdown: string): ContentHeading[] => {
       } else if (level === 4) {
         if (stack.length >= 3) {
           stack[2].subsections.push(section);
+          stack.length = 4;
+          stack[3] = section;
         }
       }
     }
   });
-
-  return toc;
+  return headers[0];
 };
 
-interface CaseStudyContentContextProps {
-  ContentHeaders: ContentHeading[] | null;
-}
-
-const CaseStudyContentContext =
-  createContext<CaseStudyContentContextProps | null>(null);
-
 const CaseStudyContentProvider = ({ children }: { children: ReactNode }) => {
-  const [contentHeaders, setContentHeaders] = useState<ContentHeading[] | null>(null);
+  const [contentHeaders, setContentHeaders] = useState<Header[] | null>(null);
+  const [contentSections, setContentSections] = useState<Page[] | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchMarkdown = async () => {
       try {
-        const response = await fetch("/content/toc.md");
+        const res = await Promise.all([
+          fetch("/content/introduction.md"),
+          fetch("/content/problem-domain.md"),
+          fetch("/content/design.md"),
+          fetch("/content/implementation.md"),
+          fetch("/content/future-work.md"),
+          fetch("/content/citations.md"),
+        ]);
 
-        if (!response.ok) {
-          throw new Error("Failed to fetch the markdown file");
+        if (!res.every((r) => r.ok)) {
+          throw new Error("Failed to fetch the markdown files");
         }
 
-        const markdownContent = await response.text();
-        const toc = parseTOCMarkdownToObject(markdownContent);
-        setContentHeaders(toc);
+        const markdown = await Promise.all(res.map((r) => r.text()));
+
+        const headers = markdown.map((md) => generateTOC(md));
+        const pages = markdown.map((md, idx) => ({
+          id: `${headers[idx].id}`,
+          content: md,
+        }));
+
+        setContentHeaders(headers.flat());
+        setContentSections(pages);
       } catch (err) {
-        setError("Failed to load the table of contents.");
+        setError("Failed to load the case study markdown.");
         console.error(err);
       } finally {
         setLoading(false);
@@ -94,7 +129,14 @@ const CaseStudyContentProvider = ({ children }: { children: ReactNode }) => {
   }
 
   return (
-    <CaseStudyContentContext.Provider value={{ ContentHeaders: contentHeaders }}>
+    <CaseStudyContentContext.Provider
+      value={{
+        CaseStudy: {
+          pages: contentSections || [],
+          headers: contentHeaders || [],
+        },
+      }}
+    >
       {children}
     </CaseStudyContentContext.Provider>
   );
