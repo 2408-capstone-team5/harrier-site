@@ -13,7 +13,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ markdown }) => {
     h2: ({ children }) => <Link to={`#${children}`.replace(/\s+/g, '-').toLowerCase()} className="no-underline" ><h2 className="text-xl text-secondary my-4">{children}</h2></Link>,
     h3: ({ children }) => <Link to={`#${children}`.replace(/\s+/g, '-').toLowerCase()} className="no-underline" ><h3>{children}</h3></Link>,
     h4: ({ children }) => <Link to={`#${children}`.replace(/\s+/g, '-').toLowerCase()} className="no-underline" ><h4>{children}</h4></Link>,
-    p: ({ children }) => <p className="custom-highlight">{children}</p>,
+    p: ({ children }) => <p className="">{children}</p>,
     img: ({ ...props }: React.ImgHTMLAttributes<HTMLImageElement>) => <img {...props} />,
     ul: ({ children }) => <ul>{children}</ul>,
     ol: ({ children }) => <ol>{children}</ol>,

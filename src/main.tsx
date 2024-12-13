@@ -52,5 +52,5 @@ createRoot(document.getElementById("app")!).render(
         ])}
       />
     </CaseStudyContentProvider>
-  </StrictMode>,
+  </StrictMode>
 );

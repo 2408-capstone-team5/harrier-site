@@ -20,21 +20,28 @@ export default function CaseStudyPage() {
   const [activePage, setActivePage] = useState(CaseStudy?.headers[0]?.id ?? "");
   const [activeSubSection, setActiveSubSection] = useState("");
   console.log(CaseStudy, { activePage });
-  // Get the current location (path) from the router
   const location = useLocation();
-  //   console.log({ hi: CaseStudy?.pages[2]?.content });
-  // Synchronize activePage state with the URL path
+
   useEffect(() => {
     const pathParts = location.pathname.split("#");
     if (pathParts.length > 1) {
-      const sectionId = pathParts[1].split("-")[0]; // Extract sectionId from the hash
-      setActivePage(sectionId); // Update activePage when the URL changes
+      const sectionId = pathParts[1].split("-")[0];
+      setActivePage(sectionId);
     }
   }, [location]);
 
   return (
     <>
       <div className="flex flex-row">
+       
+        <main id="case-study-container" className="flex-1">
+          <CaseStudySection
+            markdown={
+              CaseStudy?.pages?.find(({ id }) => id === activePage)?.content ??
+              ""
+            }
+          />
+        </main>
         <nav
           id="on-this-page"
           className="sticky top-[27vh] z-10 pl-5 pt-5 h-screen overflow-auto"
@@ -61,15 +68,6 @@ export default function CaseStudyPage() {
                 ))}
           </ul>
         </nav>
-
-        <main id="case-study-container" className="flex-1">
-          <CaseStudySection
-            markdown={
-              CaseStudy?.pages?.find(({ id }) => id === activePage)?.content ??
-              ""
-            }
-          />
-        </main>
       </div>
 
       <div>

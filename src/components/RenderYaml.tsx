@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { dracula } from "react-syntax-highlighter/dist/cjs/styles/prism";
+// import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+// import { dracula } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import { Copy, ClipboardCheck } from "lucide-react";
 
 import yaml from "js-yaml";
@@ -73,8 +73,8 @@ export default function RenderYaml({ formDataJSON }: { formDataJSON: string }) {
         },
         {
           noRefs: true,
-        },
-      ),
+        }
+      )
     );
 
     return () => {};
@@ -96,15 +96,15 @@ export default function RenderYaml({ formDataJSON }: { formDataJSON: string }) {
         {copied ? <ClipboardCheck /> : <Copy />}
       </Button>
       <h2 className="text-xl font-semibold">Generated YAML:</h2>
-      <SyntaxHighlighter
-        language="yaml"
+      {/* <SyntaxHighlighter
+        language=""
         style={dracula}
         showLineNumbers={true}
         wrapLongLines={true}
         className="p-4 rounded-lg"
       >
         {yamlOutput}
-      </SyntaxHighlighter>
+      </SyntaxHighlighter> */}
     </div>
   );
 }
