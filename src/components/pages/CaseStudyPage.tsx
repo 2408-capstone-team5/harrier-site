@@ -2,52 +2,46 @@ import { Link, useLocation } from "react-router-dom";
 import { useContext, useState, useEffect } from "react";
 import { CaseStudyContentContext } from "@/providers/CaseStudyContentProvider";
 import CaseStudySection from "./CaseStudySection";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-} from "@/components/ui/pagination";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+// import {
+//   Pagination,
+//   PaginationContent,
+//   PaginationItem,
+//   PaginationLink,
+// } from "@/components/ui/pagination";
+// import {
+//   Tooltip,
+//   TooltipContent,
+//   TooltipProvider,
+//   TooltipTrigger,
+// } from "@/components/ui/tooltip";
 
 export default function CaseStudyPage() {
-  const { CaseStudy } = useContext(CaseStudyContentContext) ?? {};
-  const [activePage, setActivePage] = useState(CaseStudy?.headers[0]?.id ?? "");
-  const [activeSubSection, setActiveSubSection] = useState("");
-  console.log(CaseStudy, { activePage });
-  const location = useLocation();
+  const { headers, caseStudy } = useContext(CaseStudyContentContext) ?? {};
 
-  useEffect(() => {
-    const pathParts = location.pathname.split("#");
-    if (pathParts.length > 1) {
-      const sectionId = pathParts[1].split("-")[0];
-      setActivePage(sectionId);
-    }
-  }, [location]);
+  const content = caseStudy?.join("\n\n") ?? "";
+  console.log({ headers });
+  //   const location = useLocation();
+
+  //   useEffect(() => {
+  //     const pathParts = location.pathname.split("#");
+  //     if (pathParts.length > 1) {
+  //       const sectionId = pathParts[1].split("-")[0];
+  //       setActivePage(sectionId);
+  //     }
+  //   }, [location]);
 
   return (
     <>
       <div className="flex flex-row">
-       
         <main id="case-study-container" className="flex-1">
-          <CaseStudySection
-            markdown={
-              CaseStudy?.pages?.find(({ id }) => id === activePage)?.content ??
-              ""
-            }
-          />
+          <CaseStudySection markdown={content} />
         </main>
         <nav
           id="on-this-page"
           className="sticky top-[27vh] z-10 pl-5 pt-5 h-screen overflow-auto"
         >
           <h4 className="text-sm font-bold">On this page</h4>
-          <ul className="text-sm p-0">
+          {/* <ul className="text-sm p-0">
             {CaseStudy?.headers &&
               CaseStudy.headers
                 .find((header) => header.id === activePage)
@@ -66,10 +60,10 @@ export default function CaseStudyPage() {
                     </Link>
                   </li>
                 ))}
-          </ul>
+          </ul> */}
         </nav>
       </div>
-
+      {/* 
       <div>
         <TooltipProvider>
           <Pagination>
@@ -97,7 +91,7 @@ export default function CaseStudyPage() {
             </PaginationContent>
           </Pagination>
         </TooltipProvider>
-      </div>
+      </div> */}
     </>
   );
 }

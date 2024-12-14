@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Separator } from "@/components/ui/separator";
 import { FaGithub } from "react-icons/fa";
+import HisHoliness from "@/assets/harrier-big-blue-shadow.svg";
 import { useViewportWidth } from "@/hooks/useViewportWidth";
 
 export const TopNavBar = () => {
@@ -15,10 +16,13 @@ export const TopNavBar = () => {
       <div className="flex items-center justify-between bg-quaternary">
         <Link to="/">
           <img
-            src="/harrier-bird-blue-shadow.svg"
+            src={HisHoliness}
             alt="Harrier Runner Logo"
-            className="h-20 w-auto"
+            className="h-9 w-auto mt-5 mb-5 mx-3"
           />
+        </Link>
+        <Link to="/">
+          <h1 className="text-3xl font-semibold">Harrier</h1>
         </Link>
         <div className="flex items-center space-x-4 ml-auto mr-4 text-lg font-semibold">
           <Link to="/case-study" className=" hover:text-senary ">

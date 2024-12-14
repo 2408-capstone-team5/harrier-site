@@ -2,7 +2,7 @@
 
 ## GitHub Actions: A Powerful CI/CD Tool
 
-![Diagram](public/ci-cd-steps-boxes.png)
+![Diagram](src/assets/ci-steps-green-box.png)
 
 GitHub Actions (GHA) has emerged as a cornerstone in modern software development, empowering developers and teams to streamline their CI/CD workflows. With its widespread adoption, GHA is now a vital tool in the toolkit of over **57.8% of GitHub repositories**, solidifying its position as the leading CI/CD technology. In comparison, other tools like Travis CI, while significant, serve a smaller share of **38.8%** of repositories.
 
@@ -24,7 +24,7 @@ By automating the software development and release processes, CI/CD enables team
 - Reduced risk of failed deployments
 - Improved and faster user feedback
 
-![Diagram](public/ci-steps-green-box.png)
+![Diagram](src/assets/ci-cd-steps-boxes.png)
 
 CI/CD practices will remain central to software development for the foreseeable future. As software development grows increasingly complex, the automation and reliability CI/CD provides will continue to be indispensable for maintaining efficiency, minimizing errors, and enabling rapid iteration. These practices are not just trends; they are enduring pillars of the DevOps philosophy, ensuring developers can focus more on innovation and less on repetitive tasks.
 
@@ -128,7 +128,8 @@ There are many benefits to provisioning an alternative runner infrastructure for
 - Access to various network services and resources
 - Reliable up time
 - (Reaping all the cascading benefits of massive platform scale)
-
+- 
+![Diagram](src/assets/ci-cd-repeat-steps.png)
 As such, currently there are many paths to realizing an alternative cloud-hosted runner infrastructure for accelerating GHA CI builds that take advantage of these benefits. These solutions largely split into two categories: DIY and 3rd-party provisioned.
 
 For DIYers who have the knowledge and/or time and feel it is a good investment of resources to create an alternative GHA runner infrastructure by themselves to reap the benefits of faster CI builds, there is plenty of step-by-step guidance online that helps people provision an alternative runner infrastructure. (source: various show and tell medium articles).

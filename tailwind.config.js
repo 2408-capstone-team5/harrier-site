@@ -11,7 +11,7 @@ module.exports = {
         quaternary: "#FFFFFF", // white
         quinary: "#E4E4E7", // grey
         senary: "#FEE01B", // harrier yellow
-        septenary: "", // harrier 
+        harrierblack: "#1C1D21", // harrier 
       },
     },
   },
