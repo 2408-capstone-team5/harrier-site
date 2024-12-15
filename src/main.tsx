@@ -27,12 +27,6 @@ createRoot(document.getElementById("app")!).render(
               {
                 path: "case-study",
                 element: <CaseStudyHomePage />,
-                // children: [
-                //   {
-                //     path: ":page",
-                //     element: <CaseStudyPage page={page} />,
-                //   },
-                // ],
               },
               {
                 path: "get-started",

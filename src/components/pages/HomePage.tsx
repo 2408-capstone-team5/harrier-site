@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import HarrierBW from "@/assets/harrier-big-white.svg";
+// import HarrierBW from "@/assets/harrier-big-white.svg";
 import HarrierColor from "@/assets/harrier-big-blue-shadow.svg";
 import GHALogo from "@/assets/GitHub Actions.png";
-import AWSLogo from "@/assets/AWS.png";
+// import AWSLogo from "@/assets/AWS.png";
 // import HarrierArchitecture from "@/assets/harrier-architecture.png";
 // import { FaBook } from "react-icons/fa";
 import TeamMember from "@/components/TeamMember";

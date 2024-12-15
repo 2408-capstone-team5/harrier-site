@@ -4,7 +4,7 @@ import { CaseStudyContentContext } from "@/providers/CaseStudyContentProvider";
 import CaseStudyPage from "@/components/pages/CaseStudyPage";
 import { Link } from "react-router-dom";
 import { Separator } from "@radix-ui/react-separator";
-
+import { Button } from "@/components/ui/button";
 export default function CaseStudyHomePage() {
   const viewportWideEnough = useViewportWidth();
   const { chapters } = useContext(CaseStudyContentContext) ?? {};
@@ -37,6 +37,7 @@ export default function CaseStudyHomePage() {
             })}
           </div>
         </nav>
+
         <main
           id="case-study-content"
           className="flex flex-row gap-2 bg-quaternary py-16 pl-10 pr-6"
@@ -61,7 +62,7 @@ export default function CaseStudyHomePage() {
               ?.find(({ name }) => name === activePage)
               ?.subheaders.filter((item) => +item.level === 2)
               .map((item, index) => (
-                <div key={index} className={`pl-${item.level * 2} py-1`}>
+                <div key={index} className={`pl-${+item.level * 2} py-1`}>
                   <Link
                     to={`#${item.name.replace(/\s+/g, "-").toLowerCase()}`}
                     className="text-blue-500 hover:underline"
@@ -72,6 +73,10 @@ export default function CaseStudyHomePage() {
               ))}
           </nav>
         </main>
+        <div className="mx-40 flex flex-row justify-between">
+          <Button variant="secondary">Previous</Button>
+          <Button variant="secondary">Next</Button>
+        </div>
       </div>
     </>
   );
