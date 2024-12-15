@@ -4,11 +4,10 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import Layout from "./components/Layout";
 import HomePage from "./components/pages/HomePage.tsx";
-import TeamPage from "./components/pages/TeamPage.tsx";
-import CaseStudyPage from "./components/pages/CaseStudyPage.tsx";
+import CaseStudyHomePage from "./components/pages/CaseStudyHomePage.tsx";
 import GetStartedPage from "./components/pages/GetStartedPage.tsx";
 import NotFoundPage from "./components/pages/NotFoundPage.tsx";
-import CaseStudySection from "./components/pages/CaseStudySection.tsx";
+// import CaseStudyPage from "./components/pages/CaseStudyPage.tsx";
 import { CaseStudyContentProvider } from "@/providers/CaseStudyContentProvider.tsx";
 import "./index.css";
 createRoot(document.getElementById("app")!).render(
@@ -26,18 +25,14 @@ createRoot(document.getElementById("app")!).render(
                 element: <HomePage />,
               },
               {
-                path: "team",
-                element: <TeamPage />,
-              },
-              {
                 path: "case-study",
-                element: <CaseStudyPage />,
-                children: [
-                  {
-                    path: ":sectionId",
-                    element: <CaseStudySection />,
-                  },
-                ],
+                element: <CaseStudyHomePage />,
+                // children: [
+                //   {
+                //     path: ":page",
+                //     element: <CaseStudyPage page={page} />,
+                //   },
+                // ],
               },
               {
                 path: "get-started",
@@ -52,5 +47,5 @@ createRoot(document.getElementById("app")!).render(
         ])}
       />
     </CaseStudyContentProvider>
-  </StrictMode>
+  </StrictMode>,
 );

@@ -55,7 +55,6 @@ export default function SetupForm({ setFormDataJSON }: SetupFormProps) {
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
     } else {
-      console.log(values);
       setFormDataJSON(JSON.stringify(values, null, 2));
     }
   }
@@ -84,7 +83,10 @@ export default function SetupForm({ setFormDataJSON }: SetupFormProps) {
   return (
     <div className="flex justify-center">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 w-full max-w-md">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="w-full max-w-md space-y-4"
+        >
           {steps.map((step, index) => (
             <FormField
               key={step.name}

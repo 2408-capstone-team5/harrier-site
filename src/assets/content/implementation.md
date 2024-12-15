@@ -1,7 +1,4 @@
-# Harrier Implementation
-
-\[\[ DIAGRAM of Harrier architecture \]\]  
-\[\[ DIAGRAM of cache-load and cache-store, more generally \]\]
+# Implementation
 
 ## Building a Robust Cloud Infrastructure for Harrier
 
@@ -10,6 +7,8 @@
 #### **AWS Cloud Platform**
 
 We selected AWS as the cloud platform for hosting the user's self-hosted runner because it met all our criteria. AWS is the most widely adopted cloud platform among developers in 20241. AWS offers various configuration options for setting up GitHub Actions self-hosted runner infrastructure, tailored with different processors, storage, and networking to meet users' preferences. It also meets our security criteria, with a Secrets Manager function and adopting OIDC standards for secure integration with GitHub. Lastly, the AWS combination of API Gateway and Lambda is highly effective for managing webhooks, which we use to process GitHub Actions workflows.
+
+![alt text](src/assets/oidc-steps.png)
 
 Setting up cloud resources securely minimizes a known risk of sensitive information exposure when reusing hardware for self-hosted runners.2 Harrier provisions servers exclusively for running workflows, ensuring they are isolated within a dedicated area of the user's AWS environment. These servers are restricted from accessing any other parts of the user's infrastructure, maintaining a strict separation of resources and data.
 
@@ -25,7 +24,7 @@ AWS cloud infrastructure can be customized to deploy GitHub Actions runners in v
 
 #### **AWS Lambda**
 
-AWS Lambda is a serverless compute service that executes your code in response to events while automatically managing the underlying compute resources.4 However, after thorough research and testing, we have determined Lambdas to be unsuitable for deploying self-hosted runners to process jobs for most users for two primary reasons:
+AWS Lambda is a serverless compute service that executes your code in response to events while automatically managing the underlying compute resources.[^4] However, after thorough research and testing, we have determined Lambdas to be unsuitable for deploying self-hosted runners to process jobs for most users for two primary reasons:
 
 First, Lambda functions are designed to process individual events or complete single tasks rapidly—typically within one second for most production invocations.5 In contrast, user workflows usually consist of multiple steps within a job rather than just one isolated task or event.
 
@@ -45,6 +44,7 @@ Many developers also reported that Fargate can be more expensive for high comput
 
 Amazon Elastic Compute Cloud (Amazon EC2) is a web service that provides secure and resizable compute capacity in the cloud.12 When an instance is launched on AWS, a root volume is created and contains the image used to boot the instance. Each instance has a single root volume, and AWS recommends using Elastic Block Storage (EBS) for fast launch and persistent storage. EBS is a scalable, high-performance block storage resource to store files or install applications.13
 
+![Diagram](src/assets/three-lambdas.png)
 Initially, we noticed that the full startup time for an EC2 instance ranged from 2 to 5 minutes, which is too long to wait before starting a workflow. To address this cold startup issue, we created a "warm pool" of EC2 instances on AWS. According to AWS documentation, a warm pool consists of "a pool of pre-initialized EC2 instances that sit alongside an Auto Scaling group." However, Auto Scaling groups can respond slowly to incoming requests, sometimes taking over 60 seconds. To improve responsiveness for Harrier, we automatically manage the state of EC2 instances using AWS Lambda functions, which can react to requests in less than 1 second.
 
 EC2 instances in the warm pool can be in one of three states: Running, Stopped, or Hibernated.
@@ -103,6 +103,7 @@ Harrier setup also requests the GitHub API to create a registration token for th
 
 Once extracted, the token is passed to the GitHub self-hosted runner configuration script to register the runner with the user's GitHub organization. Once registered, the self-hosted runner is now authorized and ready to process workflow jobs originating from that organization.
 
+![Design](src/assets/jit-token.png)
 \[\[ DIAGRAM \]\] Illustrating the back-and-forth communication: requesting a runner token and using that token to access the GitHub API or run the configuration script for runner setup.
 
 ### **Just-in-Time (JIT) Runners**

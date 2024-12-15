@@ -1,40 +1,51 @@
 import {
   Card,
+  CardHeader,
   CardTitle,
+  CardDescription,
   CardContent,
   CardFooter,
-  // CardDescription,
-  // CardHeader,
 } from "@/components/ui/card";
-import { Member } from "@/components/pages/TeamPage";
-import { FaAviato, FaLinkedin, FaGithub } from "react-icons/fa";
+import { FaLinkedin, FaGithub } from "react-icons/fa";
+import { Member } from "@/components/pages/HomePage";
 
-interface TeamMemberProps {
-  member: Member;
-}
-
-const TeamMember = ({ member }: TeamMemberProps) => {
+const TeamMember = ({ member }: { member: Member }) => {
   return (
-    <Card className="p-4 h-64">
-      <CardContent>
+    <Card className="mx-auto my-4 max-w-xl rounded-lg border bg-white shadow-lg">
+      <CardHeader className="flex flex-col items-center space-y-2 rounded-t-lg p-6">
         <img
           src={member.photoUrl}
-          alt={member.role}
-          className="rounded-full w-36 h-36 object-cover mx-auto"
+          alt={member.name}
+          className="h-48 w-48 rounded-full object-cover"
         />
+        <CardTitle className="text-center text-xl font-semibold">
+          {member.name}
+        </CardTitle>
+        <CardDescription className="text-center text-sm text-gray-600">
+          {member.role}
+        </CardDescription>
+      </CardHeader>
+
+      <CardContent className="flex flex-col items-center p-4 pb-6 pt-0">
+        <CardFooter className="flex space-x-4">
+          <a
+            href={member.linkedinProfile}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 hover:text-blue-800"
+          >
+            <FaLinkedin size="24px" />
+          </a>
+          <a
+            href={member.githubProfile}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gray-800 hover:text-black"
+          >
+            <FaGithub size="24px" />
+          </a>
+        </CardFooter>
       </CardContent>
-      <CardTitle className="text-2xl font-semibold text-center tracking-tight">
-        {member.name}
-      </CardTitle>
-      <CardFooter>
-        <a href={member.linkedinProfile} target="_blank" rel="noopener noreferrer">
-          <FaLinkedin />
-        </a>
-        <a href={member.githubProfile} target="_blank" rel="noopener noreferrer">
-          <FaGithub />
-        </a>
-        <FaAviato />
-      </CardFooter>
     </Card>
   );
 };

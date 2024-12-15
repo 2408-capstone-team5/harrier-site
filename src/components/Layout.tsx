@@ -5,9 +5,9 @@ import { TopNavBar } from "./TopNavBar";
 const Layout = () => {
   return (
     <>
-      <div className="flex flex-col min-h-screen">
+      <div className="flex flex-col">
         <TopNavBar />
-        <div className="flex-grow">
+        <div className="flex-grow bg-tertiary">
           <Outlet />
         </div>
         <Footer />

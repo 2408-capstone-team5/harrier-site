@@ -69,9 +69,11 @@ GitHub Actions strikes a balance, offering flexible, GitHub-centric workflows wi
 
 GHA becomes a natural choice as a CI/CD tool.
 
-With GHA Marketplace being a welcoming environment/community for innovation, it provides a space where teams like us can explore various ways to make a contribution.
+### With GHA Marketplace being a welcoming environment/community for innovation, it provides a space where teams like us can explore various ways to make a contribution.
 
-## Slower than desirable CI Build Speed
+---
+
+## Slow CI Build Speeds
 
 The speed of automation is a critical factor in unlocking the full benefits of CI/CD (outlined above), as faster automation equates to rapid feedback loops, and faster the feedback, the more agile and efficient the development workflow. Both CI and CD processes can be optimized to enhance automation speed, but the impact of CI speed is greater than CD speed as the frequency of code integration is far greater than the frequency of software deployment.
 
@@ -106,7 +108,9 @@ Developers working on complex mono-repo codebases quickly encounter significant 
 
 The introduction of multiple branches further complicates cache resource utilization and limits the efficacy of cache generally. Each branch, with potentially unique dependencies and workflow configurations, competes for limited cache space—creating an environment where a single feature branch's large dependency update could unexpectedly evict critical cached artifacts that builds on the main branch rely upon. This volatility renders cache utilization unpredictable, turning what was originally intended as a performance enhancement into a fragile and at times unreliable build speed optimization strategy. What emerges is a complex challenge where intelligent cache management becomes as crucial as the software development cycle it seeks to streamline.
 
-Considering the limitations of actions/cache and the healthy demand for faster CI builds, cache within GHA is a great area for exploring alternative solutions.
+### Considering the limitations of `actions/cache` and the healthy demand for faster CI builds, cache within GHA is a great area for exploring alternative solutions.
+
+---
 
 ## Cache that Matches Workflow Demands
 
@@ -117,6 +121,7 @@ GitHub recognized the user demand for exploring higher degrees of runner customi
 GitHub’s Self-Hosted Runner feature allows users to configure their own infrastructure by downloading and installing GH’s runner application, which installs the necessary software to connect and execute GHA workflows. Through this application, the user can optimize their hardware, operating system, and software environment to meet specific CI build requirements. For example, it is now possible to utilize machines with higher CPU or memory specifications, install proprietary software, or access resources within a private network.
 
 The Self-Hosted Runner feature can be deployed on a local machine, on-premises server, or even on a cloud infrastructure. For organizations who already have their own on-premises servers with both server resources to spare and dedicated operations teams to manage the infrastructure overhead, perhaps using their hardware as dedicated GHA runners may be a great option. However, for many, the desire for resource optimization and minimal administrative overhead leads to the conclusion that on-demand runners on a managed cloud infrastructure would best serve the needs of a GHA runner.
+![Diagram](src/assets/workflow-runner-new-infra.png)
 
 ### **Existing solutions for faster CI Builds**
 
@@ -128,9 +133,8 @@ There are many benefits to provisioning an alternative runner infrastructure for
 - Access to various network services and resources
 - Reliable up time
 - (Reaping all the cascading benefits of massive platform scale)
-- 
-![Diagram](src/assets/ci-cd-repeat-steps.png)
-As such, currently there are many paths to realizing an alternative cloud-hosted runner infrastructure for accelerating GHA CI builds that take advantage of these benefits. These solutions largely split into two categories: DIY and 3rd-party provisioned.
+- ![Diagram](src/assets/ci-cd-repeat-steps.png)
+  As such, currently there are many paths to realizing an alternative cloud-hosted runner infrastructure for accelerating GHA CI builds that take advantage of these benefits. These solutions largely split into two categories: DIY and 3rd-party provisioned.
 
 For DIYers who have the knowledge and/or time and feel it is a good investment of resources to create an alternative GHA runner infrastructure by themselves to reap the benefits of faster CI builds, there is plenty of step-by-step guidance online that helps people provision an alternative runner infrastructure. (source: various show and tell medium articles).
 
@@ -176,10 +180,13 @@ There’s a gap between DIY solutions that require technical expertise and third
 - Want to avoid the costs of fully managed third-party services,
 - Need to ensure their code and secrets remain private and secure.
 
+![Diagram](src/assets/ci-cd-github-hosted.png)
+
 **Proposed Solution:** Imagine a service that bridges this gap by offering:
 
 - **DIY Setup Assistance:** A volunteer-based service that helps developers set up and configure self-hosted runners on their own cloud infrastructure. This would provide the benefits of the DIY method without the need for deep technical knowledge.
 - **No Ongoing Costs:** This solution would be free of charge, allowing users to avoid monthly fees associated with third-party providers.
 - **Privacy and Security:** Since the infrastructure would be hosted by the user, the service could ensure that their code and data remain private and secure, without the need to expose it to a third party.
 
+![Diagram](src/assets/dependency-cache-load-cache-store.png)
 This service would offer a simple, secure, and cost-effective alternative for developers who want to leverage the power of self-hosted runners but don’t have the time, knowledge, or desire to manage the setup themselves.

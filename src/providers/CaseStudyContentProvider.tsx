@@ -4,40 +4,44 @@ import problemDomain from "../assets/content/problem-domain.md";
 import design from "../assets/content/design.md";
 import implementation from "../assets/content/implementation.md";
 import futureWork from "../assets/content/future-work.md";
-import citations from "../assets/content/citations.md";
+// import citations from "../assets/content/citations.md";
 
 interface Header {
   level: string;
   name: string;
 }
 
+interface Chapter {
+  name: string;
+  content: string;
+  subheaders: Header[];
+}
+
 interface CaseStudyContentContextProps {
-  caseStudy: string[] | null;
-  headers: Header[] | null;
+  chapters: Chapter[] | null;
 }
 
 const CaseStudyContentContext =
   createContext<CaseStudyContentContextProps | null>(null);
 
 const CaseStudyContentProvider = ({ children }: { children: ReactNode }) => {
-  const [caseStudy, setCaseStudy] = useState<string[] | null>(null);
-  const [headers, setHeaders] = useState<Header[] | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [chapters, setChapters] = useState<Chapter[] | null>(null);
 
   useEffect(() => {
     const fetchMarkdown = async () => {
       try {
-        const content = await Promise.all([
+        const chapterContent = await Promise.all([
           (await fetch(introduction)).text(),
           (await fetch(problemDomain)).text(),
           (await fetch(design)).text(),
           (await fetch(implementation)).text(),
           (await fetch(futureWork)).text(),
-          (await fetch(citations)).text(),
+          //   (await fetch(citations)).text(),
         ]);
 
-        const headers: Header[] = content.flatMap((md) => {
+        const allHeaders: Header[] = chapterContent.flatMap((md) => {
           const headerRegex = /^(#{1,6})\s+(.*)$/gm;
           const matches = [...md.matchAll(headerRegex)];
           return matches.map((match) => ({
@@ -46,21 +50,22 @@ const CaseStudyContentProvider = ({ children }: { children: ReactNode }) => {
           }));
         });
 
-        const groupedHeaders: Header[] = headers.reduce((acc, header) => {
-          if (header.level === "1") {
-            acc.push(header);
-          } else {
-            const lastHeader = acc[acc.length - 1];
-            if (!lastHeader.subheaders) {
-              lastHeader.subheaders = [];
+        let contentIndex = 0;
+        setChapters(
+          allHeaders.reduce((accum, curr) => {
+            if (curr.level === "1") {
+              accum.push({
+                name: curr.name,
+                content: chapterContent[contentIndex],
+                subheaders: [],
+              });
+              contentIndex++;
+            } else if (accum.length > 0) {
+              accum[accum.length - 1].subheaders.push(curr);
             }
-            lastHeader.subheaders.push(header);
-          }
-          return acc;
-        }, []);
-
-        setCaseStudy(content);
-        setHeaders(headers);
+            return accum;
+          }, [] as Chapter[]),
+        );
       } catch (err) {
         setError("Failed to load the case study markdown.");
         console.error(err);
@@ -81,7 +86,7 @@ const CaseStudyContentProvider = ({ children }: { children: ReactNode }) => {
   }
 
   return (
-    <CaseStudyContentContext.Provider value={{ caseStudy, headers }}>
+    <CaseStudyContentContext.Provider value={{ chapters }}>
       {children}
     </CaseStudyContentContext.Provider>
   );
