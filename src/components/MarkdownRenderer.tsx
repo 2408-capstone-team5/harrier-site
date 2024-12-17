@@ -121,18 +121,12 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ markdown }) => {
       return null;
     },
     blockquote: (props) => (
-      <div className="prose-blockquote rounded-md border-l-8 border-primary bg-primary/35 p-4 text-gray-700">
+      <div className="rounded-md border-l-[10px] border-draculared bg-draculared/15 p-4 text-gray-700">
         {props.children}
       </div>
     ),
-    img: ({ ...props }) => (
-      <img className="blockquote:img max-w-full rounded-md" {...props} />
-    ),
-    p: (props) => (
-      <p className="mb-4 mt-4 text-lg font-normal text-gray-600">
-        {props.children}
-      </p>
-    ),
+    img: ({ ...props }) => <img className="max-w-full rounded-md" {...props} />,
+    p: (props) => <p className="l text-gray-600">{props.children}</p>,
     cite: (props) => <cite>{props.children}</cite>,
     ul: (props) => (
       <ul className="mb-4 list-disc space-y-2 pl-6">{props.children}</ul>

@@ -2,11 +2,14 @@
 
 ## GitHub Actions: A Powerful CI/CD Tool
 
-![CI CD Steps Boxes](src/assets/ci-cd-steps-boxes.png)
+> **GitHub Actions** (GHA) has emerged as a cornerstone in modern software development, empowering developers and teams to streamline their CI/CD workflows.
 
-GitHub Actions (GHA) has emerged as a cornerstone in modern software development, empowering developers and teams to streamline their CI/CD workflows. With its widespread adoption, GHA is now a vital tool in the toolkit of over 57.8% of GitHub repositories, solidifying its position as the leading CI/CD technology. In comparison, other tools like Travis CI, while significant, serve a smaller share of 38.8% of repositories.
-
+With its widespread adoption, GHA is now a vital tool in the toolkit of over 57.8% of GitHub repositories, solidifying its position as the leading CI/CD technology. In comparison, other tools like Travis CI, while significant, serve a smaller share of 38.8% of repositories.
 Given its prevalence, addressing points of friction in GHA workflows can have a meaningful impact on the day-to-day experience of developers. Improving usability or streamlining processes within GHA can help teams work more efficiently and with fewer obstacles. This makes it a particularly compelling area of focus for projects aimed at improving software development tools.
+
+![B](src/assets/ci-cd-steps-boxes.png)
+![CI CD Steps Boxes](src/assets/ci-cd-steps-boxes.png)
+![A](src/assets/ci-cd-steps-boxes-no-icon.png)
 
 ### CI/CD and DevOps: The Backbone of Modern Software Development
 

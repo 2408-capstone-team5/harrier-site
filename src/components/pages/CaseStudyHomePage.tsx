@@ -13,10 +13,10 @@ export default function CaseStudyHomePage() {
 
   return (
     <>
-      <div className="sticky top-[76px] z-50 mx-auto flex bg-tertiary">
+      <div className="sticky top-[76px] z-10 mx-auto flex bg-tertiary">
         <nav
           id="case-study-page-nav"
-          className={`sticky top-16 mx-auto flex w-fit justify-center py-8 ${viewportWideEnough ? "" : "hidden"}`}
+          className={`sticky top-16 mx-auto flex w-fit justify-center py-3 ${viewportWideEnough ? "" : "hidden"}`}
         >
           <div className="flex flex-row gap-4 rounded-full bg-quaternary/85 p-0.5">
             {chapters?.map((chapter, idx) => {
@@ -39,13 +39,13 @@ export default function CaseStudyHomePage() {
         </nav>
       </div>
 
-      <div className="flex">
+      <div className="top-[152px] flex">
         <div
-          className={`flex-1 ${viewportWideEnough ? "hidden lg:flex lg:flex-[2] xl:flex-[3]" : "hidden"}`}
+          className={`flex-[10] ${viewportWideEnough ? "" : "hidden"}`}
         ></div>
         <main
           id="case-study-content"
-          className="flex-[76] flex-row bg-quaternary p-10 pt-16"
+          className="flex-[60] flex-row bg-quaternary p-10 pt-12"
         >
           <article>
             <CaseStudyPage
@@ -57,7 +57,7 @@ export default function CaseStudyHomePage() {
           </article>
         </main>
         <nav
-          className={`flex-[15] ${viewportWideEnough ? "" : "hidden"} sticky top-[140px] pr-4 pt-16`}
+          className={`flex-[13] ${viewportWideEnough ? "" : "hidden"} sticky top-[140px] pr-4 pt-12`}
           id="on-this-page"
         >
           <h3 className="mb-6 text-2xl font-normal text-tertiary">

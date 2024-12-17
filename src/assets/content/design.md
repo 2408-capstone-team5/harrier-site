@@ -1,15 +1,14 @@
 # Design
 
-
-The design of a 3rd-party supported DIY option for leveraging cache in GHA workflows involved two major pieces of work:
-
-- Provision and configure an alternative GHA runner infrastructure with a built-in persistent cache store
-- Minimize the time and knowledge investment required by the user to deploy and integrate the solution into existing GHA workflows
-
-For development purposes, the design focused on Node.js project workflows.
-
-- Node is the most common language on GH, making it the biggest ROI for the first pilot
-- The language we are most familiar with \- quick prototyping and testing of concepts
+> #### Overview
+>
+> The design of a 3rd-party supported DIY option for leveraging cache in GHA workflows involved two major pieces of work:
+>
+> - **Provision and configure an alternative GHA runner infrastructure with a built-in persistent cache store**
+> - Minimize the time and knowledge investment required by the user to deploy and integrate the solution into existing GHA workflows
+>   For development purposes, the design focused on Node.js project workflows.
+> - Node is the most common language on GH, making it the biggest ROI for the first pilot
+> - The language we are most familiar with \- quick prototyping and testing of concepts
 
 ## Alternative Runner Infrastructure
 

@@ -57,9 +57,9 @@ const CaseStudyContentProvider = ({ children }: { children: ReactNode }) => {
             ? tagsMatch[1].split(", ").map((tag) => tag.trim())
             : [];
         };
-        const removeH1Headers = (md: string): string => {
-          return md.replace(/^#\s+.*$/gm, "").trim();
-        };
+        // const removeH1Headers = (md: string): string => {
+        //   return md.replace(/^#\s+.*$/gm, "").trim();
+        // };
 
         let contentIndex = 0;
         setChapters(
@@ -67,7 +67,7 @@ const CaseStudyContentProvider = ({ children }: { children: ReactNode }) => {
             if (curr.level === "1") {
               accum.push({
                 name: curr.name,
-                content: removeH1Headers(chapterContent[contentIndex]),
+                content: chapterContent[contentIndex], //  removeH1Headers(chapterContent[contentIndex]),
                 tags: extractTags(chapterContent[contentIndex]),
                 subheaders: [],
               });

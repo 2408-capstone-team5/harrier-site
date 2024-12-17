@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 // import { Separator } from "@/components/ui/separator";
-// import HarrierBW from "@/assets/harrier-big-white.svg";
+import HarrierBW from "@/assets/harrier-big-white.svg";
 import HarrierColor from "@/assets/harrier-big-blue-shadow.svg";
 import GHALogo from "@/assets/GitHub Actions.png";
 // import AWSLogo from "@/assets/AWS.png";
@@ -75,7 +75,6 @@ const HomePage = () => {
             >
               GitHub Actions
             </a>
-            {/* <span className="underline underline-offset-4">GitHub Actions</span> */}
           </p>
           <Button
             onClick={() => navigate("/case-study")}
@@ -86,16 +85,8 @@ const HomePage = () => {
           </Button>
         </div>
       </div>
-      {/* <div className="flex h-[36rem] flex-col justify-end bg-quaternary">
-        <span>hi</span>
-        <img src={AWSLogo} alt="AWS Logo" className="m-4 h-80 w-auto" />
-      </div> */}
       <div className="flex h-[36rem] items-center justify-around bg-quaternary">
-        <img
-          src={GHALogo}
-          alt="GitHub Actions Logo"
-          className="h-80 w-auto"
-        />
+        <img src={GHALogo} alt="GitHub Actions Logo" className="h-80 w-auto" />
         <img
           src={HarrierColor}
           alt="Harrier Blue Logo"
@@ -106,16 +97,13 @@ const HomePage = () => {
         <h3 className="mb-8 text-3xl font-semibold text-tertiary">
           Meet the Team
         </h3>
-        {/* <Separator
-          orientation="horizontal"
-          className="my-2 w-20 border-l-4 border-primary"
-        /> */}
+
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-4">
           {team.map((member) => (
             <TeamMember member={member} key={member.name} />
           ))}
         </div>
-        {/* <img src={HarrierBW} alt="GitHub Actions" className="m-4 h-64 w-auto" /> */}
+        <img src={HarrierBW} alt="GitHub Actions" className="m-4 h-64 w-auto" />
       </div>
     </>
   );

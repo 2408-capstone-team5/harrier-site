@@ -5,17 +5,10 @@ import { Separator } from "@/components/ui/separator";
 // import { Button } from "@/components/ui/button";
 import { FaGithub } from "react-icons/fa";
 import HisHoliness from "@/assets/harrier-big-blue-shadow.svg";
-import { useViewportWidth } from "@/hooks/useViewportWidth";
 
 export const TopNavBar = () => {
-  const viewportWideEnough = useViewportWidth();
-  //   const navigate = useNavigate();
   return (
-    <header
-      className={`sticky top-0 z-50 w-full transition-transform duration-500 ${
-        viewportWideEnough ? "translate-y-0" : "-translate-y-full"
-      } ease-[cubic-bezier(0.68, -0.55, 0.27, 1.55)]`}
-    >
+    <header className={`sticky top-0 z-50 w-full`}>
       <div className="flex items-center justify-between bg-quaternary px-7">
         <Link to="/">
           <img
@@ -45,16 +38,16 @@ export const TopNavBar = () => {
           <Link to="https://github.com/2408-capstone-team5/harrier-self-hosted-runner">
             <FaGithub size="30px" />
           </Link>
-          {/* <Separator
-            orientation="vertical"
-            className="mx-2 h-4 border-l border-quinary"
-          /> */}
-          {/* <Link to="/get-started" className="hover:text-senary">
-            Get Started
-          </Link> */}
         </div>
       </div>
-      {/* <Separator className="border-t border-quinary" /> */}
     </header>
   );
 };
+
+
+// import { useViewportWidth } from "@/hooks/useViewportWidth";
+  //   const viewportWideEnough = useViewportWidth();
+  //   const navigate = useNavigate();
+  /* transition-transform duration-500 ${
+        viewportWideEnough ? "translate-y-0" : "-translate-y-full"
+      } ease-[cubic-bezier(0.68, -0.55, 0.27, 1.55)] */
