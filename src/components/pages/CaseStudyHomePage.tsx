@@ -3,8 +3,7 @@ import { useViewportWidth } from "@/hooks/useViewportWidth";
 import { CaseStudyContentContext } from "@/providers/CaseStudyContentProvider";
 import CaseStudyPage from "@/components/pages/CaseStudyPage";
 import { Link } from "react-router-dom";
-import { Separator } from "@radix-ui/react-separator";
-import { Button } from "@/components/ui/button";
+
 export default function CaseStudyHomePage() {
   const viewportWideEnough = useViewportWidth();
   const { chapters } = useContext(CaseStudyContentContext) ?? {};
@@ -14,10 +13,10 @@ export default function CaseStudyHomePage() {
 
   return (
     <>
-      <div>
+      <div className="sticky top-[76px] z-50 mx-auto flex bg-tertiary">
         <nav
           id="case-study-page-nav"
-          className={`mx-auto flex w-fit justify-center py-8 ${viewportWideEnough ? "" : "hidden"}`}
+          className={`sticky top-16 mx-auto flex w-fit justify-center py-8 ${viewportWideEnough ? "" : "hidden"}`}
         >
           <div className="flex flex-row gap-4 rounded-full bg-quaternary/85 p-0.5">
             {chapters?.map((chapter, idx) => {
@@ -26,9 +25,10 @@ export default function CaseStudyHomePage() {
                   to="#"
                   key={`${idx}.${chapter.name}`}
                   onClick={() => setActivePage(chapter.name)}
+                  className="relative"
                 >
                   <div
-                    className={`underline-offset-6 overflow-hidden whitespace-nowrap rounded-full p-4 text-xl font-medium hover:underline ${chapter.name === activePage ? "bg-tertiary text-quaternary/85" : "bg:quaternary/85 text-tertiary"}`}
+                    className={`overflow-hidden whitespace-nowrap rounded-full p-4 text-xl font-medium ${chapter.name === activePage ? "bg-tertiary text-quaternary/85" : "bg:quaternary/85 text-tertiary"}`}
                   >
                     {chapter.name}
                   </div>
@@ -37,12 +37,17 @@ export default function CaseStudyHomePage() {
             })}
           </div>
         </nav>
+      </div>
 
+      <div className="flex">
+        <div
+          className={`flex-1 ${viewportWideEnough ? "hidden lg:flex lg:flex-[2] xl:flex-[3]" : "hidden"}`}
+        ></div>
         <main
           id="case-study-content"
-          className="flex flex-row gap-2 bg-quaternary py-16 pl-10 pr-6"
+          className="flex-[76] flex-row bg-quaternary p-10 pt-16"
         >
-          <article className="flex-[80]">
+          <article>
             <CaseStudyPage
               markdown={
                 chapters?.find(({ name }) => name === activePage)?.content ||
@@ -50,33 +55,30 @@ export default function CaseStudyHomePage() {
               }
             />
           </article>
-          <Separator
-            orientation="vertical"
-            className={`mx-2 h-56 border-l border-quinary ${viewportWideEnough ? "" : "hidden"}`}
-          />
-          <nav
-            className={`flex-[20] ${viewportWideEnough ? "" : "hidden"} sticky top-16 mt-4`}
-          >
-            <h3 className="mb-2 text-lg font-bold">On This Page</h3>
-            {chapters
-              ?.find(({ name }) => name === activePage)
-              ?.subheaders.filter((item) => +item.level === 2)
-              .map((item, index) => (
-                <div key={index} className={`pl-${+item.level * 2} py-1`}>
+        </main>
+        <nav
+          className={`flex-[15] ${viewportWideEnough ? "" : "hidden"} sticky top-[140px] pr-4 pt-16`}
+          id="on-this-page"
+        >
+          <h3 className="mb-6 text-2xl font-normal text-tertiary">
+            On this page
+          </h3>
+          <div className="flex">
+            <div>
+              {chapters
+                ?.find(({ name }) => name === activePage)
+                ?.subheaders.filter((item) => +item.level === 2)
+                .map((item) => (
                   <Link
                     to={`#${item.name.replace(/\s+/g, "-").toLowerCase()}`}
-                    className="text-blue-500 hover:underline"
+                    className="relative inline-block rounded-r-sm border-l-4 border-quinary py-2 pl-6 pr-4 text-gray-500 hover:border-primary hover:bg-primary/30 hover:font-semibold hover:text-tertiary"
                   >
                     {item.name}
                   </Link>
-                </div>
-              ))}
-          </nav>
-        </main>
-        <div className="mx-40 flex flex-row justify-between">
-          <Button variant="secondary">Previous</Button>
-          <Button variant="secondary">Next</Button>
-        </div>
+                ))}
+            </div>
+          </div>
+        </nav>
       </div>
     </>
   );

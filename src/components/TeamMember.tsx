@@ -6,12 +6,12 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/ui/card";
-import { FaLinkedin, FaGithub } from "react-icons/fa";
+import { FaLinkedin, FaGithub, FaRegFilePdf } from "react-icons/fa";
 import { Member } from "@/components/pages/HomePage";
 
 const TeamMember = ({ member }: { member: Member }) => {
   return (
-    <Card className="mx-auto my-4 max-w-xl rounded-lg border bg-white shadow-lg">
+    <Card className="mx-auto my-4 max-w-xl transform rounded-lg border bg-white shadow-lg transition-transform duration-300 hover:scale-105">
       <CardHeader className="flex flex-col items-center space-y-2 rounded-t-lg p-6">
         <img
           src={member.photoUrl}
@@ -43,6 +43,9 @@ const TeamMember = ({ member }: { member: Member }) => {
             className="text-gray-800 hover:text-black"
           >
             <FaGithub size="24px" />
+          </a>
+          <a>
+            <FaRegFilePdf size="24px" />
           </a>
         </CardFooter>
       </CardContent>

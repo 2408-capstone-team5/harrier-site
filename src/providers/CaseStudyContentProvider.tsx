@@ -1,5 +1,5 @@
 import { useEffect, useState, createContext, ReactNode } from "react";
-import introduction from "../assets/content/introduction.md";
+// import introduction from "../assets/content/introduction.md";
 import problemDomain from "../assets/content/problem-domain.md";
 import design from "../assets/content/design.md";
 import implementation from "../assets/content/implementation.md";
@@ -14,6 +14,7 @@ interface Header {
 interface Chapter {
   name: string;
   content: string;
+  tags: string[];
   subheaders: Header[];
 }
 
@@ -33,7 +34,7 @@ const CaseStudyContentProvider = ({ children }: { children: ReactNode }) => {
     const fetchMarkdown = async () => {
       try {
         const chapterContent = await Promise.all([
-          (await fetch(introduction)).text(),
+          //   (await fetch(introduction)).text(),
           (await fetch(problemDomain)).text(),
           (await fetch(design)).text(),
           (await fetch(implementation)).text(),
@@ -50,13 +51,24 @@ const CaseStudyContentProvider = ({ children }: { children: ReactNode }) => {
           }));
         });
 
+        const extractTags = (md: string): string[] => {
+          const tagsMatch = md.match(/<!-- Tags: (.*?) -->/);
+          return tagsMatch
+            ? tagsMatch[1].split(", ").map((tag) => tag.trim())
+            : [];
+        };
+        const removeH1Headers = (md: string): string => {
+          return md.replace(/^#\s+.*$/gm, "").trim();
+        };
+
         let contentIndex = 0;
         setChapters(
-          allHeaders.reduce((accum, curr) => {
+          allHeaders.reduce((accum: Chapter[], curr: Header) => {
             if (curr.level === "1") {
               accum.push({
                 name: curr.name,
-                content: chapterContent[contentIndex],
+                content: removeH1Headers(chapterContent[contentIndex]),
+                tags: extractTags(chapterContent[contentIndex]),
                 subheaders: [],
               });
               contentIndex++;
@@ -85,6 +97,7 @@ const CaseStudyContentProvider = ({ children }: { children: ReactNode }) => {
     return <div>{error}</div>;
   }
 
+  console.log({ chapters });
   return (
     <CaseStudyContentContext.Provider value={{ chapters }}>
       {children}

@@ -21,7 +21,7 @@ export const TopNavBar = () => {
           <img
             src={HisHoliness}
             alt="Harrier Runner Logo"
-            className="mx-3 mb-5 mt-5 h-9 w-auto"
+            className="mb-5 ml-3 mr-6 mt-5 h-9 w-auto"
           />
         </Link>
         <Link to="/">
@@ -54,7 +54,7 @@ export const TopNavBar = () => {
           </Link> */}
         </div>
       </div>
-      <Separator className="border-t border-quinary" />
+      {/* <Separator className="border-t border-quinary" /> */}
     </header>
   );
 };

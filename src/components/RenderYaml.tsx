@@ -73,8 +73,8 @@ export default function RenderYaml({ formDataJSON }: { formDataJSON: string }) {
         },
         {
           noRefs: true,
-        }
-      )
+        },
+      ),
     );
 
     return () => {};
@@ -87,24 +87,26 @@ export default function RenderYaml({ formDataJSON }: { formDataJSON: string }) {
   }
 
   return (
-    <div className="mt-6 relative">
-      <Button
-        onClick={copyToClipboard}
-        variant="default"
-        className="absolute top-9 right-0 mt-3 mr-3"
-      >
-        {copied ? <ClipboardCheck /> : <Copy />}
-      </Button>
-      <h2 className="text-xl font-semibold">Generated YAML:</h2>
-      {/* <SyntaxHighlighter
-        language=""
-        style={dracula}
-        showLineNumbers={true}
-        wrapLongLines={true}
-        className="p-4 rounded-lg"
-      >
-        {yamlOutput}
-      </SyntaxHighlighter> */}
+    <div className="flex min-h-screen flex-col items-center justify-center">
+      <div className="relative mt-6 w-full max-w-4xl">
+        <Button
+          onClick={copyToClipboard}
+          variant="default"
+          className="absolute right-0 top-9 mr-3 mt-3"
+        >
+          {copied ? <ClipboardCheck /> : <Copy />}
+        </Button>
+        <h2 className="text-xl font-semibold">Generated YAML:</h2>
+        {/* <SyntaxHighlighter
+          language="yaml"
+          style={dracula}
+          showLineNumbers={true}
+          wrapLongLines={true}
+          className="rounded-lg p-4"
+        >
+          {yamlOutput}
+        </SyntaxHighlighter> */}
+      </div>
     </div>
   );
 }

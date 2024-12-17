@@ -7,7 +7,7 @@ const Layout = () => {
     <>
       <div className="flex flex-col">
         <TopNavBar />
-        <div className="flex-grow bg-tertiary">
+        <div className="flex-grow">
           <Outlet />
         </div>
         <Footer />

@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+// import { Separator } from "@/components/ui/separator";
 // import HarrierBW from "@/assets/harrier-big-white.svg";
 import HarrierColor from "@/assets/harrier-big-blue-shadow.svg";
 import GHALogo from "@/assets/GitHub Actions.png";
@@ -57,7 +58,7 @@ const HomePage = () => {
   ];
   return (
     <>
-      <div className="flex h-[36rem] flex-col text-center">
+      <div className="flex h-[36rem] flex-col bg-tertiary text-center">
         <h2 className="mt-44 text-center text-7xl font-semibold text-quaternary">
           Harrier
         </h2>
@@ -93,16 +94,22 @@ const HomePage = () => {
         <img
           src={GHALogo}
           alt="GitHub Actions Logo"
-          className="m-4 h-80 w-auto"
+          className="h-80 w-auto"
         />
         <img
           src={HarrierColor}
           alt="Harrier Blue Logo"
-          className="m-4 h-40 w-auto"
+          className="h-40 w-auto"
         />
       </div>
-      {/* <div className="flex h-[36rem] flex-col bg-quaternary"></div> */}
-      <div className="flex items-center justify-between bg-quaternary">
+      <div className="flex flex-col items-center justify-center bg-quaternary pb-8">
+        <h3 className="mb-8 text-3xl font-semibold text-tertiary">
+          Meet the Team
+        </h3>
+        {/* <Separator
+          orientation="horizontal"
+          className="my-2 w-20 border-l-4 border-primary"
+        /> */}
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-4">
           {team.map((member) => (
             <TeamMember member={member} key={member.name} />

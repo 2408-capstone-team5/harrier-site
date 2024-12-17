@@ -2,13 +2,13 @@
 
 ## GitHub Actions: A Powerful CI/CD Tool
 
-![Diagram](src/assets/ci-steps-green-box.png)
+![CI CD Steps Boxes](src/assets/ci-cd-steps-boxes.png)
 
-GitHub Actions (GHA) has emerged as a cornerstone in modern software development, empowering developers and teams to streamline their CI/CD workflows. With its widespread adoption, GHA is now a vital tool in the toolkit of over **57.8% of GitHub repositories**, solidifying its position as the leading CI/CD technology. In comparison, other tools like Travis CI, while significant, serve a smaller share of **38.8%** of repositories.
+GitHub Actions (GHA) has emerged as a cornerstone in modern software development, empowering developers and teams to streamline their CI/CD workflows. With its widespread adoption, GHA is now a vital tool in the toolkit of over 57.8% of GitHub repositories, solidifying its position as the leading CI/CD technology. In comparison, other tools like Travis CI, while significant, serve a smaller share of 38.8% of repositories.
 
 Given its prevalence, addressing points of friction in GHA workflows can have a meaningful impact on the day-to-day experience of developers. Improving usability or streamlining processes within GHA can help teams work more efficiently and with fewer obstacles. This makes it a particularly compelling area of focus for projects aimed at improving software development tools.
 
-### **CI/CD and DevOps: The Backbone of Modern Software Development**
+### CI/CD and DevOps: The Backbone of Modern Software Development
 
 Modern software development is a complex endeavor performed by large teams of experts, which require a great deal of communication and integration to ensure high-quality products. To deliver software successfully, it is important to have as much alignment between teams throughout the entire development process. DevOps is a philosophy and culture that enables agile development while supporting collaboration, automation, and continuous improvement. One of the key components of DevOps is Continuous Integration and Continuous Delivery/Deployment (CI/CD).
 
@@ -18,25 +18,25 @@ Continuous Delivery (CD) utilizes the artifacts created by the CI process and en
 
 By automating the software development and release processes, CI/CD enables teams to streamline their workflows and enjoy the following benefits (source: codefresh):
 
-- Early detection of issues
+- Early detection of issues X^2^
 - Improved team collaboration
 - Faster release cycles and rapid releases
 - Reduced risk of failed deployments
 - Improved and faster user feedback
 
-![Diagram](src/assets/ci-cd-steps-boxes.png)
+> hi there
 
 CI/CD practices will remain central to software development for the foreseeable future. As software development grows increasingly complex, the automation and reliability CI/CD provides will continue to be indispensable for maintaining efficiency, minimizing errors, and enabling rapid iteration. These practices are not just trends; they are enduring pillars of the DevOps philosophy, ensuring developers can focus more on innovation and less on repetitive tasks.
 
-### **GHA Workflow Automation**
+### GHA Workflow Automation
 
 Automation is the implementation of tasks or processes without human intervention, enabling increased efficiency and productivity. It involves streamlining repetitive, time-consuming, and error-prone tasks, freeing up developers to focus on higher-value activities and ultimately leading to higher-quality outcomes.
 
-Within software development, a **workflow** is a defined sequence of automated steps or jobs that coordinate tasks, tools, and resources. GitHub Actions (GHA) lets developers automate workflows directly from their code repositories. Within GHA, workflows are YAML-based configuration files that define automated processes triggered by events like code commits, pull requests, or other user-triggered events.
+Within software development, a workflow is a defined sequence of automated steps or jobs that coordinate tasks, tools, and resources. GitHub Actions (GHA) lets developers automate workflows directly from their code repositories. Within GHA, workflows are YAML-based configuration files that define automated processes triggered by events like code commits, pull requests, or other user-triggered events.
 
 As of 2023, over 100 million users are leveraging GitHub globally to manage over 400 million code base repositories and coordinate their software development activities. With over 200 million repositories with actively deployed workflow automations, GHA has established itself in just over five years since launch as an indispensable tool for software development. (source: github pr post)
 
-### **GHA and CI/CD automation**
+### GHA and CI/CD automation
 
 Given that GitHub Actions was designed to provide native CI/CD automation support, GitHub workflows are almost entirely related to CI/CD processes (source: github launch deck). Through GHA, one can automate tasks such as linting tests before a project build, the actual build process, unit tests performed after a build, auto deploy, just to name a few.
 
@@ -81,7 +81,7 @@ Faster CI builds dramatically reduce developer context switching and idle time, 
 
 Despite the numerous benefits of utilizing GHA as a CI/CD tool, GHA is often cited as the cause of slower than desirable CI builds, as evident by the numerous GitHub Issues and GitHub feature requests (source: GitHub’s own Issues page) related to slow CI builds submitted by GHA users, as well as the significant investment made within the tech sector on products that can accelerate GHA workflows.
 
-### **Unpacking GHA’s original design**
+### Unpacking GHA’s original design
 
 GitHub Action’s automated workflows are executed on servers that are called runners. GitHub provides default runners as a service in order to abstract away the process of provisioning and setting up a server, thus freeing up the user to focus on the details of the workflow.
 
@@ -91,7 +91,7 @@ One of the most significant impacts of GitHub’s runner infrastructure on CI bu
 
 In addition to the limitation presented by the runner infrastructure design, GitHub only provides limited runner infrastructure hardware options that prevent users from forcing through faster builds by means of vertical scaling.
 
-### **Limitations of GHA Cache Action**
+### Limitations of GHA Cache Action
 
 The limitations around CI build speed within GHA was significant enough to warrant GitHub itself taking action. Within a couple years after launch, GitHub Actions introduced a paid-tier offering of more powerful machines to help address CI build speed concerns. In addition, they also released and incrementally improved a much-demanded native cache solution on the GHA Marketplace, actions/cache.
 
@@ -99,7 +99,7 @@ GHA’ cache feature seeks to enhance overall workflow efficiency by storing and
 
 - Seamless integration with existing workflow files.
 - Preset cache eviction strategy with no option for further customization and 7 day automatic deletion.
-- 10 GB cache data storage _per_ repository.
+- 10 GB cache data storage per repository.
 - GitHub REST API (offering limited cache management) \[Necessary??\]
 
 This native cache solution satisfied some users, but for others, the solution proved woefully inadequate. To better understand this second category, let’s use an example.
@@ -108,7 +108,7 @@ Developers working on complex mono-repo codebases quickly encounter significant 
 
 The introduction of multiple branches further complicates cache resource utilization and limits the efficacy of cache generally. Each branch, with potentially unique dependencies and workflow configurations, competes for limited cache space—creating an environment where a single feature branch's large dependency update could unexpectedly evict critical cached artifacts that builds on the main branch rely upon. This volatility renders cache utilization unpredictable, turning what was originally intended as a performance enhancement into a fragile and at times unreliable build speed optimization strategy. What emerges is a complex challenge where intelligent cache management becomes as crucial as the software development cycle it seeks to streamline.
 
-### Considering the limitations of `actions/cache` and the healthy demand for faster CI builds, cache within GHA is a great area for exploring alternative solutions.
+### Considering the limitations of actions/cache and the healthy demand for faster CI builds, cache within GHA is a great area for exploring alternative solutions.
 
 ---
 
@@ -123,7 +123,7 @@ GitHub’s Self-Hosted Runner feature allows users to configure their own infras
 The Self-Hosted Runner feature can be deployed on a local machine, on-premises server, or even on a cloud infrastructure. For organizations who already have their own on-premises servers with both server resources to spare and dedicated operations teams to manage the infrastructure overhead, perhaps using their hardware as dedicated GHA runners may be a great option. However, for many, the desire for resource optimization and minimal administrative overhead leads to the conclusion that on-demand runners on a managed cloud infrastructure would best serve the needs of a GHA runner.
 ![Diagram](src/assets/workflow-runner-new-infra.png)
 
-### **Existing solutions for faster CI Builds**
+### Existing solutions for faster CI Builds
 
 There are many benefits to provisioning an alternative runner infrastructure for GHA workflows on a managed cloud platform:
 
@@ -190,3 +190,5 @@ There’s a gap between DIY solutions that require technical expertise and third
 
 ![Diagram](src/assets/dependency-cache-load-cache-store.png)
 This service would offer a simple, secure, and cost-effective alternative for developers who want to leverage the power of self-hosted runners but don’t have the time, knowledge, or desire to manage the setup themselves.
+
+[^2](https://www.markdownguide.org/cheat-sheet/)
