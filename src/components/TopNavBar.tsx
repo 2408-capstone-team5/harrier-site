@@ -1,8 +1,5 @@
 import { Link } from "react-router-dom";
-// import { useNavigate } from "react-router-dom";
-
 import { Separator } from "@/components/ui/separator";
-// import { Button } from "@/components/ui/button";
 import { FaGithub } from "react-icons/fa";
 import HisHoliness from "@/assets/harrier-big-blue-shadow.svg";
 
@@ -44,10 +41,9 @@ export const TopNavBar = () => {
   );
 };
 
-
 // import { useViewportWidth } from "@/hooks/useViewportWidth";
-  //   const viewportWideEnough = useViewportWidth();
-  //   const navigate = useNavigate();
-  /* transition-transform duration-500 ${
+//   const viewportWideEnough = useViewportWidth();
+//   const navigate = useNavigate();
+/* transition-transform duration-500 ${
         viewportWideEnough ? "translate-y-0" : "-translate-y-full"
       } ease-[cubic-bezier(0.68, -0.55, 0.27, 1.55)] */

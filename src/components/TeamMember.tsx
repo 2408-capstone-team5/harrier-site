@@ -11,7 +11,7 @@ import { Member } from "@/components/pages/HomePage";
 
 const TeamMember = ({ member }: { member: Member }) => {
   return (
-    <Card className="mx-auto my-4 max-w-xl transform rounded-lg border bg-white shadow-lg transition-transform duration-300 hover:scale-105">
+    <Card className="mx-auto my-4 max-w-xl transform rounded-lg border bg-white shadow-lg transition-transform duration-300 hover:scale-105 hover:shadow-tertiary/30">
       <CardHeader className="flex flex-col items-center space-y-2 rounded-t-lg p-6">
         <img
           src={member.photoUrl}
@@ -25,7 +25,6 @@ const TeamMember = ({ member }: { member: Member }) => {
           {member.role}
         </CardDescription>
       </CardHeader>
-
       <CardContent className="flex flex-col items-center p-4 pb-6 pt-0">
         <CardFooter className="flex space-x-4">
           <a

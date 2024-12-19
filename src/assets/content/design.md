@@ -1,7 +1,10 @@
 # Design
 
+![alt text](src/assets/queued-new-runner.png)
+
 > #### Overview
 >
+> ![alt text](src/assets/alternative-infrastructure.png)
 > The design of a 3rd-party supported DIY option for leveraging cache in GHA workflows involved two major pieces of work:
 >
 > - **Provision and configure an alternative GHA runner infrastructure with a built-in persistent cache store**

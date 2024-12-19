@@ -8,6 +8,7 @@ import GHALogo from "@/assets/GitHub Actions.png";
 // import HarrierArchitecture from "@/assets/harrier-architecture.png";
 // import { FaBook } from "react-icons/fa";
 import TeamMember from "@/components/TeamMember";
+
 export type Member = {
   name: string;
   role: string;
@@ -103,7 +104,8 @@ const HomePage = () => {
             <TeamMember member={member} key={member.name} />
           ))}
         </div>
-        <img src={HarrierBW} alt="GitHub Actions" className="m-4 h-64 w-auto" />
+
+        {/* <img src={HarrierBW} alt="GitHub Actions" className="m-4 h-64 w-auto" /> */}
       </div>
     </>
   );

@@ -121,7 +121,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ markdown }) => {
       return null;
     },
     blockquote: (props) => (
-      <div className="rounded-md border-l-[10px] border-draculared bg-draculared/15 p-4 text-gray-700">
+      <div className="rounded-md border-l-[10px] border-primary bg-primary/10 p-4 text-gray-700">
         {props.children}
       </div>
     ),

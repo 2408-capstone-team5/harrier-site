@@ -4,6 +4,33 @@ import { CaseStudyContentContext } from "@/providers/CaseStudyContentProvider";
 import CaseStudyPage from "@/components/pages/CaseStudyPage";
 import { Link } from "react-router-dom";
 
+const StickySidebar = () => {
+  return (
+    <div className="flex">
+      <div className="w-1/4">
+        {/* Sticky Sidebar */}
+        <div className="sticky top-10 bg-gray-200 p-4">
+          <h2>Sticky Sidebar</h2>
+          <p>
+            This sidebar will stick to the top of the viewport when scrolling
+            down.
+          </p>
+        </div>
+      </div>
+
+      <div className="w-3/4 p-4">
+        {/* Content */}
+        <p>
+          Scroll down to see the sticky sidebar in action. It will stay fixed
+          within the viewport while you scroll.
+        </p>
+        <div style={{ height: "200vh" }}></div>{" "}
+        {/* Add extra height to enable scrolling */}
+      </div>
+    </div>
+  );
+};
+
 export default function CaseStudyHomePage() {
   const viewportWideEnough = useViewportWidth();
   const { chapters } = useContext(CaseStudyContentContext) ?? {};
@@ -13,10 +40,11 @@ export default function CaseStudyHomePage() {
 
   return (
     <>
+      {/* <StickySidebar /> */}
       <div className="sticky top-[76px] z-10 mx-auto flex bg-tertiary">
         <nav
           id="case-study-page-nav"
-          className={`sticky top-16 mx-auto flex w-fit justify-center py-3 ${viewportWideEnough ? "" : "hidden"}`}
+          className={`mx-auto flex w-fit justify-center py-3 ${viewportWideEnough ? "" : "hidden"}`}
         >
           <div className="flex flex-row gap-4 rounded-full bg-quaternary/85 p-0.5">
             {chapters?.map((chapter, idx) => {
@@ -41,8 +69,10 @@ export default function CaseStudyHomePage() {
 
       <div className="top-[152px] flex">
         <div
-          className={`flex-[10] ${viewportWideEnough ? "" : "hidden"}`}
-        ></div>
+          className={`flex-[12] ${viewportWideEnough ? "" : "hidden"} sticky`}
+        >
+          hi
+        </div>
         <main
           id="case-study-content"
           className="flex-[60] flex-row bg-quaternary p-10 pt-12"
@@ -57,7 +87,7 @@ export default function CaseStudyHomePage() {
           </article>
         </main>
         <nav
-          className={`flex-[13] ${viewportWideEnough ? "" : "hidden"} sticky top-[140px] pr-4 pt-12`}
+          className={`flex-[14] ${viewportWideEnough ? "" : "hidden"} sticky top-4 pr-4 pt-12`}
           id="on-this-page"
         >
           <h3 className="mb-6 text-2xl font-normal text-tertiary">
