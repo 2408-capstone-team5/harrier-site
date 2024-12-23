@@ -15,6 +15,7 @@ module.exports = {
         draculagreen: "#75B863",
         draculared: "#EB3D54",
         draculablue: "#4FB4D8",
+        test: "#F78166"
       },
     },
   },

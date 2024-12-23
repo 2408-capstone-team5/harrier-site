@@ -1,4 +1,5 @@
 import { useEffect, useState, createContext, ReactNode } from "react";
+import slugify from "slugify";
 // import introduction from "../assets/content/introduction.md";
 import problemDomain from "../assets/content/problem-domain.md";
 import design from "../assets/content/design.md";
@@ -9,12 +10,13 @@ import futureWork from "../assets/content/future-work.md";
 interface Header {
   level: string;
   name: string;
+  id: string;
 }
 
 interface Chapter {
   name: string;
   content: string;
-  tags: string[];
+  //   tags: string[];
   subheaders: Header[];
 }
 
@@ -34,12 +36,10 @@ const CaseStudyContentProvider = ({ children }: { children: ReactNode }) => {
     const fetchMarkdown = async () => {
       try {
         const chapterContent = await Promise.all([
-          //   (await fetch(introduction)).text(),
           (await fetch(problemDomain)).text(),
           (await fetch(design)).text(),
           (await fetch(implementation)).text(),
           (await fetch(futureWork)).text(),
-          //   (await fetch(citations)).text(),
         ]);
 
         const allHeaders: Header[] = chapterContent.flatMap((md) => {
@@ -47,19 +47,16 @@ const CaseStudyContentProvider = ({ children }: { children: ReactNode }) => {
           const matches = [...md.matchAll(headerRegex)];
           return matches.map((match) => ({
             level: match[1].length.toString(),
-            name: match[2].trim().replace(/\*\*/g, ""),
+            name: match[2]
+              .trim()
+              .replace(/\*\*/g, "")
+              .replace(/\s*\{#.*/, ""),
+            id: slugify(match[2].trim().replace(/\s*\{#.*/, ""), {
+              lower: true,
+              strict: true,
+            }),
           }));
         });
-
-        const extractTags = (md: string): string[] => {
-          const tagsMatch = md.match(/<!-- Tags: (.*?) -->/);
-          return tagsMatch
-            ? tagsMatch[1].split(", ").map((tag) => tag.trim())
-            : [];
-        };
-        // const removeH1Headers = (md: string): string => {
-        //   return md.replace(/^#\s+.*$/gm, "").trim();
-        // };
 
         let contentIndex = 0;
         setChapters(
@@ -68,7 +65,7 @@ const CaseStudyContentProvider = ({ children }: { children: ReactNode }) => {
               accum.push({
                 name: curr.name,
                 content: chapterContent[contentIndex], //  removeH1Headers(chapterContent[contentIndex]),
-                tags: extractTags(chapterContent[contentIndex]),
+                // tags: extractTags(chapterContent[contentIndex]),
                 subheaders: [],
               });
               contentIndex++;

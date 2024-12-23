@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Link } from "react-router-dom";
 import ReactMarkdown, { Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -31,6 +31,8 @@ const extractHeadingId = (text: string) => {
   return { cleanedText, id };
 };
 const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ markdown }) => {
+  const sectionRef = useRef<HTMLHeadingElement | null>(null);
+
   //   const [footnotes, setFootnotes] = useState<Map<string, React.ReactNode>>(
   //     new Map(),
   //   );
@@ -49,20 +51,24 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ markdown }) => {
 
       if (text) {
         const { cleanedText, id } = extractHeadingId(text);
-
+        console.log({ cleanedText, id });
         return (
           <h2
+            onClick={() => {
+              document.getElementById(id)?.scrollIntoView(true);
+            }}
             id={id}
-            className="group flex items-center text-4xl font-bold text-tertiary"
+            ref={sectionRef}
+            className="group flex items-center text-2xl font-bold text-tertiary"
           >
-            <Link to={`#${id}`} className="relative no-underline">
+            <Link to={`#${id}`} className="relative flex flex-row no-underline">
+              {/* <FaLink
+                size="16px"
+                className="mr-2 opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+              /> */}
               {cleanedText}
-              <span className="absolute bottom-0 left-0 h-[2px] w-full scale-x-0 transform rounded-full bg-current transition-transform duration-500 ease-in-out group-hover:scale-x-100"></span>
+              {/* <span className="absolute bottom-0 left-0 h-[2px] w-full scale-x-0 transform rounded-full bg-current transition-transform duration-500 ease-in-out group-hover:scale-x-100"></span> */}
             </Link>
-            <FaLink
-              size="20px"
-              className="ml-2 opacity-0 transition-opacity duration-200 group-hover:opacity-100"
-            />
           </h2>
         );
       }
@@ -70,7 +76,6 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ markdown }) => {
       return null;
     },
     h3: (props) => {
-      console.log({ props });
       const text = props.children?.toString().trim();
 
       if (text) {
@@ -121,7 +126,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ markdown }) => {
       return null;
     },
     blockquote: (props) => (
-      <div className="rounded-md border-l-[10px] border-primary bg-primary/10 p-4 text-gray-700">
+      <div className="rounded-md border-l-[10px] border-test bg-test/10 p-4 text-gray-700">
         {props.children}
       </div>
     ),

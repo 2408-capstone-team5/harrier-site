@@ -8,11 +8,6 @@
   border-radius: 50%;
 }
 
-/* .no-quotes::before,
-.no-quotes::after {
-  content: none !important;
-} */
-
 :root {
   line-height: 1.5;
   font-weight: 400;
@@ -27,6 +22,7 @@
 
 body {
   font-family: "Be Vietnam Pro", "Roboto", "Source Sans 3", sans-serif;
+  scroll-behavior: smooth;
   margin: 0;
   min-width: 500px;
   min-height: 100vh;

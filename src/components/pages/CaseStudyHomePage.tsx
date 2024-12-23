@@ -4,46 +4,19 @@ import { CaseStudyContentContext } from "@/providers/CaseStudyContentProvider";
 import CaseStudyPage from "@/components/pages/CaseStudyPage";
 import { Link } from "react-router-dom";
 
-const StickySidebar = () => {
-  return (
-    <div className="flex">
-      <div className="w-1/4">
-        {/* Sticky Sidebar */}
-        <div className="sticky top-10 bg-gray-200 p-4">
-          <h2>Sticky Sidebar</h2>
-          <p>
-            This sidebar will stick to the top of the viewport when scrolling
-            down.
-          </p>
-        </div>
-      </div>
-
-      <div className="w-3/4 p-4">
-        {/* Content */}
-        <p>
-          Scroll down to see the sticky sidebar in action. It will stay fixed
-          within the viewport while you scroll.
-        </p>
-        <div style={{ height: "200vh" }}></div>{" "}
-        {/* Add extra height to enable scrolling */}
-      </div>
-    </div>
-  );
-};
-
 export default function CaseStudyHomePage() {
   const viewportWideEnough = useViewportWidth();
   const { chapters } = useContext(CaseStudyContentContext) ?? {};
   const [activePage, setActivePage] = useState<string>(
     chapters?.[0]?.name || "",
   );
+  const [activeSection] = useState<string>("");
 
   return (
     <>
-      {/* <StickySidebar /> */}
       <div className="sticky top-[76px] z-10 mx-auto flex bg-tertiary">
         <nav
-          id="case-study-page-nav"
+          id="case-study-pages-nav"
           className={`mx-auto flex w-fit justify-center py-3 ${viewportWideEnough ? "" : "hidden"}`}
         >
           <div className="flex flex-row gap-4 rounded-full bg-quaternary/85 p-0.5">
@@ -67,17 +40,16 @@ export default function CaseStudyHomePage() {
         </nav>
       </div>
 
-      <div className="top-[152px] flex">
+      <div id="content-container" className="flex flex-wrap">
         <div
           className={`flex-[12] ${viewportWideEnough ? "" : "hidden"} sticky`}
-        >
-          hi
-        </div>
+          id="filler"
+        ></div>
         <main
           id="case-study-content"
           className="flex-[60] flex-row bg-quaternary p-10 pt-12"
         >
-          <article>
+          <article className="">
             <CaseStudyPage
               markdown={
                 chapters?.find(({ name }) => name === activePage)?.content ||
@@ -86,29 +58,50 @@ export default function CaseStudyHomePage() {
             />
           </article>
         </main>
-        <nav
-          className={`flex-[14] ${viewportWideEnough ? "" : "hidden"} sticky top-4 pr-4 pt-12`}
-          id="on-this-page"
+        <div
+          className={`flex-[14] ${viewportWideEnough ? "" : "hidden"} pr-4 pt-12`}
         >
-          <h3 className="mb-6 text-2xl font-normal text-tertiary">
-            On this page
-          </h3>
-          <div className="flex">
-            <div>
-              {chapters
-                ?.find(({ name }) => name === activePage)
-                ?.subheaders.filter((item) => +item.level === 2)
-                .map((item) => (
-                  <Link
-                    to={`#${item.name.replace(/\s+/g, "-").toLowerCase()}`}
-                    className="relative inline-block rounded-r-sm border-l-4 border-quinary py-2 pl-6 pr-4 text-gray-500 hover:border-primary hover:bg-primary/30 hover:font-semibold hover:text-tertiary"
-                  >
-                    {item.name}
-                  </Link>
-                ))}
+          <nav className={`sticky top-[200px]`} id="on-this-page">
+            <h3 className="mb-6 text-2xl font-normal text-tertiary">
+              On this page
+            </h3>
+            <div className="flex">
+              <ul>
+                {chapters
+                  ?.find(({ name }) => name === activePage)
+                  ?.subheaders.filter((item) => +item.level === 2)
+                  .map((item) => {
+                    return (
+                      <li
+                        onClick={() => {
+                          const el = document.getElementById(item.id);
+                          console.log({ item });
+
+                          if (el) {
+                            const offset = 164;
+                            const bodyRect =
+                              document.body.getBoundingClientRect().top;
+                            const elementRect = el.getBoundingClientRect().top;
+                            const elementPosition = elementRect - bodyRect;
+                            const offsetPosition = elementPosition - offset;
+
+                            window.scrollTo({
+                              top: offsetPosition,
+                              behavior: "smooth",
+                            });
+                          }
+                        }}
+                        className={`relative inline-block rounded-r-sm border-l-4 border-quinary py-2 pl-6 pr-4 text-gray-500 ${activeSection === "'" ? "border-primary bg-primary/40" : ""} hover:font-semibold hover:text-tertiary`}
+                        key={item.id}
+                      >
+                        {item.name}
+                      </li>
+                    );
+                  })}
+              </ul>
             </div>
-          </div>
-        </nav>
+          </nav>
+        </div>
       </div>
     </>
   );
