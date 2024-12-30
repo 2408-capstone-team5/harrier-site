@@ -3,10 +3,9 @@ import RenderYaml from "@/components/RenderYaml";
 import { useState } from "react";
 const GetStartedPage = () => {
   const [formDataJSON, setFormDataJSON] = useState("");
-
   return (
     <>
-      <h2 className="text-3xl text-center font-bold mb-8">Get Started</h2>
+      <h2 className="text-center text-3xl font-bold">Get Started</h2>
       {formDataJSON === "" ? (
         <SetupForm setFormDataJSON={setFormDataJSON} />
       ) : (

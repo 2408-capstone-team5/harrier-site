@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { solarizedlight } from "react-syntax-highlighter/dist/cjs/styles/prism";
-import { FaCheck, FaRegCopy } from "react-icons/fa";
+// import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+// import { dracula } from "react-syntax-highlighter/dist/cjs/styles/prism";
+import { Copy, ClipboardCheck } from "lucide-react";
 
 import yaml from "js-yaml";
 
@@ -73,8 +73,8 @@ export default function RenderYaml({ formDataJSON }: { formDataJSON: string }) {
         },
         {
           noRefs: true,
-        }
-      )
+        },
+      ),
     );
 
     return () => {};
@@ -87,23 +87,26 @@ export default function RenderYaml({ formDataJSON }: { formDataJSON: string }) {
   }
 
   return (
-    <div className="mt-6 relative">
-      <Button
-        onClick={copyToClipboard}
-        className="absolute top-9 right-0 mt-2 mr-2"
-      >
-        {copied ? "Copied!" : "Copy"} {copied ? <FaCheck /> : <FaRegCopy />}
-      </Button>
-      <h2 className="text-xl font-semibold">Generated YAML:</h2>
-      <SyntaxHighlighter
-        language="yaml"
-        style={solarizedlight}
-        showLineNumbers={true}
-        wrapLongLines={true}
-        className="p-4 bg-gray-100 rounded-md"
-      >
-        {yamlOutput}
-      </SyntaxHighlighter>
+    <div className="flex min-h-screen flex-col items-center justify-center">
+      <div className="relative mt-6 w-full max-w-4xl">
+        <Button
+          onClick={copyToClipboard}
+          variant="default"
+          className="absolute right-0 top-9 mr-3 mt-3"
+        >
+          {copied ? <ClipboardCheck /> : <Copy />}
+        </Button>
+        <h2 className="text-xl font-semibold">Generated YAML:</h2>
+        {/* <SyntaxHighlighter
+          language="yaml"
+          style={dracula}
+          showLineNumbers={true}
+          wrapLongLines={true}
+          className="rounded-lg p-4"
+        >
+          {yamlOutput}
+        </SyntaxHighlighter> */}
+      </div>
     </div>
   );
 }

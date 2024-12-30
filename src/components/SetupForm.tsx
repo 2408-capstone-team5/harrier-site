@@ -10,6 +10,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { ArrowLeft } from "lucide-react";
 import { useState } from "react";
 import { Input } from "./ui/input";
 
@@ -17,7 +18,7 @@ const formSchema = z.object({
   awsRegion: z.enum(["us-east-1", "us-east-2", "eu-west-1", "us-west-2"], {
     errorMap: () => ({
       message:
-        "AWS Region must be one of: us-east-1, us-east-2, eu-west-1, us-west-2",
+        "AWS Region must be one of the following: us-east-1, us-east-2, eu-west-1, us-west-2",
     }),
   }),
   awsAccountId: z.string().regex(/^\d{12}$/, {
@@ -54,7 +55,6 @@ export default function SetupForm({ setFormDataJSON }: SetupFormProps) {
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
     } else {
-      console.log(values);
       setFormDataJSON(JSON.stringify(values, null, 2));
     }
   }
@@ -81,53 +81,50 @@ export default function SetupForm({ setFormDataJSON }: SetupFormProps) {
   ];
 
   return (
-    <div className="p-6">
+    <div className="flex justify-center">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
-          {steps.map(
-            (step, index) =>
-              index === currentStep && (
-                <FormField
-                  key={step.name}
-                  control={form.control}
-                  name={
-                    step.name as
-                      | "awsRegion"
-                      | "awsAccountId"
-                      | "instanceType"
-                      | "cacheTtlHours"
-                      | "cidrBlockVpc"
-                      | "cidrBlockSubnet"
-                  }
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{step.label}</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="text"
-                          placeholder={step.placeholder}
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              )
-          )}
-          <div className="flex space-x-2">
-            {currentStep > 0 && (
-              <Button
-                type="button"
-                onClick={() => setCurrentStep(currentStep - 1)}
-              >
-                Back
-              </Button>
-            )}
-            <Button type="submit">
-              {currentStep < steps.length - 1 ? "Next" : "Submit"}
-            </Button>
-          </div>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="w-full max-w-md space-y-4"
+        >
+          {steps.map((step, index) => (
+            <FormField
+              key={step.name}
+              control={form.control}
+              name={step.name as keyof z.infer<typeof formSchema>}
+              render={({ field }) => (
+                <FormItem className="flex flex-col items-center">
+                  <FormLabel className="text-center">{step.label}</FormLabel>
+                  <div className="flex items-center space-x-2">
+                    <FormMessage className="mr-2" />
+                    <FormControl>
+                      <Input
+                        type="text"
+                        placeholder={step.placeholder}
+                        {...field}
+                        className="w-36 border"
+                      />
+                    </FormControl>
+                    {currentStep > 0 && currentStep - 1 === index && (
+                      <Button
+                        type="button"
+                        variant="default"
+                        size="sm"
+                        onClick={() => setCurrentStep(currentStep - 1)}
+                      >
+                        <ArrowLeft />
+                      </Button>
+                    )}
+                    {currentStep === index && (
+                      <Button type="submit" variant="default">
+                        {currentStep < steps.length - 1 ? "Next" : "Submit"}
+                      </Button>
+                    )}
+                  </div>
+                </FormItem>
+              )}
+            />
+          ))}
         </form>
       </Form>
     </div>
