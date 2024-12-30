@@ -51,24 +51,37 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ markdown }) => {
 
       if (text) {
         const { cleanedText, id } = extractHeadingId(text);
-        console.log({ cleanedText, id });
+
         return (
           <h2
             onClick={() => {
-              document.getElementById(id)?.scrollIntoView(true);
+              const el = document.getElementById(id);
+
+              if (el) {
+                const offset = 164;
+                const bodyRect = document.body.getBoundingClientRect().top;
+                const elementRect = el.getBoundingClientRect().top;
+                const elementPosition = elementRect - bodyRect;
+                const offsetPosition = elementPosition - offset;
+
+                window.scrollTo({
+                  top: offsetPosition,
+                  behavior: "smooth",
+                });
+              }
             }}
             id={id}
             ref={sectionRef}
             className="group flex items-center text-2xl font-bold text-tertiary"
           >
             <Link to={`#${id}`} className="relative flex flex-row no-underline">
-              {/* <FaLink
-                size="16px"
-                className="mr-2 opacity-0 transition-opacity duration-200 group-hover:opacity-100"
-              /> */}
               {cleanedText}
-              {/* <span className="absolute bottom-0 left-0 h-[2px] w-full scale-x-0 transform rounded-full bg-current transition-transform duration-500 ease-in-out group-hover:scale-x-100"></span> */}
+              <span className="absolute bottom-0 left-0 h-[2px] w-full scale-x-0 transform rounded-full bg-current transition-transform duration-500 ease-in-out group-hover:scale-x-100"></span>
             </Link>
+            <FaLink
+              size="16px"
+              className="ml-2 opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+            />
           </h2>
         );
       }
@@ -86,14 +99,15 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ markdown }) => {
               id={id}
               className="group flex items-center text-2xl font-semibold text-tertiary"
             >
-              <Link to={`#${id}`} className="relative no-underline">
-                {cleanedText}
-                <span className="absolute bottom-0 left-0 h-[2px] w-full scale-x-0 transform rounded-full bg-current transition-transform duration-300 ease-in-out group-hover:scale-x-100"></span>
+              {/* <Link to={`#${id}`} className="relative no-underline"> */}
+              {cleanedText}
+              {/* <span className="absolute bottom-0 left-0 h-[2px] w-full scale-x-0 transform rounded-full bg-current transition-transform duration-300 ease-in-out group-hover:scale-x-100"></span>
               </Link>
               <FaLink
                 size="16px"
+                stroke="yellow-500"
                 className="ml-2 opacity-0 transition-opacity duration-200 group-hover:opacity-100"
-              />
+              /> */}
             </h3>
           </>
         );

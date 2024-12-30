@@ -10,7 +10,7 @@ export default function CaseStudyHomePage() {
   const [activePage, setActivePage] = useState<string>(
     chapters?.[0]?.name || "",
   );
-  const [activeSection] = useState<string>("");
+  const [activeSection, setActiveSection] = useState<string>("");
 
   return (
     <>
@@ -61,7 +61,7 @@ export default function CaseStudyHomePage() {
         <div
           className={`flex-[14] ${viewportWideEnough ? "" : "hidden"} pr-4 pt-12`}
         >
-          <nav className={`sticky top-[200px]`} id="on-this-page">
+          <nav className={`sticky top-[170px]`} id="on-this-page">
             <h3 className="mb-6 text-2xl font-normal text-tertiary">
               On this page
             </h3>
@@ -75,7 +75,6 @@ export default function CaseStudyHomePage() {
                       <li
                         onClick={() => {
                           const el = document.getElementById(item.id);
-                          console.log({ item });
 
                           if (el) {
                             const offset = 164;
@@ -91,7 +90,7 @@ export default function CaseStudyHomePage() {
                             });
                           }
                         }}
-                        className={`relative inline-block rounded-r-sm border-l-4 border-quinary py-2 pl-6 pr-4 text-gray-500 ${activeSection === "'" ? "border-primary bg-primary/40" : ""} hover:font-semibold hover:text-tertiary`}
+                        className={`relative inline-block rounded-r-sm border-l-4 border-quinary py-2 pl-6 pr-4 text-gray-500 ${activeSection === item.id ? "border-primary bg-primary/40" : ""} hover:font-semibold hover:text-tertiary`}
                         key={item.id}
                       >
                         {item.name}

@@ -9,6 +9,7 @@ Given its prevalence, addressing points of friction in GHA workflows can have a 
 
 ### CI/CD and DevOps: The Backbone of Modern Software Development
 
+![ci-ci-simple-circles](src/assets/2-problem-domain/2.1.1.ci-cd-simple-circles.png)
 Modern software development is a complex endeavor performed by large teams of experts, which require a great deal of communication and integration to ensure high-quality products. To deliver software successfully, it is important to have as much alignment between teams throughout the entire development process. DevOps is a philosophy and culture that enables agile development while supporting collaboration, automation, and continuous improvement. One of the key components of DevOps is Continuous Integration and Continuous Delivery/Deployment (CI/CD).
 
 Continuous Integration (CI) centers around integrating code changes from multiple developers into a shared repository, as frequently as possible (source: codefresh). The desired impact of this practice is to stabilize the code base by discovering and resolving issues as early as possible in the development lifecycle. The output of CI is tested high-quality code that can be deployed to a staging or production environment.
