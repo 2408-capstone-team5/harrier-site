@@ -1,7 +1,8 @@
 import SetupForm from "@/components/SetupForm";
 import RenderYaml from "@/components/RenderYaml";
 import { useState } from "react";
-const GetStartedPage = () => {
+
+const TryHarrierPage = () => {
   const [formDataJSON, setFormDataJSON] = useState("");
   return (
     <>
@@ -15,4 +16,4 @@ const GetStartedPage = () => {
   );
 };
 
-export default GetStartedPage;
+export default TryHarrierPage;

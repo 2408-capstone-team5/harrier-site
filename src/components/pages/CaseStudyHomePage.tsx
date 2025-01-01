@@ -1,81 +1,92 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
+import { NavLink } from "react-router-dom";
 import { useViewportWidth } from "@/hooks/useViewportWidth";
-import { CaseStudyContentContext } from "@/providers/CaseStudyContentProvider";
-import CaseStudyPage from "@/components/pages/CaseStudyPage";
-import { Link } from "react-router-dom";
+import { PageNavigationContext } from "@/providers/PageNavigation";
+
+import ActiveCaseStudyPage from "./ActiveCaseStudyPage";
 
 export default function CaseStudyHomePage() {
   const viewportWideEnough = useViewportWidth();
-  const { chapters } = useContext(CaseStudyContentContext) ?? {};
-  const [activePage, setActivePage] = useState<string>(
-    chapters?.[0]?.name || "",
-  );
-  const [activeSection, setActiveSection] = useState<string>("");
+  const pageContext = useContext(PageNavigationContext);
+
+  if (!pageContext) {
+    throw new Error(
+      "Make sure the component you want to use the context in is wrapped within the provider component",
+    );
+  }
+
+  const {
+    pages,
+    activePage,
+    setActivePage,
+    activeSubheader,
+    setActiveSubheader,
+  } = pageContext;
 
   return (
     <>
-      <div className="sticky top-[76px] z-10 mx-auto flex bg-tertiary">
+      <div
+        id="nav-case-study-pages-container"
+        className="sticky top-[76px] z-10 mx-auto flex bg-tertiary"
+      >
         <nav
-          id="case-study-pages-nav"
+          id="nav-case-study-pages"
           className={`mx-auto flex w-fit justify-center py-3 ${viewportWideEnough ? "" : "hidden"}`}
         >
           <div className="flex flex-row gap-4 rounded-full bg-quaternary/85 p-0.5">
-            {chapters?.map((chapter, idx) => {
+            {pages?.map((page, pageIdx) => {
               return (
-                <Link
-                  to="#"
-                  key={`${idx}.${chapter.name}`}
-                  onClick={() => setActivePage(chapter.name)}
+                <NavLink
+                  to={`${page.id}`}
+                  key={`${page.id}`}
+                  onClick={() => {
+                    setActivePage(pageIdx);
+                    setActiveSubheader(null);
+                    window.scrollTo(0, 0);
+                  }}
                   className="relative"
                 >
                   <div
-                    className={`overflow-hidden whitespace-nowrap rounded-full p-4 text-xl font-medium ${chapter.name === activePage ? "bg-tertiary text-quaternary/85" : "bg:quaternary/85 text-tertiary"}`}
+                    className={`overflow-hidden whitespace-nowrap rounded-full p-4 text-xl font-medium ${pageIdx === activePage ? "bg-tertiary text-quaternary/85" : "bg:quaternary/85 text-tertiary"}`}
                   >
-                    {chapter.name}
+                    {page.name}
                   </div>
-                </Link>
+                </NavLink>
               );
             })}
           </div>
         </nav>
       </div>
 
-      <div id="content-container" className="flex flex-wrap">
+      <div id="page-content-container" className="flex flex-wrap">
         <div
+          aria-hidden="true"
           className={`flex-[12] ${viewportWideEnough ? "" : "hidden"} sticky`}
           id="filler"
         ></div>
         <main
           id="case-study-content"
-          className="flex-[60] flex-row bg-quaternary p-10 pt-12"
+          className="prose max-w-none flex-[60] flex-row p-10 pt-12"
         >
-          <article className="">
-            <CaseStudyPage
-              markdown={
-                chapters?.find(({ name }) => name === activePage)?.content ||
-                "no content"
-              }
-            />
-          </article>
+          <ActiveCaseStudyPage activePage={activePage} />
         </main>
         <div
-          className={`flex-[14] ${viewportWideEnough ? "" : "hidden"} pr-4 pt-12`}
+          className={`flex-[12] ${viewportWideEnough ? "" : "hidden"} pr-4 pt-12`}
         >
           <nav className={`sticky top-[170px]`} id="on-this-page">
-            <h3 className="mb-6 text-2xl font-normal text-tertiary">
+            <h3 className="mb-6 text-2xl font-semibold text-tertiary">
               On this page
             </h3>
-            <div className="flex">
+            <div className="text-gray-30">
               <ul>
-                {chapters
-                  ?.find(({ name }) => name === activePage)
-                  ?.subheaders.filter((item) => +item.level === 2)
-                  .map((item) => {
+                {pages[activePage].subheaders?.map(
+                  (subheader, subheaderIdx) => {
                     return (
                       <li
                         onClick={() => {
-                          const el = document.getElementById(item.id);
+                          setActiveSubheader(subheaderIdx);
 
+                          const el = document.getElementById(subheader.id);
                           if (el) {
                             const offset = 164;
                             const bodyRect =
@@ -90,13 +101,20 @@ export default function CaseStudyHomePage() {
                             });
                           }
                         }}
-                        className={`relative inline-block rounded-r-sm border-l-4 border-quinary py-2 pl-6 pr-4 text-gray-500 ${activeSection === item.id ? "border-primary bg-primary/40" : ""} hover:font-semibold hover:text-tertiary`}
-                        key={item.id}
+                        className={`relative inline-block rounded-r-sm border-l-4 py-2 pl-6 pr-4 ${activeSubheader === subheaderIdx ? "border-primary bg-primary/45 font-semibold" : "text-gray-400"}`}
+                        key={subheader.id}
                       >
-                        {item.name}
+                        <NavLink
+                          to={`#${subheader.id}`}
+                          className="relative flex flex-row no-underline"
+                        >
+                          {subheader.name}
+                          {/* <span className="absolute bottom-0 left-0 h-[2px] w-full scale-x-0 transform rounded-full bg-current transition-transform duration-500 ease-in-out group-hover:scale-x-100"></span> */}
+                        </NavLink>
                       </li>
                     );
-                  })}
+                  },
+                )}
               </ul>
             </div>
           </nav>

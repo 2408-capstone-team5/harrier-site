@@ -1,12 +1,11 @@
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { PageNavigationContext } from "@/providers/PageNavigation";
 import { Button } from "@/components/ui/button";
-// import { Separator } from "@/components/ui/separator";
-import HarrierBW from "@/assets/harrier-big-white.svg";
+
 import HarrierColor from "@/assets/harrier-big-blue-shadow.svg";
 import GHALogo from "@/assets/GitHub Actions.png";
-// import AWSLogo from "@/assets/AWS.png";
-// import HarrierArchitecture from "@/assets/harrier-architecture.png";
-// import { FaBook } from "react-icons/fa";
+
 import TeamMember from "@/components/TeamMember";
 
 export type Member = {
@@ -20,9 +19,16 @@ export type Member = {
   personalSiteUrl?: string;
 };
 
-const HomePage = () => {
+const LandingPage = () => {
   const navigate = useNavigate();
+  const pageContext = useContext(PageNavigationContext);
+  if (!pageContext) {
+    throw new Error(
+      "Make sure the component you want to use the context in is wrapped within the provider component",
+    );
+  }
 
+  const { setActivePage, setActiveSubheader } = pageContext;
   const team = [
     {
       name: "Wook Kim",
@@ -78,7 +84,11 @@ const HomePage = () => {
             </a>
           </p>
           <Button
-            onClick={() => navigate("/case-study")}
+            onClick={() => {
+              navigate("/case-study/problem-domain");
+              setActivePage(0);
+              setActiveSubheader(null);
+            }}
             className="inline-flex items-center p-6 text-white"
             variant="secondary"
           >
@@ -111,4 +121,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default LandingPage;

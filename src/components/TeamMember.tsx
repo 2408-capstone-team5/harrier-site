@@ -7,7 +7,7 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { FaLinkedin, FaGithub, FaRegFilePdf } from "react-icons/fa";
-import { Member } from "@/components/pages/HomePage";
+import { Member } from "@/components/pages/LandingPage";
 
 const TeamMember = ({ member }: { member: Member }) => {
   return (

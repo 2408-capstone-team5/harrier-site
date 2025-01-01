@@ -9,7 +9,6 @@ Given its prevalence, addressing points of friction in GHA workflows can have a 
 
 ### CI/CD and DevOps: The Backbone of Modern Software Development
 
-![ci-ci-simple-circles](src/assets/2-problem-domain/2.1.1.ci-cd-simple-circles.png)
 Modern software development is a complex endeavor performed by large teams of experts, which require a great deal of communication and integration to ensure high-quality products. To deliver software successfully, it is important to have as much alignment between teams throughout the entire development process. DevOps is a philosophy and culture that enables agile development while supporting collaboration, automation, and continuous improvement. One of the key components of DevOps is Continuous Integration and Continuous Delivery/Deployment (CI/CD).
 
 Continuous Integration (CI) centers around integrating code changes from multiple developers into a shared repository, as frequently as possible (source: codefresh). The desired impact of this practice is to stabilize the code base by discovering and resolving issues as early as possible in the development lifecycle. The output of CI is tested high-quality code that can be deployed to a staging or production environment.
@@ -121,7 +120,6 @@ GitHub recognized the user demand for exploring higher degrees of runner customi
 GitHub’s Self-Hosted Runner feature allows users to configure their own infrastructure by downloading and installing GH’s runner application, which installs the necessary software to connect and execute GHA workflows. Through this application, the user can optimize their hardware, operating system, and software environment to meet specific CI build requirements. For example, it is now possible to utilize machines with higher CPU or memory specifications, install proprietary software, or access resources within a private network.
 
 The Self-Hosted Runner feature can be deployed on a local machine, on-premises server, or even on a cloud infrastructure. For organizations who already have their own on-premises servers with both server resources to spare and dedicated operations teams to manage the infrastructure overhead, perhaps using their hardware as dedicated GHA runners may be a great option. However, for many, the desire for resource optimization and minimal administrative overhead leads to the conclusion that on-demand runners on a managed cloud infrastructure would best serve the needs of a GHA runner.
-![Diagram](src/assets/workflow-runner-new-infra.png)
 
 ### Existing solutions for faster CI Builds
 
@@ -133,7 +131,7 @@ There are many benefits to provisioning an alternative runner infrastructure for
 - Access to various network services and resources
 - Reliable up time
 - (Reaping all the cascading benefits of massive platform scale)
-- ![Diagram](src/assets/ci-cd-repeat-steps.png)
+
   As such, currently there are many paths to realizing an alternative cloud-hosted runner infrastructure for accelerating GHA CI builds that take advantage of these benefits. These solutions largely split into two categories: DIY and 3rd-party provisioned.
 
 For DIYers who have the knowledge and/or time and feel it is a good investment of resources to create an alternative GHA runner infrastructure by themselves to reap the benefits of faster CI builds, there is plenty of step-by-step guidance online that helps people provision an alternative runner infrastructure. (source: various show and tell medium articles).
@@ -180,15 +178,12 @@ There’s a gap between DIY solutions that require technical expertise and third
 - Want to avoid the costs of fully managed third-party services,
 - Need to ensure their code and secrets remain private and secure.
 
-![Diagram](src/assets/ci-cd-github-hosted.png)
-
 **Proposed Solution:** Imagine a service that bridges this gap by offering:
 
 - **DIY Setup Assistance:** A volunteer-based service that helps developers set up and configure self-hosted runners on their own cloud infrastructure. This would provide the benefits of the DIY method without the need for deep technical knowledge.
 - **No Ongoing Costs:** This solution would be free of charge, allowing users to avoid monthly fees associated with third-party providers.
 - **Privacy and Security:** Since the infrastructure would be hosted by the user, the service could ensure that their code and data remain private and secure, without the need to expose it to a third party.
 
-![Diagram](src/assets/dependency-cache-load-cache-store.png)
 This service would offer a simple, secure, and cost-effective alternative for developers who want to leverage the power of self-hosted runners but don’t have the time, knowledge, or desire to manage the setup themselves.
 
 [^2](https://www.markdownguide.org/cheat-sheet/)

@@ -44,12 +44,12 @@ button {
   transition: border-color 0.25s;
 }
 
-@media (prefers-color-scheme: light) {
+/* @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
     background-color: #ececec;
   }
-}
+} */
 
 /* @layer base {
   :root {

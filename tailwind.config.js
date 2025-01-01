@@ -11,11 +11,12 @@ module.exports = {
         quaternary: "#FFFFFF", // white
         quinary: "#E4E4E7", // grey
         senary: "#FEE01B", // harrier yellow
+        septenary: "#ececec", // offwhite
         draculablack: "#1C1D21",
         draculagreen: "#75B863",
         draculared: "#EB3D54",
         draculablue: "#4FB4D8",
-        test: "#F78166"
+        test: "#F78166",
       },
     },
   },

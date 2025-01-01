@@ -24,8 +24,7 @@ const the_variable: A = 16;
 ```
 
 > ### Yada Yada {#yada-yada-id}
->
-> ![Diagram test test figure caption](src/assets/ci-steps-green-box.png)
+
 > some more content
 
 ## Table of Contents

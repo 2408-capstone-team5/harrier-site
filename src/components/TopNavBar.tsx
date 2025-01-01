@@ -1,33 +1,57 @@
-import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { NavLink, Link } from "react-router-dom";
+import { PageNavigationContext } from "@/providers/PageNavigation";
 import { Separator } from "@/components/ui/separator";
 import { FaGithub } from "react-icons/fa";
 import HisHoliness from "@/assets/harrier-big-blue-shadow.svg";
 
 export const TopNavBar = () => {
+  const pageContext = useContext(PageNavigationContext);
+  if (!pageContext) {
+    throw new Error(
+      "Make sure the component you want to use the context in is wrapped in the provider component",
+    );
+  }
+
+  const { setActivePage, setActiveSubheader } = pageContext;
+
   return (
-    <header className={`sticky top-0 z-50 w-full`}>
-      <div className="flex items-center justify-between bg-quaternary px-7">
-        <Link to="/">
+    <header className={`sticky top-0 z-50 w-full bg-white`}>
+      <div className="flex items-center justify-between px-7">
+        <NavLink to="/">
           <img
             src={HisHoliness}
             alt="Harrier Runner Logo"
             className="mb-5 ml-3 mr-6 mt-5 h-9 w-auto"
           />
-        </Link>
-        <Link to="/">
+        </NavLink>
+        <NavLink to="/">
           <h1 className="text-4xl font-semibold">Harrier</h1>
-        </Link>
+        </NavLink>
         <div className="ml-auto mr-4 flex items-center space-x-4 text-lg font-semibold">
-          <Link to="/case-study" className="">
+          <NavLink
+            to="/case-study/problem-domain"
+            onClick={() => {
+              setActivePage(0);
+              setActiveSubheader(null);
+            }}
+          >
             Case Study
-          </Link>
+          </NavLink>
           <Separator
             orientation="vertical"
             className="mx-2 h-8 border-l border-quinary"
           />
-          <Link to="/team" className="">
+          <NavLink to="/team" className="">
             Team
-          </Link>
+          </NavLink>
+          <Separator
+            orientation="vertical"
+            className="mx-2 h-8 border-l border-quinary"
+          />
+          <NavLink to="/try-harrier" className="">
+            Try Harrier
+          </NavLink>
           <Separator
             orientation="vertical"
             className="mx-2 h-8 border-l border-quinary"
@@ -40,10 +64,3 @@ export const TopNavBar = () => {
     </header>
   );
 };
-
-// import { useViewportWidth } from "@/hooks/useViewportWidth";
-//   const viewportWideEnough = useViewportWidth();
-//   const navigate = useNavigate();
-/* transition-transform duration-500 ${
-        viewportWideEnough ? "translate-y-0" : "-translate-y-full"
-      } ease-[cubic-bezier(0.68, -0.55, 0.27, 1.55)] */

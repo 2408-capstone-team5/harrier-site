@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import BWHarrier from "../assets/harrier-big-white.svg";
+
 export const Footer = () => {
   const [time] = useState(new Date().getFullYear());
   const navigate = useNavigate();
@@ -11,7 +11,6 @@ export const Footer = () => {
       <div className="text-center">hi</div>
       <div className="text-center">
         <p>{time} Harrier Contributors</p>{" "}
-        <img src={BWHarrier} alt="" className="h-8 w-8" />
       </div>
       <div className="flex-col text-center">
         <Button
