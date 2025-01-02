@@ -75,8 +75,8 @@ const PageNavigationProvider = ({ children }: { children: ReactNode }) => {
       ],
     },
   ]);
-  const [activePage, setActivePage] = useState(0);
-  const [activeSubheader, setActiveSubheader] = useState(null);
+  const [activePage, setActivePage] = useState<number>(0);
+  const [activeSubheader, setActiveSubheader] = useState<null | number>(null);
 
   return (
     <PageNavigationContext.Provider

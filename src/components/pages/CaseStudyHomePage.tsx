@@ -1,13 +1,12 @@
-import { useContext } from "react";
-import { NavLink } from "react-router-dom";
+import { useContext, useEffect } from "react";
+import { NavLink, Outlet, useLocation } from "react-router-dom";
 import { useViewportWidth } from "@/hooks/useViewportWidth";
 import { PageNavigationContext } from "@/providers/PageNavigation";
-
-import ActiveCaseStudyPage from "./ActiveCaseStudyPage";
 
 export default function CaseStudyHomePage() {
   const viewportWideEnough = useViewportWidth();
   const pageContext = useContext(PageNavigationContext);
+  const location = useLocation();
 
   if (!pageContext) {
     throw new Error(
@@ -22,6 +21,34 @@ export default function CaseStudyHomePage() {
     activeSubheader,
     setActiveSubheader,
   } = pageContext;
+
+  useEffect(() => {
+    const hash = window.location.hash;
+    const path = window.location.pathname;
+    const pageId = path.split("/").pop();
+    const subheaderId = hash ? hash.substring(1) : null;
+    const pageIndex = pages.findIndex((page) => page.id === pageId);
+    console.log(location);
+
+    // console.log({ hash, path, pageId, subheaderId, pageIndex });
+    if (pageIndex !== -1) {
+      setActivePage(pageIndex);
+      if (subheaderId) {
+        const subheaderIndex = pages[pageIndex].subheaders?.findIndex(
+          (subheader) => subheader.id === subheaderId,
+        );
+        if (subheaderIndex !== -1) {
+          setActiveSubheader(subheaderIndex);
+        }
+      }
+    }
+
+    if (hash) {
+      const element = document.getElementById(hash.substring(1));
+      //   console.log({ element });
+      element?.scrollTo({ behavior: "smooth", top: 200 });
+    }
+  }, [location, pages, setActivePage, setActiveSubheader]);
 
   return (
     <>
@@ -68,10 +95,11 @@ export default function CaseStudyHomePage() {
           id="case-study-content"
           className="prose max-w-none flex-[60] flex-row p-10 pt-12"
         >
-          <ActiveCaseStudyPage activePage={activePage} />
+          <Outlet />
         </main>
         <div
-          className={`flex-[12] ${viewportWideEnough ? "" : "hidden"} pr-4 pt-12`}
+          id="on-this-page-container"
+          className={`w-[210px] ${viewportWideEnough ? "" : "hidden"} pr-4 pt-12`}
         >
           <nav className={`sticky top-[170px]`} id="on-this-page">
             <h3 className="mb-6 text-2xl font-semibold text-tertiary">
@@ -109,7 +137,6 @@ export default function CaseStudyHomePage() {
                           className="relative flex flex-row no-underline"
                         >
                           {subheader.name}
-                          {/* <span className="absolute bottom-0 left-0 h-[2px] w-full scale-x-0 transform rounded-full bg-current transition-transform duration-500 ease-in-out group-hover:scale-x-100"></span> */}
                         </NavLink>
                       </li>
                     );
