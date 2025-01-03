@@ -30,7 +30,6 @@ export default function CaseStudyHomePage() {
     const pageIndex = pages.findIndex((page) => page.id === pageId);
     console.log(location);
 
-    // console.log({ hash, path, pageId, subheaderId, pageIndex });
     if (pageIndex !== -1) {
       setActivePage(pageIndex);
       if (subheaderId) {
@@ -45,22 +44,25 @@ export default function CaseStudyHomePage() {
 
     if (hash) {
       const element = document.getElementById(hash.substring(1));
-      //   console.log({ element });
-      element?.scrollTo({ behavior: "smooth", top: 200 });
+      if (element) {
+        const offsetPosition = element.getBoundingClientRect().top + window.scrollY - 164
+        console.log({offsetPosition})
+        window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+      }
     }
   }, [location, pages, setActivePage, setActiveSubheader]);
 
   return (
-    <>
+    <div className="w-full">
       <div
-        id="nav-case-study-pages-container"
-        className="sticky top-[76px] z-10 mx-auto flex bg-tertiary"
+        id="case-study-nav-container"
+        className="sticky top-[76px] z-10 mx-auto flex bg-harrierBLACK"
       >
         <nav
-          id="nav-case-study-pages"
+          id="case-study-nav"
           className={`mx-auto flex w-fit justify-center py-3 ${viewportWideEnough ? "" : "hidden"}`}
         >
-          <div className="flex flex-row gap-4 rounded-full bg-quaternary/85 p-0.5">
+          <div className="flex flex-row gap-4 rounded-full bg-harrierWHITE/85 p-0.5">
             {pages?.map((page, pageIdx) => {
               return (
                 <NavLink
@@ -74,7 +76,7 @@ export default function CaseStudyHomePage() {
                   className="relative"
                 >
                   <div
-                    className={`overflow-hidden whitespace-nowrap rounded-full p-4 text-xl font-medium ${pageIdx === activePage ? "bg-tertiary text-quaternary/85" : "bg:quaternary/85 text-tertiary"}`}
+                    className={`overflow-hidden whitespace-nowrap rounded-full p-4 text-xl font-medium ${pageIdx === activePage ? "bg-harrierBLACK text-harrierWHITE/85" : "bg:quaternary/85 text-harrierBLACK"}`}
                   >
                     {page.name}
                   </div>
@@ -93,7 +95,7 @@ export default function CaseStudyHomePage() {
         ></div>
         <main
           id="case-study-content"
-          className="prose max-w-none flex-[60] flex-row p-10 pt-12"
+          className="prose max-w-none flex-[60] flex-row overflow-y-auto p-10 pt-12"
         >
           <Outlet />
         </main>
@@ -102,10 +104,10 @@ export default function CaseStudyHomePage() {
           className={`w-[210px] ${viewportWideEnough ? "" : "hidden"} pr-4 pt-12`}
         >
           <nav className={`sticky top-[170px]`} id="on-this-page">
-            <h3 className="mb-6 text-2xl font-semibold text-tertiary">
+            <h3 className="mb-6 text-2xl font-semibold text-harrierBLACK">
               On this page
             </h3>
-            <div className="text-gray-30">
+            <div>
               <ul>
                 {pages[activePage].subheaders?.map(
                   (subheader, subheaderIdx) => {
@@ -116,12 +118,7 @@ export default function CaseStudyHomePage() {
 
                           const el = document.getElementById(subheader.id);
                           if (el) {
-                            const offset = 164;
-                            const bodyRect =
-                              document.body.getBoundingClientRect().top;
-                            const elementRect = el.getBoundingClientRect().top;
-                            const elementPosition = elementRect - bodyRect;
-                            const offsetPosition = elementPosition - offset;
+                            const offsetPosition = el.getBoundingClientRect().top + window.scrollY - 164;
 
                             window.scrollTo({
                               top: offsetPosition,
@@ -129,7 +126,7 @@ export default function CaseStudyHomePage() {
                             });
                           }
                         }}
-                        className={`relative inline-block rounded-r-sm border-l-4 py-2 pl-6 pr-4 ${activeSubheader === subheaderIdx ? "border-primary bg-primary/45 font-semibold" : "text-gray-400"}`}
+                        className={`relative inline-block rounded-r-sm border-l-4 py-2 pl-6 pr-4 ${activeSubheader === subheaderIdx ? "border-harrierBLUE bg-harrierBLUE/50 font-semibold" : "text-gray-400"}`}
                         key={subheader.id}
                       >
                         <NavLink
@@ -147,6 +144,6 @@ export default function CaseStudyHomePage() {
           </nav>
         </div>
       </div>
-    </>
+    </div>
   );
 }

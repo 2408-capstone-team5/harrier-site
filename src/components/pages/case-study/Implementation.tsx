@@ -15,14 +15,10 @@ import {
 const Implementation = () => {
   return (
     <>
-      <img
-        src="../src/assets/4-implementation/4.overall-architecture.png"
-        alt="overall architecture"
-      />
       <article id="implementation-1">
         <h2>Implementation 1</h2>
-        <div className="flex flex-row space-x-4">
-          <div className="flex-[25]">
+        <div className="">
+          <div className="">
             <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut
               malesuada dui non augue aliquet, vel iaculis arcu pharetra. Nullam
@@ -38,24 +34,35 @@ const Implementation = () => {
               laboriosam, saepe est corrupti voluptatem sunt.
             </p>
           </div>
-          <img
-            className="max-h-lg m-0 max-w-lg flex-[75] object-contain"
-            src="../src/assets/4-implementation/4.1.isolated-vpc-in-users-aws-account.png"
-            alt="Isolated VPC in user's AWS account"
-          />
+          <Dialog>
+            <DialogTrigger asChild>
+              <img
+                className="max-h-lg m-0 max-w-lg cursor-pointer"
+                src="../src/assets/4-implementation/4.1.isolated-vpc-in-users-aws-account.png"
+                alt="Isolated VPC in user's AWS account"
+              />
+            </DialogTrigger>
+            <DialogContent className="bg-harrierBLACK">
+              <img
+                className="max-h-full max-w-full object-contain"
+                src="../src/assets/4-implementation/4.1.isolated-vpc-in-users-aws-account.png"
+                alt="Isolated VPC in user's AWS account"
+              />
+            </DialogContent>
+          </Dialog>
         </div>
-
+        
         <ul className="m-0 flex flex-row justify-start space-x-4 p-0">
           <li
             id="private-versus-public-subnets"
-            className="max-w-1/2 hover:bg-septenary/50 m-0 inline-block rounded-full border-[0.1rem] border-gray-200 p-0 text-gray-600 hover:border-gray-300 hover:text-tertiary hover:shadow-sm"
+            className="flex-shrink-0 m-0 inline-block rounded-full border-[0.1rem] border-gray-200 p-0 text-gray-600 hover:border-gray-300 hover:bg-harrierOFFWHITE/50 hover:text-harrierBLACK hover:shadow-sm"
           >
             <Dialog>
               <DialogTrigger className="m-0 flex flex-row items-center space-x-2 p-4">
-                <CgFileDocument size="28" className="text-primary" />
+                <CgFileDocument size="28" className="text-harrierBLUE" />
                 <span>Public Versus Private Subnets</span>
               </DialogTrigger>
-              <DialogContent>
+              <DialogContent className="bg-harrierBLACK">
                 <DialogHeader>
                   <DialogTitle asChild>
                     <h2>Public Versus Private Subnets</h2>
@@ -64,11 +71,11 @@ const Implementation = () => {
                     <div className="rounded-md border-gray-400 bg-gray-400/10 p-4">
                       <p className="prose m-0 text-gray-200">
                         Harrier sets up a VPC, which includes a{" "}
-                        <span className="font-bold text-secondary">
+                        <span className="font-bold text-harrierPINK">
                           public subnet
                         </span>{" "}
                         and an{" "}
-                        <span className="font-bold text-secondary">
+                        <span className="font-bold text-harrierPINK">
                           internet gateway
                         </span>
                         , within the user's AWS account. The{" "}
@@ -87,10 +94,10 @@ const Implementation = () => {
                 <DialogFooter>
                   <Link
                     to="https://ui.shadcn.com/docs/components/dialog"
-                    className="flex flex-row text-gray-200 hover:text-primary hover:underline"
+                    className="flex flex-col text-gray-200 hover:text-harrierBLUE hover:underline mt-6 mr-2"
                   >
-                    <span>learn more</span>
-                    {/* <FaExternalLinkSquareAlt className="ml-2" size="18" /> */}
+                    <span>learn</span>
+                    <span>more</span>
                   </Link>
                 </DialogFooter>
               </DialogContent>
@@ -98,17 +105,17 @@ const Implementation = () => {
           </li>
           <li
             id="eni-for-lambdas"
-            className="max-w-1/2 hover:bg-septenary/50 m-0 inline-block rounded-full border-[0.1rem] border-gray-200 p-0 text-gray-600 hover:border-gray-300 hover:text-tertiary hover:shadow-sm"
+            className="flex-shrink-0 m-0 inline-block rounded-full border-[0.1rem] border-gray-200 p-0 text-gray-600 hover:border-gray-300 hover:bg-harrierOFFWHITE/50 hover:text-harrierBLACK hover:shadow-sm"
           >
             <Dialog>
               <DialogTrigger className="m-0 flex flex-row items-center space-x-2 p-4">
-                <SiAwslambda size="28" className="text-senary" />
+                <SiAwslambda size="28" className="text--harrierYELLOW" />
                 <span>ENI for Lambdas</span>
               </DialogTrigger>
               <DialogContent>
                 <DialogHeader>
                   <DialogTitle asChild>
-                    <h2 className="text-quaternary/85">ENI for Lambdas</h2>
+                    <h2 className="text-harrierWHITE/85">ENI for Lambdas</h2>
                   </DialogTitle>
                   <DialogDescription asChild>
                     <div className="rounded-md border-gray-400 bg-gray-400/10 p-4">
@@ -116,7 +123,7 @@ const Implementation = () => {
                         Lorem, ipsum dolor sit amet consectetur adipisicing
                         elit. Eos velit error commodi magnam officia, minus
                         laboriosam voluptatem{" "}
-                        <span className="font-bold text-secondary">
+                        <span className="font-bold text-harrierPINK">
                           exercitation
                         </span>{" "}
                         em nemo accusantium, laudantium voluptas nobis dolorem
@@ -128,10 +135,9 @@ const Implementation = () => {
                 <DialogFooter>
                   <Link
                     to="https://ui.shadcn.com/docs/components/dialog"
-                    className="flex flex-row text-gray-200 hover:text-primary hover:underline"
+                    className="flex flex-row text-gray-200 hover:text-harrierBLUE hover:underline"
                   >
                     <span>learn more</span>
-                    {/* <FaExternalLinkSquareAlt className="ml-2" size="18" /> */}
                   </Link>
                 </DialogFooter>
               </DialogContent>
@@ -139,17 +145,17 @@ const Implementation = () => {
           </li>
           <li
             id="cidr-blocks"
-            className="max-w-1/2 border-lg prose m-0 inline-block rounded-full bg-tertiary p-0 text-white"
+            className="flex-shrink-0 border-lg prose m-0 inline-block rounded-full bg-harrierBLACK p-0 text-white"
           >
             <Dialog>
               <DialogTrigger className="m-0 flex flex-row items-center space-x-2 p-4">
-                <AiOutlineBlock size="28" className="text-secondary" />
+                <AiOutlineBlock size="28" className="text-harrierPINK" />
                 <span>ENI for Lambdas</span>
               </DialogTrigger>
               <DialogContent>
                 <DialogHeader>
                   <DialogTitle asChild>
-                    <h2 className="text-quaternary/85">CIDR Blocks</h2>
+                    <h2 className="text-harrierWHITE/85">CIDR Blocks</h2>
                   </DialogTitle>
                   <DialogDescription asChild>
                     <div className="rounded-md border-gray-400 bg-gray-400/10 p-4">
@@ -157,7 +163,7 @@ const Implementation = () => {
                         Lorem, ipsum dolor sit amet consectetur adipisicing
                         elit. Eos velit error commodi magnam officia, minus
                         laboriosam voluptatem{" "}
-                        <span className="font-bold text-secondary">
+                        <span className="font-bold text-harrierPINK">
                           exercitation
                         </span>{" "}
                         em nemo accusantium, laudantium voluptas nobis dolorem
@@ -169,7 +175,7 @@ const Implementation = () => {
                 <DialogFooter>
                   <Link
                     to="https://ui.shadcn.com/docs/components/dialog"
-                    className="flex flex-row text-gray-200 hover:text-primary hover:underline"
+                    className="flex flex-row text-gray-200 hover:text-harrierBLUE hover:underline"
                   >
                     <span>learn more</span>
                     {/* <FaExternalLinkSquareAlt className="ml-2" size="18" /> */}

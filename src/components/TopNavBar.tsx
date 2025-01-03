@@ -16,7 +16,7 @@ export const TopNavBar = () => {
   const { setActivePage, setActiveSubheader } = pageContext;
 
   return (
-    <header className={`sticky top-0 z-50 w-full bg-white`}>
+    <header className={`sticky top-0 z-50 w-full bg-white`} id="header-nav">
       <div className="flex items-center justify-between px-7">
         <NavLink to="/">
           <img
@@ -40,21 +40,21 @@ export const TopNavBar = () => {
           </NavLink>
           <Separator
             orientation="vertical"
-            className="mx-2 h-8 border-l border-quinary"
+            className="mx-2 h-8 border-l border-harrierGRAY"
           />
           <NavLink to="/team" className="">
             Team
           </NavLink>
           <Separator
             orientation="vertical"
-            className="mx-2 h-8 border-l border-quinary"
+            className="mx-2 h-8 border-l border-harrierGRAY"
           />
           <NavLink to="/try-harrier" className="">
             Try Harrier
           </NavLink>
           <Separator
             orientation="vertical"
-            className="mx-2 h-8 border-l border-quinary"
+            className="mx-2 h-8 border-l border-harrierGRAY"
           />
           <Link to="https://github.com/2408-capstone-team5/harrier-self-hosted-runner">
             <FaGithub size="30px" />

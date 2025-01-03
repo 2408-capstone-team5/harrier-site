@@ -2,7 +2,7 @@ const ProblemDomain = () => {
   return (
     <>
       <article id="problem-domain-1">
-        <h2>Problem Domain 1</h2>
+        <h2 className="header-secondary">Problem Domain 1</h2>
         <blockquote>
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus
           sapiente aut veniam autem, quae explicabo itaque reprehenderit

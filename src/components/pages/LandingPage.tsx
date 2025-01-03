@@ -65,14 +65,14 @@ const LandingPage = () => {
   ];
   return (
     <>
-      <div className="flex h-[36rem] flex-col bg-tertiary text-center">
-        <h2 className="mt-44 text-center text-7xl font-semibold text-quaternary">
+      <div className="flex h-[36rem] flex-col bg-harrierBLACK text-center">
+        <h2 className="mt-44 text-center text-7xl font-semibold text-harrierWHITE">
           Harrier
         </h2>
         <div>
           <p className="mb-9 mt-7 text-2xl text-white">
             an automated{" "}
-            <span className="font-semibold text-secondary">
+            <span className="font-semibold text-harrierPINK">
               self-hosted runner
             </span>{" "}
             setup tool for{" "}
@@ -96,7 +96,7 @@ const LandingPage = () => {
           </Button>
         </div>
       </div>
-      <div className="flex h-[36rem] items-center justify-around bg-quaternary">
+      <div className="flex h-[36rem] items-center justify-around bg-harrierWHITE">
         <img src={GHALogo} alt="GitHub Actions Logo" className="h-80 w-auto" />
         <img
           src={HarrierColor}
@@ -104,8 +104,8 @@ const LandingPage = () => {
           className="h-40 w-auto"
         />
       </div>
-      <div className="flex flex-col items-center justify-center bg-quaternary pb-8">
-        <h3 className="mb-8 text-3xl font-semibold text-tertiary">
+      <div className="flex flex-col items-center justify-center bg-harrierWHITE pb-8">
+        <h3 className="mb-8 text-3xl font-semibold text-harrierBLACK">
           Meet the Team
         </h3>
 
