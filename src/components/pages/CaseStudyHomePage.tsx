@@ -45,8 +45,9 @@ export default function CaseStudyHomePage() {
     if (hash) {
       const element = document.getElementById(hash.substring(1));
       if (element) {
-        const offsetPosition = element.getBoundingClientRect().top + window.scrollY - 164
-        console.log({offsetPosition})
+        const offsetPosition =
+          element.getBoundingClientRect().top + window.scrollY - 164;
+        console.log({ offsetPosition });
         window.scrollTo({ top: offsetPosition, behavior: "smooth" });
       }
     }
@@ -118,7 +119,10 @@ export default function CaseStudyHomePage() {
 
                           const el = document.getElementById(subheader.id);
                           if (el) {
-                            const offsetPosition = el.getBoundingClientRect().top + window.scrollY - 164;
+                            const offsetPosition =
+                              el.getBoundingClientRect().top +
+                              window.scrollY -
+                              164;
 
                             window.scrollTo({
                               top: offsetPosition,
