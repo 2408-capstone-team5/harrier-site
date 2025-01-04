@@ -1,21 +1,56 @@
 import { SiAwslambda } from "react-icons/si";
 import { CgFileDocument } from "react-icons/cg";
 import { AiOutlineBlock } from "react-icons/ai";
-import { Link } from "react-router-dom";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  DialogFooter,
-} from "@/components/ui/dialog";
+import { useContext } from "react";
+import { PageNavigationContext } from "@/providers/PageNavigation";
+
+import { TextContentModal, ImageContentModal } from "@/components/ui/dialog";
+import { useInView } from "react-intersection-observer";
+
+const SectionInView = ({
+  sectionId,
+  onInView,
+}: {
+  sectionId: string;
+  onInView: (id: string) => void;
+}) => {
+  const { ref, inView } = useInView({
+    triggerOnce: false,
+    threshold: 0.3,
+    rootMargin: "0px 0px -60% 0px",
+  });
+
+  if (inView) onInView(sectionId);
+
+  return <div ref={ref}></div>;
+};
 
 const Implementation = () => {
+  const pageContext = useContext(PageNavigationContext);
+
+  if (!pageContext) {
+    throw new Error(
+      "make sure to wrap the component in a PageNavigationProvider",
+    );
+  }
+
+  const { setActiveSubheader, pages, activePage } = pageContext;
+
+  const subheaderIds = pages[activePage].subheaders?.map(
+    (subheader) => subheader.id,
+  );
+
+  const handleInView = (id: string) => {
+    const subheaderIndex = subheaderIds.indexOf(id);
+    if (subheaderIndex !== -1) {
+      setActiveSubheader(subheaderIndex);
+    }
+  };
+
   return (
     <>
-      <article id="implementation-1">
+      <section id="implementation-1">
+        <SectionInView sectionId="implementation-1" onInView={handleInView} />
         <h2>Implementation 1</h2>
         <div className="">
           <div className="">
@@ -34,160 +69,18 @@ const Implementation = () => {
               laboriosam, saepe est corrupti voluptatem sunt.
             </p>
           </div>
-          <Dialog>
-            <DialogTrigger asChild>
-              <img
-                className="max-h-lg m-0 max-w-lg cursor-pointer"
-                src="../src/assets/4-implementation/4.1.isolated-vpc-in-users-aws-account.png"
-                alt="Isolated VPC in user's AWS account"
-              />
-            </DialogTrigger>
-            <DialogContent className="bg-harrierBLACK">
-              <img
-                className="max-h-full max-w-full object-contain"
-                src="../src/assets/4-implementation/4.1.isolated-vpc-in-users-aws-account.png"
-                alt="Isolated VPC in user's AWS account"
-              />
-            </DialogContent>
-          </Dialog>
+          <ImageContentModal
+            src={
+              "../src/assets/4-implementation/4.1.isolated-vpc-in-users-aws-account.png"
+            }
+            alt={"Isolated VPC in user's AWS account"}
+          />
         </div>
-        
-        <ul className="m-0 flex flex-row justify-start space-x-4 p-0">
-          <li
-            id="private-versus-public-subnets"
-            className="flex-shrink-0 m-0 inline-block rounded-full border-[0.1rem] border-gray-200 p-0 text-gray-600 hover:border-gray-300 hover:bg-harrierOFFWHITE/50 hover:text-harrierBLACK hover:shadow-sm"
-          >
-            <Dialog>
-              <DialogTrigger className="m-0 flex flex-row items-center space-x-2 p-4">
-                <CgFileDocument size="28" className="text-harrierBLUE" />
-                <span>Public Versus Private Subnets</span>
-              </DialogTrigger>
-              <DialogContent className="bg-harrierBLACK">
-                <DialogHeader>
-                  <DialogTitle asChild>
-                    <h2>Public Versus Private Subnets</h2>
-                  </DialogTitle>
-                  <DialogDescription asChild>
-                    <div className="rounded-md border-gray-400 bg-gray-400/10 p-4">
-                      <p className="prose m-0 text-gray-200">
-                        Harrier sets up a VPC, which includes a{" "}
-                        <span className="font-bold text-harrierPINK">
-                          public subnet
-                        </span>{" "}
-                        and an{" "}
-                        <span className="font-bold text-harrierPINK">
-                          internet gateway
-                        </span>
-                        , within the user's AWS account. The{" "}
-                        <span>internet gateway</span> allows internet access for
-                        the EC2s. Traffic from the internet gateway is routed to
-                        the public subnet using the routes in the routing table.
-                        Lorem ipsum dolor sit, amet consectetur adipisicing
-                        elit. Corporis, expedita nisi assumenda aspernatur
-                        commodi dignissimos incidunt cumque rerum veniam
-                        explicabo qui voluptas ratione libero perferendis id.
-                        Ipsam iusto necessitatibus non!
-                      </p>
-                    </div>
-                  </DialogDescription>
-                </DialogHeader>
-                <DialogFooter>
-                  <Link
-                    to="https://ui.shadcn.com/docs/components/dialog"
-                    className="flex flex-col text-gray-200 hover:text-harrierBLUE hover:underline mt-6 mr-2"
-                  >
-                    <span>learn</span>
-                    <span>more</span>
-                  </Link>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
-          </li>
-          <li
-            id="eni-for-lambdas"
-            className="flex-shrink-0 m-0 inline-block rounded-full border-[0.1rem] border-gray-200 p-0 text-gray-600 hover:border-gray-300 hover:bg-harrierOFFWHITE/50 hover:text-harrierBLACK hover:shadow-sm"
-          >
-            <Dialog>
-              <DialogTrigger className="m-0 flex flex-row items-center space-x-2 p-4">
-                <SiAwslambda size="28" className="text--harrierYELLOW" />
-                <span>ENI for Lambdas</span>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle asChild>
-                    <h2 className="text-harrierWHITE/85">ENI for Lambdas</h2>
-                  </DialogTitle>
-                  <DialogDescription asChild>
-                    <div className="rounded-md border-gray-400 bg-gray-400/10 p-4">
-                      <p className="prose m-0 text-gray-200">
-                        Lorem, ipsum dolor sit amet consectetur adipisicing
-                        elit. Eos velit error commodi magnam officia, minus
-                        laboriosam voluptatem{" "}
-                        <span className="font-bold text-harrierPINK">
-                          exercitation
-                        </span>{" "}
-                        em nemo accusantium, laudantium voluptas nobis dolorem
-                        hic nisi facilis expedita totam sint.
-                      </p>
-                    </div>
-                  </DialogDescription>
-                </DialogHeader>
-                <DialogFooter>
-                  <Link
-                    to="https://ui.shadcn.com/docs/components/dialog"
-                    className="flex flex-row text-gray-200 hover:text-harrierBLUE hover:underline"
-                  >
-                    <span>learn more</span>
-                  </Link>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
-          </li>
-          <li
-            id="cidr-blocks"
-            className="flex-shrink-0 border-lg prose m-0 inline-block rounded-full bg-harrierBLACK p-0 text-white"
-          >
-            <Dialog>
-              <DialogTrigger className="m-0 flex flex-row items-center space-x-2 p-4">
-                <AiOutlineBlock size="28" className="text-harrierPINK" />
-                <span>ENI for Lambdas</span>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle asChild>
-                    <h2 className="text-harrierWHITE/85">CIDR Blocks</h2>
-                  </DialogTitle>
-                  <DialogDescription asChild>
-                    <div className="rounded-md border-gray-400 bg-gray-400/10 p-4">
-                      <p className="prose m-0 text-gray-200">
-                        Lorem, ipsum dolor sit amet consectetur adipisicing
-                        elit. Eos velit error commodi magnam officia, minus
-                        laboriosam voluptatem{" "}
-                        <span className="font-bold text-harrierPINK">
-                          exercitation
-                        </span>{" "}
-                        em nemo accusantium, laudantium voluptas nobis dolorem
-                        hic nisi facilis expedita totam sint.
-                      </p>
-                    </div>
-                  </DialogDescription>
-                </DialogHeader>
-                <DialogFooter>
-                  <Link
-                    to="https://ui.shadcn.com/docs/components/dialog"
-                    className="flex flex-row text-gray-200 hover:text-harrierBLUE hover:underline"
-                  >
-                    <span>learn more</span>
-                    {/* <FaExternalLinkSquareAlt className="ml-2" size="18" /> */}
-                  </Link>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
-          </li>
-        </ul>
-      </article>
+      </section>
 
-      <article id="implementation-2">
+      <section id="implementation-2">
+        <SectionInView sectionId="implementation-2" onInView={handleInView} />
+
         <h2>Implementation 2</h2>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
@@ -201,9 +94,16 @@ const Implementation = () => {
           convallis. Morbi euismod odio nec orci feugiat, vel vehicula ligula
           volutpat.
         </p>
-      </article>
+        <ImageContentModal
+          src={
+            "../src/assets/4-implementation/4.2.fleet-of-ec2-runners-full.png"
+          }
+          alt={"Fleet of EC2 runners"}
+        />
+      </section>
 
-      <article id="implementation-3">
+      <section id="implementation-3">
+        <SectionInView sectionId="implementation-3" onInView={handleInView} />
         <h2>Implementation 3</h2>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed fringilla
@@ -215,9 +115,57 @@ const Implementation = () => {
           amet sit amet velit. Integer vestibulum, elit in fringilla faucibus,
           eros arcu vulputate urna, eget sollicitudin libero mi vel ante.
         </p>
-      </article>
+        <ImageContentModal
+          src={
+            "../src/assets/4-implementation/4.3.just-in-time-token-registration-of-runner.png"
+          }
+          alt={"Just-in-time token registration of runner"}
+        />
+        <ul className="m-0 flex flex-row justify-start space-x-4 p-0">
+          <li
+            id="private-versus-public-subnets"
+            className="m-0 inline-block flex-shrink-0 rounded-full border-[0.1rem] border-gray-200 p-0 text-gray-600 hover:border-gray-300 hover:bg-harrierOFFWHITE/50 hover:text-harrierBLACK hover:shadow-sm"
+          >
+            <TextContentModal
+              title="Private Versus Public Subnets"
+              description="description"
+            >
+              <>
+                <CgFileDocument size="28" className="text-harrierBLUE" />
+                <span>Public Versus Private Subnets</span>
+              </>
+              CONTENT
+            </TextContentModal>
+          </li>
+          <li
+            id="eni-for-lambdas"
+            className="m-0 inline-block flex-shrink-0 rounded-full border-[0.1rem] border-gray-200 p-0 text-gray-600 hover:border-gray-300 hover:bg-harrierOFFWHITE/50 hover:text-harrierBLACK hover:shadow-sm"
+          >
+            <TextContentModal title="ENI for Lambdas" description="description">
+              <>
+                <SiAwslambda size="28" className="text-harrierPINK" />
+                <span>ENI for Lambdas</span>
+              </>
+              CONTENT
+            </TextContentModal>
+          </li>
+          <li
+            id="cidr-blocks"
+            className="border-lg prose m-0 inline-block flex-shrink-0 rounded-full bg-harrierBLACK p-0 text-white"
+          >
+            <TextContentModal title="CIDR Blocks" description="description">
+              <>
+                <AiOutlineBlock size="28" className="text-harrierYELLOW" />
+                <span>CIDR Blocks</span>
+              </>
+              CONTENT
+            </TextContentModal>
+          </li>
+        </ul>
+      </section>
 
-      <article id="implementation-4">
+      <section id="implementation-4">
+        <SectionInView sectionId="implementation-4" onInView={handleInView} />
         <h2>Implementation 4</h2>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
@@ -229,9 +177,16 @@ const Implementation = () => {
           risus aliquam, vel malesuada orci dictum. Ut tincidunt ipsum non nulla
           varius, sit amet maximus lorem vulputate.
         </p>
-      </article>
+        <ImageContentModal
+          src={
+            "../src/assets/4-implementation/4.4.termination-of-ec2-runners.png"
+          }
+          alt={"Termination of EC2 runners"}
+        />
+      </section>
 
-      <article id="implementation-5">
+      <section id="implementation-5">
+        <SectionInView sectionId="implementation-5" onInView={handleInView} />
         <h2>Implementation 5</h2>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
@@ -244,9 +199,14 @@ const Implementation = () => {
           vel ante massa. Phasellus sollicitudin magna sed dui vestibulum
           vehicula.
         </p>
-      </article>
+        <ImageContentModal
+          src={"../src/assets/4-implementation/4.5.s3-bucket-cache-store.png"}
+          alt={"S3 bucket cache store"}
+        />
+      </section>
 
-      <article id="implementation-6">
+      <section id="implementation-6">
+        <SectionInView sectionId="implementation-6" onInView={handleInView} />
         <h2>Implementation 6</h2>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla
@@ -258,9 +218,14 @@ const Implementation = () => {
           justo posuere gravida. Aliquam feugiat odio et felis elementum, sed
           hendrerit ipsum elementum. Nulla sed tempus sem, vel feugiat justo.
         </p>
-      </article>
+        <ImageContentModal
+          src={"../src/assets/4-implementation/4.6.cache-by-harrier.png"}
+          alt={"Cache by Harrier"}
+        />
+      </section>
 
-      <article id="implementation-7">
+      <section id="implementation-7">
+        <SectionInView sectionId="implementation-7" onInView={handleInView} />
         <h2>Implementation 7</h2>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
@@ -273,9 +238,14 @@ const Implementation = () => {
           suscipit. Nam eget lacus in metus ullamcorper interdum. Morbi
           pellentesque ante sit amet risus malesuada, ac faucibus ante varius.
         </p>
-      </article>
+        <ImageContentModal
+          src={"../src/assets/4-implementation/4.7.high-level.png"}
+          alt={"high-level"}
+        />
+      </section>
 
-      <article id="implementation-8">
+      <section id="implementation-8">
+        <SectionInView sectionId="implementation-8" onInView={handleInView} />
         <h2>Implementation 8</h2>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed bibendum
@@ -289,9 +259,16 @@ const Implementation = () => {
           sapien aliquet, et gravida lorem auctor. Nam et lectus a turpis
           sollicitudin tempor.
         </p>
-      </article>
+        <ImageContentModal
+          src={
+            "../src/assets/4-implementation/4.8.minimal-workflow-modification-v1.gif"
+          }
+          alt={"minimal workflow modification"}
+        />
+      </section>
 
-      <article id="implementation-9">
+      <section id="implementation-9">
+        <SectionInView sectionId="implementation-9" onInView={handleInView} />
         <h2>Implementation 9</h2>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla tempus
@@ -305,9 +282,14 @@ const Implementation = () => {
           est sodales ligula, eget venenatis ipsum sapien vel libero. Mauris
           posuere arcu in justo suscipit suscipit.
         </p>
-      </article>
+        <ImageContentModal
+          src={"../src/assets/4-implementation/4.overall-architecture.png"}
+          alt={"Overall architecture"}
+        />
+      </section>
 
-      <article id="implementation-10">
+      <section id="implementation-10">
+        <SectionInView sectionId="implementation-10" onInView={handleInView} />
         <h2>Implementation 10</h2>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
@@ -322,7 +304,7 @@ const Implementation = () => {
           vehicula egestas, lorem urna gravida nunc, ut viverra ligula felis
           eget erat.
         </p>
-      </article>
+      </section>
     </>
   );
 };

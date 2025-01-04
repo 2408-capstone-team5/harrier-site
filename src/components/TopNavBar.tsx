@@ -33,7 +33,7 @@ export const TopNavBar = () => {
             to="/case-study/problem-domain"
             onClick={() => {
               setActivePage(0);
-              setActiveSubheader(null);
+              //   setActiveSubheader(null);
             }}
           >
             Case Study

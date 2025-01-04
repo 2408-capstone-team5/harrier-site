@@ -1,8 +1,7 @@
 import * as React from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
-import { X } from "lucide-react";
-
 import { cn } from "@/lib/utils";
+import { X } from "lucide-react";
 
 const Dialog = DialogPrimitive.Root;
 
@@ -19,7 +18,7 @@ const DialogOverlay = React.forwardRef<
   <DialogPrimitive.Overlay
     ref={ref}
     className={cn(
-      "fixed inset-0 z-50 bg-harrierBLACK/80 backdrop-blur-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 ",
+      "fixed inset-0 z-50 bg-harrierBLACK/80 backdrop-blur-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
       className,
     )}
     {...props}
@@ -36,7 +35,7 @@ const DialogContent = React.forwardRef<
     <DialogPrimitive.Content
       ref={ref}
       className={cn(
-        "fixed left-[50%] top-[50%] z-50 w-full max-w-2xl translate-x-[-50%] translate-y-[-50%] gap-4 rounded-md border-0 px-8 py-6 shadow-lg duration-150 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]",
+        "fixed left-[50%] top-[50%] z-50 w-full max-w-7xl translate-x-[-50%] translate-y-[-50%] gap-4 rounded-md border-0 bg-harrierGRAY px-8 py-6 shadow-lg duration-150 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]",
         className,
       )}
       {...props}
@@ -106,6 +105,73 @@ const DialogDescription = React.forwardRef<
 ));
 DialogDescription.displayName = DialogPrimitive.Description.displayName;
 
+const TextContentModal = ({
+  title,
+  children,
+}: {
+  title: string;
+  description: string;
+  children: React.ReactNode;
+}) => {
+  const [trigger, ...content] = React.Children.toArray(children);
+
+  return (
+    <Dialog>
+      <DialogTrigger className="m-0 flex flex-row items-center space-x-2 p-4">
+        {trigger}
+      </DialogTrigger>
+      <DialogContent className="bg-harrierBLACK">
+        <DialogHeader>
+          <DialogTitle asChild>
+            <h2>{title}</h2>
+          </DialogTitle>
+        </DialogHeader>
+        <DialogDescription asChild>
+          <div className="rounded-md border-gray-400 bg-gray-400/10 p-4">
+            <p className="prose m-0 text-gray-200">{content}</p>
+          </div>
+        </DialogDescription>
+        <DialogFooter></DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+const ImageContentModal = ({ src, alt }: { src: string; alt: string }) => {
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <img
+          className="m-0 cursor-pointer"
+          src={src}
+          alt={alt}
+          style={{
+            width: "100%",
+            height: "auto",
+            maxWidth: "800px",
+          }}
+        />
+      </DialogTrigger>
+      <DialogContent className="bg-harrierBLACK">
+        <DialogHeader>
+          <DialogTitle asChild>
+            <h2>{alt}</h2>
+          </DialogTitle>
+        </DialogHeader>
+        <DialogDescription asChild>
+          <div className="rounded-md border-gray-400 bg-harrierOFFWHITE p-4">
+            <img
+              className="max-h-full max-w-full object-contain"
+              src={src}
+              alt={alt}
+            />
+          </div>
+        </DialogDescription>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
 export {
   Dialog,
   DialogPortal,
@@ -117,4 +183,6 @@ export {
   DialogFooter,
   DialogTitle,
   DialogDescription,
+  TextContentModal, // we created these 2 components
+  ImageContentModal,
 };

@@ -66,9 +66,9 @@ const LandingPage = () => {
   return (
     <>
       <div className="flex h-[36rem] flex-col bg-harrierBLACK text-center">
-        <h2 className="mt-44 text-center text-7xl font-semibold text-harrierWHITE">
+        <h1 className="mt-44 text-center text-7xl font-semibold text-harrierWHITE">
           Harrier
-        </h2>
+        </h1>
         <div>
           <p className="mb-9 mt-7 text-2xl text-white">
             an automated{" "}
