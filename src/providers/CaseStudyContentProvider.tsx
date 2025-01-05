@@ -94,7 +94,6 @@ const CaseStudyContentProvider = ({ children }: { children: ReactNode }) => {
     return <div>{error}</div>;
   }
 
-  console.log({ chapters });
   return (
     <CaseStudyContentContext.Provider value={{ chapters }}>
       {children}

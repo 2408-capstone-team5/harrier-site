@@ -1,12 +1,11 @@
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { PageNavigationContext } from "@/providers/PageNavigation";
 import { Button } from "@/components/ui/button";
-// import { Separator } from "@/components/ui/separator";
-import HarrierBW from "@/assets/harrier-big-white.svg";
+// import FloatingBirds from "@/components/FloatingBirds";
 import HarrierColor from "@/assets/harrier-big-blue-shadow.svg";
 import GHALogo from "@/assets/GitHub Actions.png";
-// import AWSLogo from "@/assets/AWS.png";
-// import HarrierArchitecture from "@/assets/harrier-architecture.png";
-// import { FaBook } from "react-icons/fa";
+
 import TeamMember from "@/components/TeamMember";
 
 export type Member = {
@@ -20,9 +19,16 @@ export type Member = {
   personalSiteUrl?: string;
 };
 
-const HomePage = () => {
+const LandingPage = () => {
   const navigate = useNavigate();
+  const pageContext = useContext(PageNavigationContext);
+  if (!pageContext) {
+    throw new Error(
+      "Make sure the component you want to use the context in is wrapped within the provider component",
+    );
+  }
 
+  const { setActivePage, setActiveSubheader } = pageContext;
   const team = [
     {
       name: "Wook Kim",
@@ -59,14 +65,15 @@ const HomePage = () => {
   ];
   return (
     <>
-      <div className="flex h-[36rem] flex-col bg-tertiary text-center">
-        <h2 className="mt-44 text-center text-7xl font-semibold text-quaternary">
+      <div className="flex h-[36rem] flex-col bg-harrierBLACK text-center">
+        {/* <FloatingBirds /> */}
+        <h1 className="mt-44 text-center text-7xl font-semibold text-harrierWHITE">
           Harrier
-        </h2>
+        </h1>
         <div>
           <p className="mb-9 mt-7 text-2xl text-white">
             an automated{" "}
-            <span className="font-semibold text-secondary">
+            <span className="font-semibold text-harrierPINK">
               self-hosted runner
             </span>{" "}
             setup tool for{" "}
@@ -78,7 +85,11 @@ const HomePage = () => {
             </a>
           </p>
           <Button
-            onClick={() => navigate("/case-study")}
+            onClick={() => {
+              navigate("/case-study/problem-domain");
+              setActivePage(0);
+              setActiveSubheader(null);
+            }}
             className="inline-flex items-center p-6 text-white"
             variant="secondary"
           >
@@ -86,7 +97,7 @@ const HomePage = () => {
           </Button>
         </div>
       </div>
-      <div className="flex h-[36rem] items-center justify-around bg-quaternary">
+      <div className="flex h-[36rem] items-center justify-around bg-harrierWHITE">
         <img src={GHALogo} alt="GitHub Actions Logo" className="h-80 w-auto" />
         <img
           src={HarrierColor}
@@ -94,8 +105,8 @@ const HomePage = () => {
           className="h-40 w-auto"
         />
       </div>
-      <div className="flex flex-col items-center justify-center bg-quaternary pb-8">
-        <h3 className="mb-8 text-3xl font-semibold text-tertiary">
+      <div className="flex flex-col items-center justify-center bg-harrierWHITE pb-8">
+        <h3 className="mb-8 text-3xl font-semibold text-harrierBLACK">
           Meet the Team
         </h3>
 
@@ -111,4 +122,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default LandingPage;

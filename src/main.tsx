@@ -1,42 +1,69 @@
-import React, { StrictMode, Suspense, lazy } from "react";
+import { StrictMode, Suspense } from "react";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { CaseStudyContentProvider } from "../src/providers/CaseStudyContentProvider";
-// import ErrorBoundary from "./components/ErrorBoundary";
-import GetStartedPage from "./components/pages/GetStartedPage";
-import Layout from "./components/Layout";
-import HomePage from "./components/pages/HomePage";
-import CaseStudyHomePage from "./components/pages/CaseStudyHomePage";
+import { PageNavigationProvider } from "../src/providers/PageNavigation"; // Import the provider
+
+import TryHarrierPage from "./components/pages/TryHarrierPage";
+import Layout from "./components/utility/Layout";
+import LandingPage from "./components/pages/LandingPage";
 import NotFoundPage from "./components/pages/NotFoundPage";
+import CaseStudyHomePage from "./components/pages/CaseStudyHomePage";
 import "./index.css";
 
-// const GetStartedPage = lazy(() => import("./components/pages/GetStartedPage"));
+import ProblemDomain from "./components/pages/case-study/ProblemDomain";
+import Design from "./components/pages/case-study/Design";
+import Implementation from "./components/pages/case-study/Implementation";
 
 createRoot(document.getElementById("app")!).render(
   <StrictMode>
-    <CaseStudyContentProvider>
-      {/* <ErrorBoundary> */}
+    <PageNavigationProvider>
       <RouterProvider
         router={createBrowserRouter([
           {
             path: "/",
             element: <Layout />,
-            errorElement: <div>generic error</div>,
+            errorElement: <div>generic error</div>, // TODO: Add improved error page
             children: [
               {
                 index: true,
-                element: <HomePage />,
+                element: <LandingPage />,
               },
               {
                 path: "case-study",
                 element: <CaseStudyHomePage />,
                 errorElement: <NotFoundPage />,
+                children: [
+                  {
+                    path: "problem-domain",
+                    element: <ProblemDomain />,
+                  },
+                  {
+                    path: "design",
+                    element: <Design />,
+                  },
+                  {
+                    path: "implementation",
+                    element: <Implementation />,
+                  },
+                  {
+                    path: "future-work",
+                    element: <div>Future Work</div>,
+                  },
+                  {
+                    path: "*",
+                    element: <NotFoundPage />,
+                  },
+                ],
               },
               {
-                path: "get-started",
+                path: "team",
+                element: <div>team</div>,
+              },
+              {
+                path: "try-harrier",
                 element: (
                   <Suspense fallback={<div>Loading...</div>}>
-                    <GetStartedPage />
+                    <TryHarrierPage />
                   </Suspense>
                 ),
               },
@@ -48,7 +75,6 @@ createRoot(document.getElementById("app")!).render(
           },
         ])}
       />
-      {/* </ErrorBoundary> */}
-    </CaseStudyContentProvider>
+    </PageNavigationProvider>
   </StrictMode>,
 );

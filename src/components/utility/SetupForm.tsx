@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/form";
 import { ArrowLeft } from "lucide-react";
 import { useState } from "react";
-import { Input } from "./ui/input";
+import { Input } from "@/components/ui/input";
 
 const formSchema = z.object({
   awsRegion: z.enum(["us-east-1", "us-east-2", "eu-west-1", "us-west-2"], {

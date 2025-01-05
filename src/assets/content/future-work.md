@@ -2,14 +2,11 @@
 
 ## Workflow and EC2 Instance Management {#workflow-and-ec2-instance-management}
 
-![Dark](src/assets/dark-api-integration-trsprt.png)
-![Light](src/assets/light-api-integration-trsprt.png)
 Dynamic EC2 Timeout: Line 470 of the Workflow Lambda invokes TimeoutLambda with a hardcoded 1-minute delay for stopping EC2 instances. Consider making this delay dynamic or user-configurable, ranging from 0 to 5 minutes.
 Workflow Drop Issue: The Workflow Lambda currently drops incoming workflows if no EC2 instance is idle or offline. Consider implementing an Event Bus (or SQS) to queue incoming workflows and prevent them from being dropped.
 
 ## Cleanup and Cache Management {#cleanup-and-cache-management}
 
-![diagramB](src/assets/api-integration-trsprt (1).png)
 EventBridge Schedule Cleanup: There are 68 EventBridge Schedules (cron jobs) piling up. Cleanup logic is not properly deleting them. Consider improving the cleanup of these schedules.
 Cache Eviction Time: Cache eviction currently runs at 3 AM UTC, but it should run at 3 AM local time in the user’s region to be more relevant.
 \_work Directory Cleanup: Ensure the \_work directory on the EC2 instance is fully deleted after each workflow run to prevent exposing any environment data to future runs.

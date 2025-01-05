@@ -96,7 +96,7 @@ export default function RenderYaml({ formDataJSON }: { formDataJSON: string }) {
         >
           {copied ? <ClipboardCheck /> : <Copy />}
         </Button>
-        <h2 className="text-xl font-semibold">Generated YAML:</h2>
+        <h3 className="text-xl font-semibold">Generated YAML:</h3>
         {/* <SyntaxHighlighter
           language="yaml"
           style={dracula}
