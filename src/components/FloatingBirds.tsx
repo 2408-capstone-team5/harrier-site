@@ -1,8 +1,12 @@
 import React from "react";
-import birdImage from "@/assets/harrier-big-white.svg";
+import birdImage from "@/assets/harrier-big-blue-shadow.svg";
 
 const FloatingBirds: React.FC = () => {
-  return <img src={birdImage} alt="Floating Bird" className="bird" />;
+  return (
+    <div className="bird-wrapper">
+      <img src={birdImage} alt="Floating Bird" className="bird" />
+    </div>
+  );
 };
 
 export default FloatingBirds;
