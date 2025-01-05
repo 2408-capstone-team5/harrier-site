@@ -1,18 +1,16 @@
 import path from "path";
 import react from "@vitejs/plugin-react";
-// const mdPlugin,
-//   // eslint-disable-next-line @typescript-eslint/no-require-imports
-//   { Mode } = require("vite-plugin-markdown");
-// import { Mode, plugin as mdPlugin } from "vite-plugin-markdown";
+
 import { defineConfig } from "vite";
 
 export default defineConfig({
-  plugins: [
-    react(),
-    // mdPlugin({
-    //   mode: [Mode.TOC, Mode.HTML, Mode.MARKDOWN, Mode.REACT],
-    // }),
-  ],
+  plugins: [react()],
+  base: "/2408-capstone-team5.github.io/",
+  build: {
+    outDir: "dist",
+    sourcemap: false,
+    minify: "terser",
+  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
