@@ -24,7 +24,7 @@ export default function CaseStudyHomePage() {
   const scrollToElement = useCallback((id: string) => {
     const element = document.getElementById(id);
     if (element) {
-      const offset = element.offsetTop - 164;
+      const offset = element.offsetTop - 152;
       window.scrollTo({ top: offset, behavior: "smooth" });
     }
   }, []);
@@ -54,15 +54,12 @@ export default function CaseStudyHomePage() {
 
   return (
     <div className="w-full">
-      <div
-        id="case-study-nav-container"
-        className="sticky top-[76px] z-10 mx-auto flex bg-harrierBLACK"
-      >
+      <div id="case-study-nav-container" className="sticky top-[88px] z-10">
         <nav
           id="case-study-nav"
-          className={`mx-auto flex w-fit justify-center py-3 ${viewportWideEnough ? "" : "hidden"}`}
+          className={`mx-auto flex w-fit justify-center py-2 ${viewportWideEnough ? "" : "hidden"} `}
         >
-          <div className="flex flex-row gap-4 rounded-full bg-harrierWHITE/85 p-0.5">
+          <div className="flex flex-row gap-4 rounded-md bg-harrierWHITE p-0.5 drop-shadow-md">
             {pages?.map((page, pageIdx) => (
               <NavLink
                 to={`${page.id}`}
@@ -75,7 +72,7 @@ export default function CaseStudyHomePage() {
                 className="relative"
               >
                 <div
-                  className={`overflow-hidden whitespace-nowrap rounded-full p-4 text-xl font-medium ${pageIdx === activePage ? "bg-harrierBLACK text-harrierWHITE/85" : "bg-quaternary/85 text-harrierBLACK"}`}
+                  className={`overflow-hidden whitespace-nowrap rounded-md p-2 text-xl font-medium ${pageIdx === activePage ? "bg-harrierBLACK text-harrierWHITE/85" : "bg-quaternary/85 text-harrierBLACK"}`}
                 >
                   {page.name}
                 </div>
@@ -86,11 +83,11 @@ export default function CaseStudyHomePage() {
       </div>
 
       <div id="page-content-container" className="flex flex-wrap">
-        <div
+        {/* <div
           aria-hidden="true"
-          className={`flex-[12] ${viewportWideEnough ? "" : "hidden"} sticky`}
+          className={`w-[210px] ${window.innerWidth > 1000 ? "" : "hidden"} sticky`}
           id="filler"
-        ></div>
+        ></div> */}
 
         <main
           id="case-study-content"
@@ -101,9 +98,9 @@ export default function CaseStudyHomePage() {
 
         <div
           id="on-this-page-container"
-          className={`w-[210px] ${viewportWideEnough ? "" : "hidden"} pr-4 pt-12`}
+          className={`w-[210px] ${viewportWideEnough ? "" : "hidden"} mr-4`}
         >
-          <nav className="sticky top-[164px]" id="on-this-page">
+          <nav className="sticky top-[152px]" id="on-this-page">
             <h3 className="mb-6 text-xl font-semibold text-harrierBLACK">
               On this page
             </h3>

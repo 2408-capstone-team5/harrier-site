@@ -128,7 +128,7 @@ const TextContentModal = ({
         </DialogHeader>
         <DialogDescription asChild>
           <div className="rounded-md border-gray-400 bg-gray-400/10 p-4">
-            <p className="prose m-0 text-gray-200">{content}</p>
+            <p className="m-0 text-gray-200">{content}</p>
           </div>
         </DialogDescription>
         <DialogFooter></DialogFooter>

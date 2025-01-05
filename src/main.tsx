@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { PageNavigationProvider } from "../src/providers/PageNavigation"; // Import the provider
 
 import TryHarrierPage from "./components/pages/TryHarrierPage";
-import Layout from "./components/Layout";
+import Layout from "./components/utility/Layout";
 import LandingPage from "./components/pages/LandingPage";
 import NotFoundPage from "./components/pages/NotFoundPage";
 import CaseStudyHomePage from "./components/pages/CaseStudyHomePage";
@@ -54,6 +54,10 @@ createRoot(document.getElementById("app")!).render(
                     element: <NotFoundPage />,
                   },
                 ],
+              },
+              {
+                path: "team",
+                element: <div>team</div>,
               },
               {
                 path: "try-harrier",

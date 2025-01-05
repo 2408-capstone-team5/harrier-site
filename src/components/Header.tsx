@@ -1,11 +1,25 @@
 import { useContext } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { PageNavigationContext } from "@/providers/PageNavigation";
 import { Separator } from "@/components/ui/separator";
-import { FaGithub } from "react-icons/fa";
+
 import HisHoliness from "@/assets/harrier-big-blue-shadow.svg";
 
-export const TopNavBar = () => {
+interface NavItemProps {
+  to: string;
+  onClick?: () => void;
+  children: React.ReactNode;
+}
+
+const NavItem: React.FC<NavItemProps> = ({ to, onClick, children }) => {
+  return (
+    <NavLink to={to} onClick={onClick} className="">
+      {children}
+    </NavLink>
+  );
+};
+
+export const Header = () => {
   const pageContext = useContext(PageNavigationContext);
   if (!pageContext) {
     throw new Error(
@@ -13,52 +27,43 @@ export const TopNavBar = () => {
     );
   }
 
-  const { setActivePage, setActiveSubheader } = pageContext;
+  const { setActivePage } = pageContext;
 
   return (
-    <header className={`sticky top-0 z-50 w-full bg-white`} id="header-nav">
+    <header
+      className={`sticky top-0 z-50 h-[88px] w-full bg-harrierBLACK text-harrierWHITE drop-shadow-sm`}
+      id="header-nav"
+    >
       <div className="flex items-center justify-between px-7">
-        <NavLink to="/">
+        <NavItem to="/">
           <img
             src={HisHoliness}
             alt="Harrier Runner Logo"
-            className="mb-5 ml-3 mr-6 mt-5 h-9 w-auto"
+            className="mb-5 ml-3 mr-6 mt-5 h-12 w-auto"
           />
-        </NavLink>
-        <NavLink to="/">
+        </NavItem>
+        <NavItem to="/">
           <h1 className="text-4xl font-semibold">Harrier</h1>
-        </NavLink>
+        </NavItem>
         <div className="ml-auto mr-4 flex items-center space-x-4 text-lg font-semibold">
-          <NavLink
+          <NavItem
             to="/case-study/problem-domain"
             onClick={() => {
               setActivePage(0);
-              //   setActiveSubheader(null);
             }}
           >
             Case Study
-          </NavLink>
+          </NavItem>
           <Separator
             orientation="vertical"
             className="mx-2 h-8 border-l border-harrierGRAY"
           />
-          <NavLink to="/team" className="">
-            Team
-          </NavLink>
+          <NavItem to="/team">Team</NavItem>
           <Separator
             orientation="vertical"
             className="mx-2 h-8 border-l border-harrierGRAY"
           />
-          <NavLink to="/try-harrier" className="">
-            Try Harrier
-          </NavLink>
-          <Separator
-            orientation="vertical"
-            className="mx-2 h-8 border-l border-harrierGRAY"
-          />
-          <Link to="https://github.com/2408-capstone-team5/harrier-self-hosted-runner">
-            <FaGithub size="30px" />
-          </Link>
+          <NavItem to="/try-harrier">Try Harrier</NavItem>
         </div>
       </div>
     </header>

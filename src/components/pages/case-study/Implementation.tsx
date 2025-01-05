@@ -134,7 +134,10 @@ const Implementation = () => {
                 <CgFileDocument size="28" className="text-harrierBLUE" />
                 <span>Public Versus Private Subnets</span>
               </>
-              CONTENT
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam
+              non ipsa, asperiores eligendi repellendus, assumenda rem
+              distinctio iure esse reprehenderit sit temporibus eos perspiciatis
+              beatae fugit totam tempora. Sit, aliquam.
             </TextContentModal>
           </li>
           <li
@@ -151,7 +154,7 @@ const Implementation = () => {
           </li>
           <li
             id="cidr-blocks"
-            className="border-lg prose m-0 inline-block flex-shrink-0 rounded-full bg-harrierBLACK p-0 text-white"
+            className="border-lg m-0 inline-block flex-shrink-0 rounded-full bg-harrierBLACK p-0 text-white"
           >
             <TextContentModal title="CIDR Blocks" description="description">
               <>
@@ -304,6 +307,10 @@ const Implementation = () => {
           vehicula egestas, lorem urna gravida nunc, ut viverra ligula felis
           eget erat.
         </p>
+        <ImageContentModal
+          src={"../src/assets/4-implementation/4.1.6.queued-new-runner.png"}
+          alt={"Termination of EC2 runners"}
+        />
       </section>
     </>
   );

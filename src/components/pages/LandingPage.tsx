@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { PageNavigationContext } from "@/providers/PageNavigation";
 import { Button } from "@/components/ui/button";
-
+import FloatingBirds from "@/components/FloatingBirds";
 import HarrierColor from "@/assets/harrier-big-blue-shadow.svg";
 import GHALogo from "@/assets/GitHub Actions.png";
 
@@ -66,6 +66,7 @@ const LandingPage = () => {
   return (
     <>
       <div className="flex h-[36rem] flex-col bg-harrierBLACK text-center">
+        <FloatingBirds />
         <h1 className="mt-44 text-center text-7xl font-semibold text-harrierWHITE">
           Harrier
         </h1>

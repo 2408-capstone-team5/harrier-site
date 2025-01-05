@@ -1,5 +1,5 @@
-import SetupForm from "@/components/SetupForm";
-import RenderYaml from "@/components/RenderYaml";
+import SetupForm from "@/components/utility/SetupForm";
+import RenderYaml from "@/components/utility/RenderYaml";
 import { useState } from "react";
 
 const TryHarrierPage = () => {
