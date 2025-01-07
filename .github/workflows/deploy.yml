@@ -14,8 +14,10 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v3
+        with:
+          node-version: "16"
 
       - name: Install dependencies
         uses: bahmutov/npm-install@v1
@@ -28,6 +30,7 @@ jobs:
         with:
           name: production-files
           path: ./dist
+
   deploy:
     name: Deploy
     needs: build
@@ -44,5 +47,5 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.GH_TOKEN }} # Use the newly created PAT secret here
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist

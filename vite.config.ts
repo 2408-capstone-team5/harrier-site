@@ -5,7 +5,7 @@ import { defineConfig } from "vite";
 
 export default defineConfig({
   plugins: [react()],
-  base: "/",
+  base: "/harrier-site/",
   build: {
     outDir: "dist",
     sourcemap: false,
