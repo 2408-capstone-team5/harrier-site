@@ -13,7 +13,7 @@ import Design from "./components/pages/case-study/Design";
 import Implementation from "./components/pages/case-study/Implementation";
 import "./index.css";
 
-const basename = "/harrier-site";
+const basename = "/";
 
 createRoot(document.getElementById("app")!).render(
   <StrictMode>
